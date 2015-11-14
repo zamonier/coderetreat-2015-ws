@@ -27,7 +27,7 @@ public class EngineTest implements Fixture {
     public void testIsAlive() throws Exception {
         for (int i = 0; i < GENERATION_AS_ARRAY.length; i++) {
             for (int j = 0; j < GENERATION_AS_ARRAY.length; j++) {
-                int alive = engine.isAlive(GENERATION_AS_ARRAY, i, j);
+                int alive = engine.cellInNextGeneration(i, j, GENERATION_AS_ARRAY);
                 assertEquals(NEXT_GENERATION_AS_ARRAY[i][j], alive);
             }
         }
