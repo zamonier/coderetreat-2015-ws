@@ -28,13 +28,11 @@ public class GameOfLiveEngine {
             }
         }
         if (world[i][j] == 1) {
-            if (counter == 2 || counter == 3)
-                return 1;
-            else
-                return 0;
+            return (counter == 2 || counter == 3) ? 1 : 0;
         }
-        if (world[i][j] == 0 && counter == 3)
+        if (world[i][j] == 0 && counter == 3) {
             return 1;
+        }
         return world[i][j];
     }
 }
