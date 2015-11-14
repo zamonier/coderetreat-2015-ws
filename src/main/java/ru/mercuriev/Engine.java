@@ -3,9 +3,9 @@ package ru.mercuriev;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GameOfLiveEngine {
+public class Engine {
 
-    public int[][] calculate(int[][] world) {
+    public int[][] nextGeneration(int[][] world) {
         int[][] result = new int[world.length][world.length];
 
         for (int i = 0; i < world.length; i++) {
@@ -17,7 +17,7 @@ public class GameOfLiveEngine {
         return result;
     }
 
-    public int isAlive(int[][] world, int i, int j) {
+    protected int isAlive(int[][] world, int i, int j) {
         int counter = 0;
         for (int x = i - 1; x <= i + 1; x++) {
             for (int y = j - 1; y <= j + 1; y++) {

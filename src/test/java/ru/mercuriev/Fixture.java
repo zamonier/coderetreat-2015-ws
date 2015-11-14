@@ -5,7 +5,6 @@ package ru.mercuriev;
  */
 public interface Fixture {
 
-    String GENERATION = "3,1,0,0,1,1,0,1,1,1";
     String GENERATION_AS_JSON = "[[1,0,0],[1,1,0],[1,1,1]]";
     String NEXT_GENERATION_AS_JSON = "[[1,1,0],[0,0,1],[1,0,1]]";
     int[][] GENERATION_AS_ARRAY = {{1, 0, 0}, {1, 1, 0}, {1, 1, 1}};

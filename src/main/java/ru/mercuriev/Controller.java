@@ -1,7 +1,6 @@
 package ru.mercuriev;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,19 +10,19 @@ import java.io.IOException;
 /**
  * Created by Eugene on 14.11.15.
  */
-@Controller
-public class GameOfLive {
+@org.springframework.stereotype.Controller
+public class Controller {
 
     @Autowired
     private Converter converter;
 
     @Autowired
-    private GameOfLiveEngine gameOfLiveEngine;
+    private Engine engine;
 
     @RequestMapping("/next-gen")
     @ResponseBody
-    public String nextGen(@RequestParam String gen) throws IOException {
-        return converter.toJson(gameOfLiveEngine.calculate(converter.fromJson(gen)));
+    public String nextGeneration(@RequestParam String gen) throws IOException {
+        return converter.toJson(engine.nextGeneration(converter.fromJson(gen)));
     }
 
 }

@@ -10,13 +10,13 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Eugene on 15.11.15.
  */
-public class GameOfLiveEngineTest implements Fixture {
+public class EngineTest implements Fixture {
 
-    GameOfLiveEngine engine = new GameOfLiveEngine();
+    Engine engine = new Engine();
 
     @Test
     public void testCalculate() throws Exception {
-        int[][] calculated = engine.calculate(GENERATION_AS_ARRAY);
+        int[][] calculated = engine.nextGeneration(GENERATION_AS_ARRAY);
         int numOfRow = 0;
         for (int[] row : calculated) {
             assertTrue(Arrays.equals(NEXT_GENERATION_AS_ARRAY[numOfRow++], row));
