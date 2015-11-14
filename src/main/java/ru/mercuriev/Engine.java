@@ -15,24 +15,11 @@ public class Engine {
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                result[i][j] = cellInNextGeneration(i, j, world);
+                int neighbours = countNeighbours(i, j, world);
+                result[i][j] = stateInNextGeneration(world[i][j], neighbours);
             }
         }
         return result;
-    }
-
-    protected int cellInNextGeneration(int i, int j, int[][] world) {
-
-        int cell = world[i][j];
-        int neighbours = countNeighbours(i, j, world);
-
-        if (cell == ALIVE) {
-            return (neighbours < 2 || neighbours > 3) ? DEAD : ALIVE;
-        }
-        if (cell == DEAD && neighbours == 3) {
-            return ALIVE;
-        }
-        return cell;
     }
 
     protected int countNeighbours(int i, int j, int[][] world) {
@@ -49,5 +36,15 @@ public class Engine {
             }
         }
         return neighbours;
+    }
+
+    protected int stateInNextGeneration(int currentState, int neighboursCount) {
+        if (currentState == ALIVE) {
+            return (neighboursCount < 2 || neighboursCount > 3) ? DEAD : ALIVE;
+        }
+        if (currentState == DEAD && neighboursCount == 3) {
+            return ALIVE;
+        }
+        return currentState;
     }
 }
