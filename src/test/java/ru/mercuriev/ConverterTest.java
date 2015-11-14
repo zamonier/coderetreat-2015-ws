@@ -17,13 +17,13 @@ public class ConverterTest implements Fixture {
 
     @Test
     public void testPrint() throws JsonProcessingException {
-        String print = converter.print(NEXT_GENERATION_AS_ARRAY);
+        String print = converter.toJson(NEXT_GENERATION_AS_ARRAY);
         assertEquals(NEXT_GENERATION_AS_JSON, print);
     }
 
     @Test
     public void testParseJson() throws IOException {
-        int[][] arr = converter.parseJson(NEXT_GENERATION_AS_JSON);
+        int[][] arr = converter.fromJson(NEXT_GENERATION_AS_JSON);
         int numOfRow = 0;
         for (int[] row : arr) {
             Arrays.equals(NEXT_GENERATION_AS_ARRAY[numOfRow++], row);
