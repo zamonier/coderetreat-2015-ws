@@ -13,15 +13,14 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-public class ControllerTest implements Fixture{
+public class ControllerTest implements Fixture {
 
     @Autowired
-    Controller gameOfLive = new Controller();
+    Controller controller = new Controller();
 
     @Test
-    public void nextGeneration() throws Exception {
-        String nextGen = gameOfLive.nextGeneration(GENERATION_AS_JSON);
-        assertEquals(NEXT_GENERATION_AS_JSON, nextGen);
+    public void testNextGeneration() throws Exception {
+        assertEquals(NEXT_GENERATION_AS_JSON, controller.nextGeneration(GENERATION_AS_JSON));
     }
 
 }
