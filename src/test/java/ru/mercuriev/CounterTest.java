@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
+import static ru.mercuriev.Engine.Counter;
 
 @RunWith(Parameterized.class)
 public class CounterTest implements Fixture {
@@ -16,19 +17,10 @@ public class CounterTest implements Fixture {
     private int[][] neighbours;
     private int[][] generation;
 
-    @Parameterized.Parameters
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][]{
-                {GENERATION_AS_ARRAY, NEIGHBOURS},
-                {NEXT_GENERATION_AS_ARRAY, NEIGHBOURS_NEXT}
-        });
-
-    }
-
     public CounterTest(int[][] generation, int[][] neighbours) {
         this.neighbours = neighbours;
         this.generation = generation;
-        this.counter = new Counter(generation);
+        this.counter = Counter.of(generation);
     }
 
     @Test
@@ -38,6 +30,15 @@ public class CounterTest implements Fixture {
                 assertEquals(neighbours[i][j], counter.countNeighbours(i, j));
             }
         }
+
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+                {GENERATION, NEIGHBOURS},
+                {NEXT_GENERATION, NEXT_NEIGHBOURS}
+        });
 
     }
 }

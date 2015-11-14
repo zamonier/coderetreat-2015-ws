@@ -5,7 +5,7 @@ import static org.junit.Assert.assertArrayEquals;
 public interface Fixture {
 
     String GENERATION_AS_JSON = "[[1,0,0],[1,1,0],[1,1,1]]";
-    int[][] GENERATION_AS_ARRAY = {
+    int[][] GENERATION = {
             {1, 0, 0},
             {1, 1, 0},
             {1, 1, 1}};
@@ -13,12 +13,13 @@ public interface Fixture {
             {2, 3, 1},
             {4, 5, 3},
             {3, 4, 2}};
+
     String NEXT_GENERATION_AS_JSON = "[[1,1,0],[0,0,1],[1,0,1]]";
-    int[][] NEXT_GENERATION_AS_ARRAY = {
+    int[][] NEXT_GENERATION = {
             {1, 1, 0},
             {0, 0, 1},
             {1, 0, 1}};
-    int[][] NEIGHBOURS_NEXT = {
+    int[][] NEXT_NEIGHBOURS = {
             {1, 2, 2},
             {3, 5, 2},
             {0, 3, 1}};
@@ -26,7 +27,7 @@ public interface Fixture {
     default void assertArrays2DEquals(int[][] expected, int[][] actual) {
         int rowIndex = 0;
         for (int[] row : expected) {
-            assertArrayEquals(actual[rowIndex++], row);
+            assertArrayEquals(row, actual[rowIndex++]);
         }
     }
 
