@@ -16,15 +16,6 @@ public class ConverterTest implements Fixture {
     Converter converter = new Converter();
 
     @Test
-    public void testParse() throws Exception {
-        int[][] parse = converter.parse(GENERATION);
-        int numOfRow = 0;
-        for (int[] row : parse) {
-            Arrays.equals(GENERATION_AS_ARRAY[numOfRow++], row);
-        }
-    }
-
-    @Test
     public void testPrint() throws JsonProcessingException {
         String print = converter.print(NEXT_GENERATION_AS_ARRAY);
         assertEquals(NEXT_GENERATION_AS_JSON, print);
