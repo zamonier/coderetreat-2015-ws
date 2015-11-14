@@ -3,9 +3,10 @@ package ru.mercuriev;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Eugene on 15.11.15.
@@ -28,11 +29,19 @@ public class ConverterTest {
         }
     }
 
-
     @Test
     public void testPrint() throws JsonProcessingException {
         String print = converter.print(OUTPUT_ARRAY);
         assertEquals(NEXT_GENERATION, print);
+    }
+
+    @Test
+    public void testParseJson() throws IOException {
+        int[][] arr = converter.parseJson(NEXT_GENERATION);
+        int numOfRow = 0;
+        for (int[] row : arr) {
+            Arrays.equals(OUTPUT_ARRAY[numOfRow++], row);
+        }
     }
 
 }

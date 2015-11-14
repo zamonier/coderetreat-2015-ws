@@ -4,7 +4,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Eugene on 15.11.15.
@@ -27,8 +28,8 @@ public class GameOfLiveEngineTest {
 
     @Test
     public void testIsAlive() throws Exception {
-        for(int i = 0 ; i < INPUT_ARRAY.length; i++){
-            for(int j = 0; j < INPUT_ARRAY.length; j++){
+        for (int i = 0; i < INPUT_ARRAY.length; i++) {
+            for (int j = 0; j < INPUT_ARRAY.length; j++) {
                 int alive = engine.isAlive(INPUT_ARRAY, i, j);
                 assertEquals(OUTPUT_ARRAY[i][j], alive);
             }
