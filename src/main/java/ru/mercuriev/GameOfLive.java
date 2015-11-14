@@ -19,11 +19,11 @@ public class GameOfLive {
         return print(calculate(parse(gen)));
     }
 
-    private String print(int[][] result) throws JsonProcessingException {
+    public String print(int[][] result) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(result);
     }
 
-    private int[][] parse(String gen) {
+    public int[][] parse(String gen) {
         String[] s = gen.split(",");
         int size = Integer.parseInt(s[0]);
 
@@ -36,7 +36,7 @@ public class GameOfLive {
         return world;
     }
 
-    private int[][] calculate(int[][] world) {
+    public int[][] calculate(int[][] world) {
         int[][] result = new int[world.length][world.length];
 
         for (int i = 0; i < world.length; i++) {
@@ -48,7 +48,7 @@ public class GameOfLive {
         return result;
     }
 
-    private int isAlive(int[][] world, int i, int j) {
+    public int isAlive(int[][] world, int i, int j) {
         int counter = 0;
         for (int x = i - 1; x <= i + 1; x++) {
             for (int y = j - 1; y <= j + 1; y++) {
