@@ -15,6 +15,7 @@ public class ConverterTest implements Fixture {
     @BeforeClass
     public static void init() {
         converter = new Converter();
+        converter.init();
     }
 
     @Test

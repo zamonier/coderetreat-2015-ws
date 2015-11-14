@@ -12,37 +12,22 @@ public class Engine {
 
         int size = world.length;
         int[][] result = new int[size][size];
+        Counter counter = new Counter(world);
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                int neighbours = countNeighbours(i, j, world);
+                int neighbours = counter.countNeighbours(i, j);
                 result[i][j] = stateInNextGeneration(world[i][j], neighbours);
             }
         }
         return result;
     }
 
-    protected int countNeighbours(int i, int j, int[][] world) {
-
-        int neighbours = 0;
-        int size = world.length;
-
-        for (int x = i - 1; x <= i + 1; x++) {
-            for (int y = j - 1; y <= j + 1; y++) {
-                if (x < 0 || x >= size || y < 0 || y >= size || (x == i && y == j)) {
-                    continue;
-                }
-                neighbours += world[x][y];
-            }
-        }
-        return neighbours;
-    }
-
-    protected int stateInNextGeneration(int currentState, int neighboursCount) {
+    protected int stateInNextGeneration(int currentState, int neighbours) {
         if (currentState == ALIVE) {
-            return (neighboursCount < 2 || neighboursCount > 3) ? DEAD : ALIVE;
+            return (neighbours < 2 || neighbours > 3) ? DEAD : ALIVE;
         }
-        if (currentState == DEAD && neighboursCount == 3) {
+        if (currentState == DEAD && neighbours == 3) {
             return ALIVE;
         }
         return currentState;

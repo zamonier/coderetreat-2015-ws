@@ -25,7 +25,7 @@ public class EngineTest implements Fixture {
             for (int j = 0; j < GENERATION_AS_ARRAY.length; j++) {
 
                 int currentState = GENERATION_AS_ARRAY[i][j];
-                int neighboursCount = engine.countNeighbours(i, j, GENERATION_AS_ARRAY);
+                int neighboursCount = new Counter(GENERATION_AS_ARRAY).countNeighbours(i, j);
 
                 assertEquals(NEXT_GENERATION_AS_ARRAY[i][j], engine.stateInNextGeneration(currentState, neighboursCount));
             }
@@ -36,12 +36,12 @@ public class EngineTest implements Fixture {
     public void testCountNeighbours() throws Exception {
         for (int i = 0; i < GENERATION_AS_ARRAY.length; i++) {
             for (int j = 0; j < GENERATION_AS_ARRAY.length; j++) {
-                assertEquals(NEIGHBOURS[i][j], engine.countNeighbours(i, j, GENERATION_AS_ARRAY));
+                assertEquals(NEIGHBOURS[i][j], new Counter(GENERATION_AS_ARRAY).countNeighbours(i, j));
             }
         }
         for (int i = 0; i < NEXT_GENERATION_AS_ARRAY.length; i++) {
             for (int j = 0; j < NEXT_GENERATION_AS_ARRAY.length; j++) {
-                assertEquals(NEIGHBOURS_NEXT[i][j], engine.countNeighbours(i, j, NEXT_GENERATION_AS_ARRAY));
+                assertEquals(NEIGHBOURS_NEXT[i][j], new Counter(NEXT_GENERATION_AS_ARRAY).countNeighbours(i, j));
             }
         }
     }
