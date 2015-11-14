@@ -8,9 +8,6 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Eugene on 15.11.15.
- */
 public class ConverterTest implements Fixture {
 
     private static Converter converter;

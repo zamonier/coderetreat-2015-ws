@@ -5,9 +5,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Eugene on 15.11.15.
- */
 public class EngineTest implements Fixture {
 
     private static Engine engine;

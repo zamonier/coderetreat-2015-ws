@@ -2,9 +2,6 @@ package ru.mercuriev;
 
 import static org.junit.Assert.assertArrayEquals;
 
-/**
- * Created by Eugene on 15.11.15.
- */
 public interface Fixture {
 
     String GENERATION_AS_JSON = "[[1,0,0],[1,1,0],[1,1,1]]";

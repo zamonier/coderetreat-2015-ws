@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 
-/**
- * Created by Eugene on 14.11.15.
- */
 @org.springframework.stereotype.Controller
 public class Controller {
 
