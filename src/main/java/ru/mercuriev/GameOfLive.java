@@ -16,6 +16,14 @@ public class GameOfLive {
     @RequestMapping("/next-gen")
     @ResponseBody
     public String nextGen(@RequestParam String gen) throws JsonProcessingException {
+        return print(calculate(parse(gen)));
+    }
+
+    private String print(int[][] result) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(result);
+    }
+
+    private int[][] parse(String gen) {
         String[] s = gen.split(",");
         int size = Integer.parseInt(s[0]);
 
@@ -25,10 +33,7 @@ public class GameOfLive {
                 world[i][j] = Integer.parseInt(s[i * size + j + 1]);
             }
         }
-
-        int[][] result = calculate(world);
-
-        return new ObjectMapper().writeValueAsString(result);
+        return world;
     }
 
     private int[][] calculate(int[][] world) {
