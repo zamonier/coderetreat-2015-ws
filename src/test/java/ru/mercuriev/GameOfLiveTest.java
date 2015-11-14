@@ -20,7 +20,7 @@ public class GameOfLiveTest implements Fixture{
 
     @Test
     public void testNextGen() throws Exception {
-        String nextGen = gameOfLive.nextGen(GENERATION);
+        String nextGen = gameOfLive.nextGen(GENERATION_AS_JSON);
         assertEquals(NEXT_GENERATION_AS_JSON, nextGen);
     }
 

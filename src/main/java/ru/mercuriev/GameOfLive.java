@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
+
 /**
  * Created by Eugene on 14.11.15.
  */
@@ -21,8 +23,8 @@ public class GameOfLive {
 
     @RequestMapping("/next-gen")
     @ResponseBody
-    public String nextGen(@RequestParam String gen) throws JsonProcessingException {
-        return converter.print(gameOfLiveEngine.calculate(converter.parse(gen)));
+    public String nextGen(@RequestParam String gen) throws IOException {
+        return converter.print(gameOfLiveEngine.calculate(converter.parseJson(gen)));
     }
 
 }
