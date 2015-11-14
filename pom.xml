@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.mercuriev</groupId>
-    <artifactId>demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>coderetreat-2015-ws</artifactId>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <name>coderetreat-2015-ws</name>
+    <description>Coderetreat'2015 Web Service for Game of Life</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
