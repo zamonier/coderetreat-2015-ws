@@ -13,10 +13,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DemoApplication.class)
-public class GameOfLiveTest {
-
-    public static final String GENERATION = "3,1,0,0,1,1,0,1,1,1";
-    public static final String NEXT_GENERATION = "[[1,1,0],[0,0,1],[1,0,1]]";
+public class GameOfLiveTest implements Fixture{
 
     @Autowired
     GameOfLive gameOfLive = new GameOfLive();
@@ -24,7 +21,7 @@ public class GameOfLiveTest {
     @Test
     public void testNextGen() throws Exception {
         String nextGen = gameOfLive.nextGen(GENERATION);
-        assertEquals(NEXT_GENERATION, nextGen);
+        assertEquals(NEXT_GENERATION_AS_JSON, nextGen);
     }
 
 }

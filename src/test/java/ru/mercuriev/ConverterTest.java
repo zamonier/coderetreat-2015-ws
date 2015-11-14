@@ -11,12 +11,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Eugene on 15.11.15.
  */
-public class ConverterTest {
-
-    public static final String GENERATION = "3,1,0,0,1,1,0,1,1,1";
-    public static final String NEXT_GENERATION = "[[1,1,0],[0,0,1],[1,0,1]]";
-    public static final int[][] INPUT_ARRAY = {{1, 0, 0}, {1, 1, 0}, {1, 1, 1}};
-    public static final int[][] OUTPUT_ARRAY = {{1, 1, 0}, {0, 0, 1}, {1, 0, 1}};
+public class ConverterTest implements Fixture {
 
     Converter converter = new Converter();
 
@@ -25,22 +20,22 @@ public class ConverterTest {
         int[][] parse = converter.parse(GENERATION);
         int numOfRow = 0;
         for (int[] row : parse) {
-            Arrays.equals(INPUT_ARRAY[numOfRow++], row);
+            Arrays.equals(GENERATION_AS_ARRAY[numOfRow++], row);
         }
     }
 
     @Test
     public void testPrint() throws JsonProcessingException {
-        String print = converter.print(OUTPUT_ARRAY);
-        assertEquals(NEXT_GENERATION, print);
+        String print = converter.print(NEXT_GENERATION_AS_ARRAY);
+        assertEquals(NEXT_GENERATION_AS_JSON, print);
     }
 
     @Test
     public void testParseJson() throws IOException {
-        int[][] arr = converter.parseJson(NEXT_GENERATION);
+        int[][] arr = converter.parseJson(NEXT_GENERATION_AS_JSON);
         int numOfRow = 0;
         for (int[] row : arr) {
-            Arrays.equals(OUTPUT_ARRAY[numOfRow++], row);
+            Arrays.equals(NEXT_GENERATION_AS_ARRAY[numOfRow++], row);
         }
     }
 
