@@ -2,6 +2,8 @@ package ru.mercuriev;
 
 import org.springframework.stereotype.Service;
 
+import java.util.stream.IntStream;
+
 @Service
 public class Engine {
 
@@ -14,12 +16,11 @@ public class Engine {
         int[][] result = new int[size][size];
         Counter counter = Counter.of(world);
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                int neighbours = counter.countNeighbours(i, j);
-                result[i][j] = nextState(world[i][j], neighbours);
-            }
-        }
+        IntStream.range(0, size).forEach(i -> {
+            IntStream.range(0, size).forEach(j -> {
+                result[i][j] = nextState(world[i][j], counter.countNeighbours(i, j));
+            });
+        });
         return result;
     }
 
