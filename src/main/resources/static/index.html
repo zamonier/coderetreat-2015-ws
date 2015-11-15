@@ -13,9 +13,12 @@
 
     <p>This is man page about Game of Live web service</p>
 
-    <p>You can use <strong>/next</strong> URL to get next generation of Game Of Life.
-        For this you should use <strong>POST</strong> method in request. Just put a JSON array into request body. Use
-        only 1 and 0 numbers for marking alive or dead cells.</p>
+    <p>
+        You can use <strong>/next</strong> URL to get next generation of Game Of Life.
+        For this you should use <strong>POST</strong> method in request. Just put a JSON array
+        into request body. Use only 1 and 0 numbers for marking alive or dead cells.
+        Also set contentType to <strong>application/json</strong>
+    </p>
 
     <p>For example
     <pre>[[1,0],[1,1]]</pre>
@@ -33,7 +36,7 @@
                 type: 'POST',
                 dataType: 'json',
                 contentType:'application/json',
-                url: "next-gen-2",
+                url: "next",
                 data: JSON.stringify(arr),
                 success: function(data, textStatus ){
                     $("pre.result").text("Response: " + JSON.stringify(data)).removeClass("hidden");
@@ -41,13 +44,6 @@
             });
         });
     });
-
-
-
-
-
-
-
 </script>
 </body>
 </html>
