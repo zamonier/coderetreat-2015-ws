@@ -30,7 +30,6 @@ public class CounterTest implements Fixture {
                 assertEquals(neighbours[i][j], counter.countNeighbours(i, j));
             }
         }
-
     }
 
     @Parameterized.Parameters
