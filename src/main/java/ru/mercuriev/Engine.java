@@ -37,7 +37,7 @@ public class Engine {
 
         private int[][] world;
 
-        public static Counter of(int[][] world){
+        public static Counter of(int[][] world) {
             return new Counter(world);
         }
 
@@ -46,17 +46,15 @@ public class Engine {
         }
 
         public int countNeighbours(int i, int j) {
-
-            int numOfAliveCells = 0;
+            int neighbours = 0;
             for (int x = i - 1; x <= i + 1; x++) {
                 for (int y = j - 1; y <= j + 1; y++) {
-                    if (x < 0 || x >= world.length || y < 0 || y >= world.length) {
-                        continue;
-                    }
-                    numOfAliveCells += world[x][y];
+                    if (x < 0 || x >= world.length || y < 0 || y >= world.length) continue;
+                    if (x == i && y == j) continue;
+                    neighbours += world[x][y];
                 }
             }
-            return numOfAliveCells - world[i][j]; //  don't count cell itself
+            return neighbours;
         }
 
     }

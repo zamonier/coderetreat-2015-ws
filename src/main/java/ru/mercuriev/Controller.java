@@ -1,8 +1,9 @@
 package ru.mercuriev;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
@@ -11,15 +12,17 @@ import java.io.IOException;
 public class Controller {
 
     @Autowired
-    private Converter converter;
-
-    @Autowired
     private Engine engine;
 
-    @RequestMapping("/next-gen")
+    @RequestMapping(value = "/next", method = RequestMethod.POST)
     @ResponseBody
-    public String nextGeneration(@RequestParam String gen) throws IOException {
-        return converter.toJson(engine.nextGeneration(converter.fromJson(gen)));
+    public int[][] next(@RequestBody int[][] gen) throws IOException {
+        return engine.nextGeneration(gen);
+    }
+
+    @RequestMapping("/")
+    public String index() {
+        return "redirect:index.html";
     }
 
 }

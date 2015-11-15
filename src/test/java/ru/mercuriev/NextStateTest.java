@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
-import static ru.mercuriev.Engine.*;
+import static ru.mercuriev.Engine.ALIVE;
 import static ru.mercuriev.Engine.DEAD;
 
 @RunWith(Parameterized.class)

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game of Live</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <script src="js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Hi there!</h1>
+
+    <p>This is man page about Game of Live web service</p>
+
+    <p>You can use <strong>/next</strong> URL to get next generation of Game Of Life.
+        For this you should use <strong>POST</strong> method in request. Just put a JSON array into request body. Use
+        only 1 and 0 numbers for marking alive or dead cells.</p>
+
+    <p>For example
+    <pre>[[1,0],[1,1]]</pre>
+    </p>
+
+    <p><a class="btn btn-primary" role="button">Try it »</a></p>
+
+    <pre class="result hidden"></pre>
+</div>
+<script>
+    $(function(){
+        $(".btn-primary").click(function(){
+            var arr = [[1,1],[0,1]];
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType:'application/json',
+                url: "next-gen-2",
+                data: JSON.stringify(arr),
+                success: function(data, textStatus ){
+                    $("pre.result").text("Response: " + JSON.stringify(data)).removeClass("hidden");
+                }
+            });
+        });
+    });
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
