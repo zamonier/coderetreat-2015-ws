@@ -1,4 +1,4 @@
-package ru.mercuriev;
+package ru.mercuriev.game.of.life;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,23 +8,25 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
-import static ru.mercuriev.Engine.Counter;
+
+import ru.mercuriev.Fixture;
+import ru.mercuriev.game.of.life.NeighboursCounter;
 
 @RunWith(Parameterized.class)
-public class CounterTest implements Fixture {
+public class NeighboursCounterTest implements Fixture {
 
-    private Counter counter;
+    private NeighboursCounter counter;
     private int[][] neighbours;
     private int[][] generation;
 
-    public CounterTest(int[][] generation, int[][] neighbours) {
+    public NeighboursCounterTest(int[][] generation, int[][] neighbours) {
         this.neighbours = neighbours;
         this.generation = generation;
-        this.counter = Counter.of(generation);
+        this.counter = NeighboursCounter.getInstance(generation);
     }
 
     @Test
-    public void testCountNeighbours() throws Exception {
+    public void testCount() throws Exception {
         for (int i = 0; i < generation.length; i++) {
             for (int j = 0; j < generation.length; j++) {
                 assertEquals(neighbours[i][j], counter.countNeighbours(i, j));

@@ -1,16 +1,17 @@
-package ru.mercuriev;
+package ru.mercuriev.game.of.life;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import ru.mercuriev.Fixture;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
-import static ru.mercuriev.Engine.ALIVE;
-import static ru.mercuriev.Engine.DEAD;
+import static ru.mercuriev.game.of.life.Engine.ALIVE;
+import static ru.mercuriev.game.of.life.Engine.DEAD;
 
 @RunWith(Parameterized.class)
 public class NextStateTest implements Fixture {
