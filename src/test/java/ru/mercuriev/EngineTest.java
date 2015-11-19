@@ -2,6 +2,7 @@ package ru.mercuriev;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ru.mercuriev.game.of.life.Engine;
 
 public class EngineTest implements Fixture {
 
@@ -14,7 +15,7 @@ public class EngineTest implements Fixture {
 
     @Test
     public void testNext() throws Exception {
-        assertArrays2DEquals(NEXT_GENERATION, engine.nextGeneration(GENERATION));
+        assertArrays2DEquals(NEXT_GENERATION, engine.next(GENERATION));
     }
 
 }

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.mercuriev.game.of.life.Engine;
 
 import java.io.IOException;
 
@@ -16,8 +17,8 @@ public class Controller {
 
     @RequestMapping(value = "/next", method = RequestMethod.POST)
     @ResponseBody
-    public int[][] next(@RequestBody int[][] gen) throws IOException {
-        return engine.nextGeneration(gen);
+    public int[][] next(@RequestBody int[][] generation) throws IOException {
+        return engine.next(generation);
     }
 
     @RequestMapping("/")
