@@ -15,7 +15,7 @@ public class EngineTest implements Fixture {
 
     @Test
     public void testNext() throws Exception {
-        assertArrays2DEquals(NEXT_GENERATION, engine.getNextGeneration(GENERATION));
+        assertArrays2DEquals(NEXT_GENERATION, engine.next(GENERATION));
     }
 
 }

@@ -7,7 +7,7 @@ class NeighboursCounter {
 
     private int[][] world;
 
-    public static NeighboursCounter getInstance(int[][] world) {
+    public static NeighboursCounter newInstance(int[][] world) {
         return new NeighboursCounter(world);
     }
 

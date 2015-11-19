@@ -17,8 +17,8 @@ public class Controller {
 
     @RequestMapping(value = "/next", method = RequestMethod.POST)
     @ResponseBody
-    public int[][] next(@RequestBody int[][] gen) throws IOException {
-        return engine.getNextGeneration(gen);
+    public int[][] next(@RequestBody int[][] generation) throws IOException {
+        return engine.next(generation);
     }
 
     @RequestMapping("/")

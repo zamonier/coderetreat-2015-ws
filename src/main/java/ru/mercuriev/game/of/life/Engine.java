@@ -10,11 +10,11 @@ public class Engine {
     public static final int ALIVE = 1;
     public static final int DEAD = 0;
 
-    public int[][] getNextGeneration(int[][] world) {
+    public int[][] next(int[][] world) {
 
         int size = world.length;
         int[][] result = new int[size][size];
-        NeighboursCounter neighboursCounter = NeighboursCounter.getInstance(world);
+        NeighboursCounter neighboursCounter = NeighboursCounter.newInstance(world);
 
         IntStream.range(0, size).forEach(i ->
             IntStream.range(0, size).forEach(j ->

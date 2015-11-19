@@ -10,7 +10,6 @@ import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 
 import ru.mercuriev.Fixture;
-import ru.mercuriev.game.of.life.NeighboursCounter;
 
 @RunWith(Parameterized.class)
 public class NeighboursCounterTest implements Fixture {
@@ -22,7 +21,7 @@ public class NeighboursCounterTest implements Fixture {
     public NeighboursCounterTest(int[][] generation, int[][] neighbours) {
         this.neighbours = neighbours;
         this.generation = generation;
-        this.counter = NeighboursCounter.getInstance(generation);
+        this.counter = NeighboursCounter.newInstance(generation);
     }
 
     @Test
