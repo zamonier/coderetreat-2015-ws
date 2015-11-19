@@ -4,26 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import ru.mercuriev.game.of.life.Engine;
 
 import java.io.IOException;
 
-@org.springframework.stereotype.Controller
+@RestController
 public class Controller {
 
     @Autowired
     private Engine engine;
 
     @RequestMapping(value = "/next", method = RequestMethod.POST)
-    @ResponseBody
     public int[][] next(@RequestBody int[][] generation) throws IOException {
         return engine.next(generation);
     }
-
-    @RequestMapping("/")
-    public String index() {
-        return "redirect:index.html";
-    }
-
 }

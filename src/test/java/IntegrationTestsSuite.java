@@ -1,5 +1,3 @@
-package ru.mercuriev.suites;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import ru.mercuriev.ApplicationTest;
