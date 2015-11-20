@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mercuriev.game.of.life.Engine;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
@@ -16,7 +17,8 @@ public class Controller {
     private Engine engine;
 
     @RequestMapping(value = "/next", method = RequestMethod.POST)
-    public int[][] next(@RequestBody int[][] generation) throws IOException {
+    public int[][] next(@RequestBody int[][] generation, HttpServletResponse response) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return engine.next(generation);
     }
 }
