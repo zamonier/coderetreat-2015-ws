@@ -11,7 +11,7 @@
 <div class="container">
     <h1>Hi there!</h1>
 
-    <p>This is man page about Game of Live web service</p>
+    <p>This is a man page about Game of Live web service.</p>
 
     <p>
         You can use <strong>/next</strong> URL to get next generation of Game Of Life.
@@ -21,7 +21,7 @@
     </p>
 
     <p>For example</p>
-    <pre>[[1,0],[1,1]]</pre>
+    <pre>[[0,0],[0,1]]</pre>
 
 
     <p><a class="btn btn-primary" role="button">Try it »</a></p>
@@ -31,7 +31,7 @@
 <script>
     $(function(){
         $(".btn-primary").click(function(){
-            var arr = [[1,1],[0,1]];
+            var arr = [[0,0],[0,1]];
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
