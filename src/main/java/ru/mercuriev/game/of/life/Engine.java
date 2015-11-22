@@ -25,7 +25,7 @@ public class Engine {
         return result;
     }
 
-    int nextState(int currentState, int neighboursCount) {
+    protected int nextState(int currentState, int neighboursCount) {
         if (currentState == ALIVE) {
             return (neighboursCount < 2 || neighboursCount > 3) ? DEAD : ALIVE;
         }

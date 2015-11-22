@@ -25,20 +25,21 @@ class NeighboursCounter {
 
         IntStream.range(0, size).forEach(i ->
                 IntStream.range(0, size).forEach(j ->
-                        result[i][j] = this.countNeighbours(i, j)
+                        result[i][j] = this.countNeighboursForCell(i, j)
                 )
         );
         return result;
     }
 
-    public int countNeighbours(int i, int j) {
+    private int countNeighboursForCell(int i, int j) {
         int neighboursCount = 0;
         for (int x = i - 1; x <= i + 1; x++) {
             for (int y = j - 1; y <= j + 1; y++) {
-                if (isOutOfRange(x, y)) {
+                if (isOutOfBorder(x, y)) {
                     continue;
                 }
-                if (isItself(i, j, x, y)) {
+                // with no impact of the cell itself
+                if (x == i && y == j) {
                     continue;
                 }
                 neighboursCount += world[x][y];
@@ -47,13 +48,8 @@ class NeighboursCounter {
         return neighboursCount;
     }
 
-    // with no impact of the cell itself
-    private boolean isItself(int i, int j, int x, int y) {
-        return x == i && y == j;
-    }
-
     // checking borders to avoid out of range exception
-    private boolean isOutOfRange(int x, int y) {
+    private boolean isOutOfBorder(int x, int y) {
         return x < 0 || x >= world.length || y < 0 || y >= world.length;
     }
 }

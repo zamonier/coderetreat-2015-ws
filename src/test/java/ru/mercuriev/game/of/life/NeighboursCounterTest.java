@@ -25,15 +25,6 @@ public class NeighboursCounterTest implements Fixture {
     }
 
     @Test
-    public void testCountNeighbours() throws Exception {
-        for (int i = 0; i < generation.length; i++) {
-            for (int j = 0; j < generation.length; j++) {
-                assertEquals(neighbours[i][j], counter.countNeighbours(i, j));
-            }
-        }
-    }
-
-    @Test
     public void testCountNeighbours2(){
         assertArrays2DEquals(neighbours, counter.countNeighbours());
     }
