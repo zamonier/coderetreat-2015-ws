@@ -1,7 +1,10 @@
 package ru.mercuriev.game.of.life;
 
+import java.util.stream.IntStream;
+
 /**
  * @author paul
+ * @author Eugene
  */
 class NeighboursCounter {
 
@@ -13,6 +16,19 @@ class NeighboursCounter {
 
     private NeighboursCounter(int[][] world) {
         this.world = world;
+    }
+
+    public int[][] countNeighbours() {
+
+        int size = world.length;
+        int[][] result = new int[size][size];
+
+        IntStream.range(0, size).forEach(i ->
+                IntStream.range(0, size).forEach(j ->
+                        result[i][j] = this.countNeighbours(i, j)
+                )
+        );
+        return result;
     }
 
     public int countNeighbours(int i, int j) {
@@ -40,5 +56,4 @@ class NeighboursCounter {
     private boolean isOutOfRange(int x, int y) {
         return x < 0 || x >= world.length || y < 0 || y >= world.length;
     }
-
 }

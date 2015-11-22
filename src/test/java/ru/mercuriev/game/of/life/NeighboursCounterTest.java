@@ -33,6 +33,11 @@ public class NeighboursCounterTest implements Fixture {
         }
     }
 
+    @Test
+    public void testCountNeighbours2(){
+        assertArrays2DEquals(neighbours, counter.countNeighbours());
+    }
+
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
