@@ -25,13 +25,13 @@ class NeighboursCounter {
 
         IntStream.range(0, size).forEach(i ->
                 IntStream.range(0, size).forEach(j ->
-                        result[i][j] = this.countNeighboursForCell(i, j)
+                        result[i][j] = this.cellNeighborsAmount(i, j)
                 )
         );
         return result;
     }
 
-    private int countNeighboursForCell(int i, int j) {
+    private int cellNeighborsAmount(int i, int j) {
         int neighboursCount = 0;
         for (int x = i - 1; x <= i + 1; x++) {
             for (int y = j - 1; y <= j + 1; y++) {

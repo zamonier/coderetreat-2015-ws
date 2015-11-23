@@ -15,11 +15,11 @@ public class Engine {
         int size = world.length;
         int[][] result = new int[size][size];
 
-        int[][] neighbours = NeighboursCounter.newInstance(world).countNeighbours();
+        int[][] cellNeighborsAmount = NeighboursCounter.newInstance(world).countNeighbours();
 
         IntStream.range(0, size).forEach(i ->
             IntStream.range(0, size).forEach(j ->
-                result[i][j] = nextState(world[i][j], neighbours[i][j])
+                    result[i][j] = nextState(world[i][j], cellNeighborsAmount[i][j])
             )
         );
         return result;
