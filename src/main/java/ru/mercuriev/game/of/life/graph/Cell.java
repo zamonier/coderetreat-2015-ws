@@ -19,6 +19,7 @@ final class Cell {
      * initializes current generation of the world
      */
     static Cell newInstance(IntStream inputData, int lineLength) {
+        // TODO do not pass lineLength - calculate it
         // 1. produce FIRST Cell linked by Cell1.right = Cell2.left with length "lineLength"
         // 2. produce NEXT Cell linked by Cell1.right = Cell2.left with length "lineLength"
         // 3. merge FIRST.bottom and NEXT.up cells,
