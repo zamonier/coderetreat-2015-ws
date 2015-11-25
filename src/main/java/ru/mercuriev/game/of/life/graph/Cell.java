@@ -23,6 +23,8 @@ final class Cell {
     private Cell right = null;
     private Cell bottom = null;
 
+    // TODO in the aims of debugging create private String tag for the cell ?
+
     public void setBottom(Cell bottom) {
         this.bottom = bottom;
     }
@@ -50,6 +52,7 @@ final class Cell {
 
         Objects.nonNull(inputData);
 
+        // TODO this will not work of course :) but idea was good
         Arrays.stream(inputData).forEach(
                 integers -> {
                     Cell leftCell = Arrays.stream(integers)
@@ -70,8 +73,11 @@ final class Cell {
                                                   };
                                               }
 
+                                              // TODO combiner should glue part of the line, but not two lines
                                               @Override
                                               public BinaryOperator<CellHolder> combiner() {
+
+                                                  // this code should be moved to the outer stream processing
                                                   return (top, bottom) -> {
 
                                                       while (top.current.left != null)
