@@ -35,12 +35,6 @@ public class Test1 implements Fixture {
     }
 
     @Test
-    public void testNeighboursCollector() {
-        Cell c = new AliveCell(0, 0);
-        List<Cell> neighbours = NeighboursCollector.collect(c);
-    }
-
-    @Test
     public void testCellState() {
         Cell c = new AliveCell(0, 0);
         assertEquals(Cell.ALIVE, c.getState());
@@ -67,7 +61,7 @@ public class Test1 implements Fixture {
                 .map(c ->
                         new Object[]{
                                 c,
-                                NeighboursCollector.collect(c).stream().mapToInt(n -> n.getState()).sum()
+                                new NeighboursCollector(null).collect(c).stream().mapToInt(n -> n.getState()).sum()
                         }
                 )
                 .map(
