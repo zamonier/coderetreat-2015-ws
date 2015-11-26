@@ -1,4 +1,4 @@
-package ru.mercuriev.game.of.life.no.condition;
+package ru.mercuriev.game.of.life.no.condition.cells;
 
 /**
  * Created by Eugene on 24.11.15.

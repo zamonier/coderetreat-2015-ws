@@ -2,6 +2,8 @@ package ru.mercuriev.game.of.life.no.condition;
 
 import org.junit.Test;
 import ru.mercuriev.Fixture;
+import ru.mercuriev.game.of.life.no.condition.cells.AliveCell;
+import ru.mercuriev.game.of.life.no.condition.cells.Cell;
 
 import java.util.ArrayList;
 import java.util.List;
