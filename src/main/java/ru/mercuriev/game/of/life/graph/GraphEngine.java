@@ -1,5 +1,9 @@
 package ru.mercuriev.game.of.life.graph;
 
+import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 /**
  * interface Engine implementation and proxy to the Cells (convert int[][] to Cell)
  *
@@ -11,12 +15,20 @@ public class GraphEngine {
      * interface method implementation
      */
     // TODO move method to the interface
-    public int[][] next(int[][] world) {
-        // 1. create one dimension array
-        // 2. get stream of it
-        // 3. pass it and world.length to Cell.next
-        // 4. convert World to int[][]
-        return null;
+    public int[][] next(int[][] currentGeneration) {
+
+        // int[][] -> Stream<IntStream>
+        Stream<IntStream> input = Arrays.stream(currentGeneration)
+                                        .map(Arrays::stream);
+
+        Cell currentGenerationAsCell = Cell.valueOf(input);
+        Cell nextGenerationAsCell = currentGenerationAsCell.calculateNextGeneration();
+        Stream<IntStream> nextGenerationStream = nextGenerationAsCell.toStream();
+
+        // Stream<IntStream> -> int[][]
+        return nextGenerationStream.map(IntStream::toArray)
+                                   .toArray(int[][]::new);
+
     }
 
 }

@@ -1,17 +1,18 @@
 package ru.mercuriev.game.of.life.graph;
 
 /**
+ * TODO write appropriate description
  * @author paul
  */
-class CellHolder { // TODO rename - this is not generation? but line of cells
+class CellHolder {
 
-    Cell current = null;
+    Cell current = null; // TODO Make private. write set & get
 
     public static CellHolder mergeLines(CellHolder top, CellHolder bottom) {
 
+        // rewind both lines to the left most cell
         while (top.current.left != null)
             top.current = top.current.left;
-
         while (bottom.current.left != null)
             bottom.current = bottom.current.left;
 

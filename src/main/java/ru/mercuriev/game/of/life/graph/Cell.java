@@ -1,7 +1,10 @@
 package ru.mercuriev.game.of.life.graph;
 
-import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static ru.mercuriev.game.of.life.graph.CellUtils.*;
 
 /**
  * works only with cells,
@@ -11,11 +14,7 @@ import java.util.Objects;
  */
 final class Cell {
 
-    public static final int DEAD = 0;
-    public static final int ALIVE = 1;
-
     Integer currentState = 0; // 0 - dead, 1 - live. represents current generation
-    Integer nextState = 0; // 0 - dead, 1 - live. represents next generation
     Cell left = null;
     Cell top = null;
     Cell right = null;
@@ -23,107 +22,101 @@ final class Cell {
 
     // TODO in the aims of debugging create private String tag for the cell ?
 
+    private Cell() {
+    }
+
     /**
-     * initializes current generation of the world
+     * package level constructor for testing purpose only
      */
-    static Cell newInstance(Integer[][] inputData) {
-        // TODO put here Stream<Stream<Integer>>
+    // TODO remove ?
+    Cell(int currentState) {
+        this.currentState = currentState;
+    }
 
-        Objects.nonNull(inputData);
+    /**
+     * @return Cell representation of Stream<Stream<Integer>>
+     */
+    static Cell valueOf(Stream<IntStream> input) {
 
-        return Arrays.stream(inputData)
-                .map(integers -> Arrays.stream(integers)
-                        .collect(new LineCollector()))
-                .collect(CellHolder::new,
-                        CellHolder::mergeLines,
-                        CellHolder::mergeLines)
-                .toCell()
-                .calculateNextGeneration();
+        Objects.nonNull(input);
+
+        return input.map(stream -> stream.<CellHolder>collect( // building CellHolder holding Cell representation of single Stream<Integer>
+                                                             CellHolder::new,
+                                                             (line, value) -> {
+                                                                Cell next = new Cell(); // TODO remove this constructor
+                                                                next.left = line.current;
+                                                                line.current.currentState = value;
+                                                                line.current.right = next;
+                                                                line.current = next;
+                                                             },
+                                                             (left, right) -> {
+                                                                left.current.right = right.current;
+                                                                right.current.left = left.current;
+                                                                left.current = left.current.right; // see IntPipeLine.collect
+                                                             }))
+                    .collect(CellHolder::new, // building CellHolder holding Cell representation of Stream<Stream<Integer>>
+                             CellHolder::mergeLines,
+                             CellHolder::mergeLines)
+                    .toCell(); // getting Cell from CellHolder
 
     }
 
     /**
-     * calculate the next generation of World
+     * @return Stream representation of the Cell
      */
-    private Cell calculateNextGeneration() {
+    public Stream<IntStream> toStream() {
 
         Cell current = this;
+        Objects.nonNull(current);
 
-        while (true) { // TODO bad bad bad rewrite
+        Stream.Builder<IntStream> columnBuilder =Stream.builder();
 
-            // calculate next state for all cells in line
-            current.calculateNextState();
-            while (current.right != null) {
-                current = current.right;
-                current.calculateNextState();
-            }
+        do {
 
-            // rewind to the left most cell
-            while (current.left != null)
-                current = current.left;
+            IntStream intStream = lineToStream(current);
+            columnBuilder.add(intStream);
+            current = moveNextLine(current);
 
-            if (current.bottom != null)
-                current = current.bottom;
-            else {
-                break;
-            }
+        } while (current != null);
 
-        }
-
-        return this;
+        return columnBuilder.build();
 
     }
 
-    private void calculateNextState() { // TODO bad. rewrite
 
-        int count = getCount();
-        if (this.currentState == ALIVE && (count == 2 || count == 3)) {
-            this.nextState = ALIVE;
-            return;
-        }
-        if (this.currentState == DEAD && count == 3) {
-            this.nextState = ALIVE;
-            return;
-        }
-        this.nextState = DEAD;
 
-    }
+    /**
+     * @return cell representing next generation
+     */
+    public Cell calculateNextGeneration() {
 
-    private int getCount() {  // TODO. things planned to be simple look like shit. rewrite
+        // TODO implement
 
-        int count = 0;
+//        Cell current = this;
+//
+//        while (true) { // TODO bad bad bad rewrite
+//
+//
+//            current.calculateNextState(this.getCountOfLiveNeighbours());
+//            while (current.right != null) {
+//                current = current.right;
+//                current.calculateNextState(this.getCountOfLiveNeighbours());
+//            }
+//
+//            TODO use moveNextLine
+//            // rewind to the left most cell
+//            while (current.left != null) // duplicate code
+//                current = current.left; sdfsdfsdfsd //TODO move to the specific method
+//
+//            if (current.bottom != null)
+//                current = current.bottom;
+//            else {
+//                break;
+//            }
+//
+//        }
 
-        if (this.top != null) {
-
-            count += this.top.currentState;
-
-            if (this.top.left != null)
-                count += this.top.left.currentState;
-
-            if (this.top.right != null)
-                count += this.top.right.currentState;
-        }
-
-        if (this.bottom != null) {
-
-            count += this.bottom.currentState;
-
-            if (this.bottom.left != null)
-                count += this.bottom.left.currentState;
-
-            if (this.bottom.right != null)
-                count += this.bottom.right.currentState;
-        }
-
-        if (this.left != null) {
-            count += this.left.currentState;
-        }
-
-        if (this.right != null) {
-            count += this.right.currentState;
-        }
-
-        return count;
+        return new Cell();
 
     }
 
