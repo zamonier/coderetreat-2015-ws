@@ -8,7 +8,21 @@ class CellHolder {
 
     Cell current = null; // TODO Make private. write set & get
 
-    public static CellHolder mergeLines(CellHolder top, CellHolder bottom) {
+    public static void append(CellHolder line, int value) {
+        Cell next = new Cell();
+        next.left = line.current;
+        line.current.currentState = value;
+        line.current.right = next;
+        line.current = next;
+    }
+
+    public static void mergeHorizontal(CellHolder left, CellHolder right) {
+        left.current.right = right.current;
+        right.current.left = left.current;
+        left.current = left.current.right; // see IntPipeLine.collect
+    }
+
+    public static CellHolder mergeVertical(CellHolder top, CellHolder bottom) {
 
         // rewind both lines to the left most cell
         while (top.current.left != null)

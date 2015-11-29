@@ -21,13 +21,11 @@ public class GraphEngine {
         Stream<IntStream> input = Arrays.stream(currentGeneration)
                                         .map(Arrays::stream);
 
-        Cell currentGenerationAsCell = Cell.valueOf(input);
-        Cell nextGenerationAsCell = currentGenerationAsCell.calculateNextGeneration();
-        Stream<IntStream> nextGenerationStream = nextGenerationAsCell.toStream();
+        Stream<IntStream> nextGeneration = Cell.valueOf(input).getNextGeneration();
 
         // Stream<IntStream> -> int[][]
-        return nextGenerationStream.map(IntStream::toArray)
-                                   .toArray(int[][]::new);
+        return nextGeneration.map(IntStream::toArray)
+                             .toArray(int[][]::new);
 
     }
 
