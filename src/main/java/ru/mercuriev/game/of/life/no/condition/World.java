@@ -25,11 +25,8 @@ public final class World {
         return new WorldBuilder(world).build();
     }
 
-    private World() {
-    }
-
-    public List<List<Cell>> getCells() {
-        return cells;
+    private World(int size) {
+        this.cells = new ArrayList<>(size + 2);
     }
 
     public List<Cell> getRow(int i) {
@@ -41,43 +38,54 @@ public final class World {
 
         private int[][] world;
         private int size;
+        private World w;
+
+        private static Class<Cell>[] prototypes = new Class[]{DeadCell.class, AliveCell.class};
 
         public WorldBuilder(int[][] world) {
             this.world = world;
             this.size = world.length;
+            w = new World(size);
         }
 
         private World build() {
 
-            World w = new World();
-
-            w.cells = new ArrayList<>(size + 2);
-            w.cells.add(borderRow());
+            addBorderRow();
             IntStream.range(0, size).forEach(i -> {
-                w.cells.add(wrappedRow(world[i], i));
+                addWrappedRow(i);
             });
-            w.cells.add(borderRow());
+            addBorderRow();
 
             return w;
         }
 
-        private List<Cell> wrappedRow(int[] ints, int i) {
+        private void addWrappedRow(int i) {
             List<Cell> row = new ArrayList<>();
             row.add(new BorderCell());
-            IntStream.range(0, size).forEach(j ->
-                    row.add(ints[j] == 1 ? new AliveCell(i, j) : new DeadCell(i, j))
+            IntStream.range(0, size).forEach(j -> {
+                        int state = world[i][j];
+                        try {
+                            Cell c = prototypes[state].newInstance();
+                            c.setX(i);
+                            c.setY(j);
+                            row.add(c);
+                        } catch (InstantiationException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
             );
             row.add(new BorderCell());
-            return row;
+            w.cells.add(row);
         }
 
-        private List<Cell> borderRow() {
+        private void addBorderRow() {
             List<Cell> row = new ArrayList<>(size + 2);
-            IntStream.range(0, size + 2).forEach(i -> {
+            IntStream.range(0, size + 2).forEach(i1 -> {
                 row.add(new BorderCell());
             });
-            return row;
+            w.cells.add(row);
         }
+
     }
 
     public int size() {
