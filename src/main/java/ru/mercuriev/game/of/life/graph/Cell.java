@@ -13,23 +13,26 @@ import java.util.stream.Stream;
  */
 final class Cell {
 
-    private static final int DEAD = 0;
-    private static final int ALIVE = 1;
+    static final int DEAD = 0;
+    static final int ALIVE = 1;
 
-    Integer currentState = 0;
+    int state = 0;
     Cell left = null;
     Cell top = null;
     Cell right = null;
     Cell bottom = null;
 
-    // TODO in the aims of debugging create private String tag for the cell ?
-
     Cell() {
+    }
+
+    Cell(int state) {
+        this.state = state;
     }
 
     /**
      * @return Cell representation of Stream<Stream<Integer>>
      */
+    // TODO check stream is ordered
     static Cell valueOf(Stream<IntStream> input) {
 
         Objects.nonNull(input);
@@ -49,7 +52,7 @@ final class Cell {
      * @return Stream representation of the Cell
      */
     public Stream<IntStream> toStream() {
-        return cellToStream(this,cell -> cell.currentState);
+        return cellToStream(this,cell -> cell.state);
     }
 
     /**
@@ -119,10 +122,10 @@ final class Cell {
     static int calculateNextState(Cell current, int countOfLiveNeighbours) {
 
         Objects.nonNull(current);
-        if (current.currentState == DEAD && countOfLiveNeighbours == 3) {
+        if (current.state == DEAD && countOfLiveNeighbours == 3) {
             return ALIVE;
         }
-        if (current.currentState == ALIVE && (countOfLiveNeighbours == 2 || countOfLiveNeighbours == 3)) {
+        if (current.state == ALIVE && (countOfLiveNeighbours == 2 || countOfLiveNeighbours == 3)) {
             return ALIVE;
         }
         return DEAD;
@@ -138,27 +141,27 @@ final class Cell {
         int count = 0;
 
         if (current.top != null) {
-            count += current.top.currentState;
+            count += current.top.state;
             if (current.top.left != null)
-                count += current.top.left.currentState;
+                count += current.top.left.state;
             if (current.top.right != null)
-                count += current.top.right.currentState;
+                count += current.top.right.state;
         }
 
         if (current.bottom != null) {
-            count += current.bottom.currentState;
+            count += current.bottom.state;
             if (current.bottom.left != null)
-                count += current.bottom.left.currentState;
+                count += current.bottom.left.state;
             if (current.bottom.right != null)
-                count += current.bottom.right.currentState;
+                count += current.bottom.right.state;
         }
 
         if (current.left != null) {
-            count += current.left.currentState;
+            count += current.left.state;
         }
 
         if (current.right != null) {
-            count += current.right.currentState;
+            count += current.right.state;
         }
 
         return count;
