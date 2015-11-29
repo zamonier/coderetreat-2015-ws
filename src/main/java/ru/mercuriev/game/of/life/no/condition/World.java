@@ -28,6 +28,15 @@ public final class World {
     private World() {
     }
 
+    public List<List<Cell>> getCells() {
+        return cells;
+    }
+
+    public List<Cell> getRow(int i) {
+        List<Cell> row = this.cells.get(i + 1);
+        return row.subList(1, row.size() - 1);
+    }
+
     private static class WorldBuilder {
 
         private int[][] world;

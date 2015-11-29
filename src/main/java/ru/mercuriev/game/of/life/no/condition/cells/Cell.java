@@ -1,14 +1,14 @@
 package ru.mercuriev.game.of.life.no.condition.cells;
 
-/**
- * Created by Eugene on 24.11.15.
- */
 public abstract class Cell {
     public static final int ALIVE = 1;
     public static final int DEAD = 0;
     private int x;
     private int y;
-    private int state;
+
+    public Cell() {
+
+    }
 
     public Cell(int x, int y) {
         this.x = x;
@@ -21,6 +21,14 @@ public abstract class Cell {
 
     public int getY() {
         return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public abstract int getState();

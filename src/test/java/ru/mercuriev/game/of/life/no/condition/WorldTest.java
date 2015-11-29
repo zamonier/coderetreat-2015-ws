@@ -8,9 +8,6 @@ import java.util.stream.IntStream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by Eugene on 26.11.15.
- */
 public class WorldTest implements Fixture {
 
     @Test
