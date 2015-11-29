@@ -21,17 +21,25 @@ public final class World {
 
     private List<List<Cell>> cells;
 
-    public static World newInstance(int[][] world) {
-        return new WorldBuilder(world).build();
-    }
-
     private World(int size) {
         this.cells = new ArrayList<>(size + 2);
+    }
+
+    public static World newInstance(int[][] world) {
+        return new WorldBuilder(world).build();
     }
 
     public List<Cell> getRow(int i) {
         List<Cell> row = this.cells.get(i + 1);
         return row.subList(1, row.size() - 1);
+    }
+
+    public int size() {
+        return cells.size() - 2 * BORDER_OFFSET;
+    }
+
+    public Cell cellAt(int i, int j) {
+        return cells.get(i + BORDER_OFFSET).get(j + BORDER_OFFSET);
     }
 
     private static class WorldBuilder {
@@ -63,17 +71,16 @@ public final class World {
             List<Cell> row = new ArrayList<>();
             row.add(new BorderCell());
             IntStream.range(0, size).forEach(j -> {
-                        int state = world[i][j];
-                        try {
-                            Cell c = prototypes[state].newInstance();
-                            c.setX(i);
-                            c.setY(j);
-                            row.add(c);
-                        } catch (InstantiationException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    }
-            );
+                int state = world[i][j];
+                try {
+                    Cell c = prototypes[state].newInstance();
+                    c.setX(i);
+                    c.setY(j);
+                    row.add(c);
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            });
             row.add(new BorderCell());
             w.cells.add(row);
         }
@@ -88,11 +95,5 @@ public final class World {
 
     }
 
-    public int size() {
-        return cells.size() - 2 * BORDER_OFFSET;
-    }
 
-    public Cell cellAt(int i, int j) {
-        return cells.get(i + BORDER_OFFSET).get(j + BORDER_OFFSET);
-    }
 }

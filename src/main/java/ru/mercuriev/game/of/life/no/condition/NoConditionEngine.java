@@ -13,28 +13,19 @@ public class NoConditionEngine {
 
     public int[][] next(int[][] world) {
 
-        int size = world.length;
-
         World w = World.newInstance(world);
         NeighboursCollector collector = new NeighboursCollector(w);
 
-        final List<List<Cell>> cells = new ArrayList<>();
+        final List<List<Cell>> result = new ArrayList<>();
 
-        IntStream.range(0, size).forEach(i -> {
+        IntStream.range(0, w.size()).forEach(i -> {
             List<Cell> nextGen = w.getRow(i).stream()
-                    .map(c -> {
-                        int neighbours = collector.collect(c)
-                                        .stream()
-                                        .mapToInt(Cell::getState)
-                                        .sum();
-                                return DisionMaker.nextGenCell(c, neighbours);
-                            }
-                    )
+                    .map(c -> DisionMaker.nextGenCell(c, collector.sum(c)))
                     .collect(Collectors.toList());
-            cells.add(nextGen);
+            result.add(nextGen);
         });
 
-        return toArray(cells);
+        return toArray(result);
     }
 
     private int[][] toArray(List<List<Cell>> cells) {

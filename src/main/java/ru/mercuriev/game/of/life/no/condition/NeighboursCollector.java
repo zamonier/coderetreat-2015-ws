@@ -32,4 +32,11 @@ public class NeighboursCollector {
 
         return n;
     }
+
+    public int sum(Cell c) {
+        return this.collect(c)
+                .stream()
+                .mapToInt(Cell::getState)
+                .sum();
+    }
 }
