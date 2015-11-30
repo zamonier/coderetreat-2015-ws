@@ -44,21 +44,14 @@ public final class World {
         return cells.get(i + BORDER_OFFSET).get(j + BORDER_OFFSET);
     }
 
-    private static class WrappedWorldBuilder {
-
-        private int[][] world;
-        private int size;
-        private World w;
-
-        private static Class<Cell>[] prototypes = new Class[]{DeadCell.class, AliveCell.class};
+    private static class WrappedWorldBuilder extends WorldBuilder {
 
         public WrappedWorldBuilder(int[][] world) {
-            this.world = world;
-            this.size = world.length;
-            w = new World(size);
+            super(world);
         }
 
-        private World build() {
+        @Override
+        protected World build() {
 
             w.cells.add(borderRow());
             IntStream.range(0, size).forEach(i -> w.cells.add(wrappedRow(i)));
@@ -78,10 +71,31 @@ public final class World {
         }
 
         private List<Cell> borderRow() {
-            return Stream.generate(BorderCell::new).limit(size + 2).collect(Collectors.toList());
+            return Stream.generate(BorderCell::new).limit(size + 2 * BORDER_OFFSET).collect(Collectors.toList());
         }
 
-        private List<Cell> row(int i) {
+    }
+
+    public static class WorldBuilder {
+        private static Class<Cell>[] prototypes = new Class[]{DeadCell.class, AliveCell.class};
+        protected int[][] world;
+        protected int size;
+        protected World w;
+
+        public WorldBuilder(int[][] world) {
+            this.size = world.length;
+            w = new World(size);
+            this.world = world;
+        }
+
+        protected World build() {
+
+            IntStream.range(0, size).forEach(i -> w.cells.add(row(i)));
+
+            return w;
+        }
+
+        protected List<Cell> row(int i) {
             List<Cell> row = new ArrayList<>();
             IntStream.range(0, size).forEach(j -> {
                 row.add(newCell(i, j));
@@ -101,8 +115,6 @@ public final class World {
             }
             return null;
         }
-
     }
-
 
 }
