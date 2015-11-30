@@ -3,20 +3,15 @@ package ru.mercuriev.game.of.life.graph;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.stream.Collectors;
+
 import static org.testng.Assert.*;
+import static ru.mercuriev.game.of.life.graph.CellTestUtils.*;
 
 /**
  * @author paul
  */
 public class CellHolderTest {
-
-    private static CellHolder construct(int ... values) {
-        CellHolder cellHolder = new CellHolder();
-        for (int value : values) {
-            CellHolder.append(cellHolder,value);
-        }
-        return cellHolder;
-    }
 
     @DataProvider
     public Object[][] getTestAppendData() {
@@ -58,9 +53,26 @@ public class CellHolderTest {
     public void testMergeHorizontal(CellHolder left, CellHolder right, String expectedAsString) {
 
         CellHolder.mergeHorizontal(left,right);
-        assertEquals(left.toString(),expectedAsString);
-        assertEquals(right.toString(),expectedAsString);
 
+        assertEquals(Cell.lineToStream(left.cell, cell -> cell.state).mapToObj(value -> "" + value).collect(Collectors.joining(" ")),expectedAsString);
+        assertEquals(Cell.lineToStream(right.cell, cell -> cell.state).mapToObj(value -> "" + value).collect(Collectors.joining(" ")),expectedAsString);
+        // TODO uncomment!
+//        assertEquals(left.toString(),expectedAsString);
+//        assertEquals(right.toString(),expectedAsString);
+
+    }
+
+
+    @Test
+    public void testMethod() {
+        CellHolder cellHolder = new CellHolder();
+        CellHolder.append(cellHolder,0);
+        CellHolder.append(cellHolder,1);
+        CellHolder.append(cellHolder,0);
+        CellHolder.append(cellHolder,1);
+        CellHolder.append(cellHolder,1);
+        //String string = cellHolder.toString();
+        System.out.println("TA DAAAAA!");
     }
 
 

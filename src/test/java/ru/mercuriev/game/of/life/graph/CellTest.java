@@ -6,6 +6,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -78,6 +79,26 @@ public class CellTest {
         current.state = currentState;
         int actualNextState = Cell.calculateNextState(current,countOfLiveNeighbours);
         Assert.assertEquals(actualNextState,expectedNextState);
+
+    }
+
+    @Test
+    public void testLineToStream() {
+
+        CellHolder cellHolder = new CellHolder();
+        CellHolder.append(cellHolder,0);
+        CellHolder.append(cellHolder,1);
+        CellHolder.append(cellHolder,0);
+        CellHolder.append(cellHolder,1);
+        CellHolder.append(cellHolder,1);
+
+        Cell current = cellHolder.cell;
+
+        while (current.left != null)
+            current = current.left;
+
+        String collect = Cell.lineToStream(current, cell -> cell.state).mapToObj(value -> "" + value).collect(Collectors.joining(" "));
+        System.out.println("collect = " + collect);
 
     }
 

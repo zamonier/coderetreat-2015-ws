@@ -1,6 +1,9 @@
 package ru.mercuriev.game.of.life.graph;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * This object holds the pointer to the cell while constructing new world of cells
@@ -26,6 +29,8 @@ class CellHolder {
             line.cell = line.cell.right;
         }
     }
+
+    //TODO maybe trouble is in here. right should be null?
 
     public static void mergeHorizontal(CellHolder left, CellHolder right) {
 
@@ -59,6 +64,9 @@ class CellHolder {
         // because cell lines in both cellHolder are now the same
         left.cell = right.cell; // see IntPipeLine.collect
     }
+
+
+    //TODO maybe trouble is in here. top should be null?
 
     public static CellHolder mergeVertical(CellHolder top, CellHolder bottom) {
 
@@ -116,25 +124,50 @@ class CellHolder {
     public String toString() {
 
         Cell current = cell;
-
         if (current != null) {
 
             while (current.left != null)
                 current = current.left;
 
-            String result = "" + current.state;
-            while (current.right != null) {
-                current = current.right;
-                result += "" + current.state;
-            }
-            return result;
+            while (current.top != null)
+                current = current.top;
 
+            return "dfdfgd";
+
+//            return current.toStream()
+//                          .map(ints -> ints.mapToObj(value -> "" + value)
+//                                           .collect(Collectors.joining(",", "[", "]"))
+//                              )
+//                          .collect(Collectors.joining("\n", "<", ">"));
         } else {
-
             return "[empty]";
-
         }
 
     }
+
+//    @Override
+//    public String toString() {
+//
+//        Cell current = cell;
+//
+//        if (current != null) {
+//
+//            while (current.left != null)
+//                current = current.left;
+//
+//            String result = "" + current.state;
+//            while (current.right != null) {
+//                current = current.right;
+//                result += "" + current.state;
+//            }
+//            return result;
+//
+//        } else {
+//
+//            return "[empty]";
+//
+//        }
+//
+//    }
 
 }
