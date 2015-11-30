@@ -89,7 +89,9 @@ public class CellTest {
                 current = current.left;
         }
 
-        String actualValue = Cell.lineToStream(current, cell -> cell.state).mapToObj(value -> "" + value).collect(Collectors.joining(" "));
+        String actualValue = Cell.lineToStream(current, cell -> cell.state)
+                                 .mapToObj(value -> "" + value)
+                                 .collect(Collectors.joining(" "));
         assertEquals(actualValue, expectedAsString);
 
     }
