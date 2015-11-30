@@ -1,7 +1,6 @@
 package ru.mercuriev.game.of.life.graph;
 
 
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -9,6 +8,9 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static ru.mercuriev.game.of.life.graph.CellTestUtils.construct;
+import static org.testng.Assert.*;
 
 /**
  * @author paul
@@ -32,21 +34,6 @@ public class CellTest {
             {0,0,0,0,0},
     };
     private Stream<IntStream> NEXT_GENERATION_STREAM = Arrays.stream(NEXT_GENERATION).map(Arrays::stream);
-
-//    @Test
-//    public void testLineToStream() {
-//        Cell cell = Cell.valueOf(CURRENT_GENERATION_STREAM);
-//
-//        int counter = 0;
-//        while (counter <= 3) {
-//            cell = cell.bottom;
-//        }
-//
-//        IntStream stream = Cell.lineToStream(cell, cell -> cell.state);
-//        String actualResult = stream.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append).toString();
-//        Assert.assertEquals(actualResult,"00110");
-//
-//    }
 
     @DataProvider
     public Object[][] getCalculateNextStateData() {
@@ -78,27 +65,31 @@ public class CellTest {
         Cell current = new Cell();
         current.state = currentState;
         int actualNextState = Cell.calculateNextState(current,countOfLiveNeighbours);
-        Assert.assertEquals(actualNextState,expectedNextState);
+        assertEquals(actualNextState,expectedNextState);
 
     }
 
-    @Test
-    public void testLineToStream() {
+    @DataProvider
+    public Object[][] getTestLineToStreamData() {
+        return new Object[][] {
+                {construct(0, 1, 0, 1, 1),"0 1 0 1 1"},
+                {construct(0),"0"},
+                {construct(),""},
+        };
+    }
 
-        CellHolder cellHolder = new CellHolder();
-        CellHolder.append(cellHolder,0);
-        CellHolder.append(cellHolder,1);
-        CellHolder.append(cellHolder,0);
-        CellHolder.append(cellHolder,1);
-        CellHolder.append(cellHolder,1);
+    @Test(dataProvider = "getTestLineToStreamData")
+    public void testLineToStream(CellHolder cellHolder, String expectedAsString) {
 
         Cell current = cellHolder.cell;
 
-        while (current.left != null)
-            current = current.left;
+        if (current != null) {
+            while (current.left != null)
+                current = current.left;
+        }
 
-        String collect = Cell.lineToStream(current, cell -> cell.state).mapToObj(value -> "" + value).collect(Collectors.joining(" "));
-        System.out.println("collect = " + collect);
+        String actualValue = Cell.lineToStream(current, cell -> cell.state).mapToObj(value -> "" + value).collect(Collectors.joining(" "));
+        assertEquals(actualValue,expectedAsString);
 
     }
 

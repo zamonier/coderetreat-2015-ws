@@ -86,6 +86,9 @@ final class Cell {
     static IntStream lineToStream(Cell firstInline, Function<Cell,Integer> function) {
 
         Cell current = firstInline;
+        if (current == null) {
+            return IntStream.empty();
+        }
 
         IntStream.Builder lineBuilder = IntStream.builder();
 
@@ -103,7 +106,7 @@ final class Cell {
      */
     static Stream<IntStream> cellToStream(Cell current, Function<Cell,Integer> function) {
 
-        Objects.nonNull(current);
+        Objects.nonNull(current); // todo return empty
         Stream.Builder<IntStream> columnBuilder =Stream.builder();
         do {
 
