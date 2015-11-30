@@ -119,7 +119,7 @@ public class CellTest {
     public Object[][] getTestGetNextLineCellMultiLineData() {
         return new Object[][]{
                 {construct(0, 1, 0, 1, 1)},
-                //{construct(0)},
+                {construct(0)},
         };
     }
 
