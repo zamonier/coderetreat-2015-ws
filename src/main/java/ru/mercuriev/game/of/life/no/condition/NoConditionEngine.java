@@ -28,7 +28,7 @@ public class NoConditionEngine {
         return toArray(result);
     }
 
-    private int[][] toArray(List<List<Cell>> cells) {
+    private static int[][] toArray(List<List<Cell>> cells) {
         int size = cells.size();
         int[][] result = new int[size][size];
         IntStream.range(0, size).forEach(i ->

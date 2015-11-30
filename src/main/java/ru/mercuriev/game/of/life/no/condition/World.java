@@ -7,7 +7,9 @@ import ru.mercuriev.game.of.life.no.condition.cells.DeadCell;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Representation of board(world) with cells on it
@@ -22,16 +24,16 @@ public final class World {
     private List<List<Cell>> cells;
 
     private World(int size) {
-        this.cells = new ArrayList<>(size + 2);
+        this.cells = new ArrayList<>(size + 2 * BORDER_OFFSET);
     }
 
     public static World newInstance(int[][] world) {
-        return new WorldBuilder(world).build();
+        return new WrappedWorldBuilder(world).build();
     }
 
     public List<Cell> getRow(int i) {
-        List<Cell> row = this.cells.get(i + 1);
-        return row.subList(1, row.size() - 1);
+        List<Cell> row = this.cells.get(i + BORDER_OFFSET);
+        return row.subList(BORDER_OFFSET, row.size() - BORDER_OFFSET);
     }
 
     public int size() {
@@ -42,7 +44,7 @@ public final class World {
         return cells.get(i + BORDER_OFFSET).get(j + BORDER_OFFSET);
     }
 
-    private static class WorldBuilder {
+    private static class WrappedWorldBuilder {
 
         private int[][] world;
         private int size;
@@ -50,7 +52,7 @@ public final class World {
 
         private static Class<Cell>[] prototypes = new Class[]{DeadCell.class, AliveCell.class};
 
-        public WorldBuilder(int[][] world) {
+        public WrappedWorldBuilder(int[][] world) {
             this.world = world;
             this.size = world.length;
             w = new World(size);
@@ -58,39 +60,46 @@ public final class World {
 
         private World build() {
 
-            addBorderRow();
-            IntStream.range(0, size).forEach(i -> {
-                addWrappedRow(i);
-            });
-            addBorderRow();
+            w.cells.add(borderRow());
+            IntStream.range(0, size).forEach(i -> w.cells.add(wrappedRow(i)));
+            w.cells.add(borderRow());
 
             return w;
         }
 
-        private void addWrappedRow(int i) {
-            List<Cell> row = new ArrayList<>();
-            row.add(new BorderCell());
-            IntStream.range(0, size).forEach(j -> {
-                int state = world[i][j];
-                try {
-                    Cell c = prototypes[state].newInstance();
-                    c.setX(i);
-                    c.setY(j);
-                    row.add(c);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            });
-            row.add(new BorderCell());
-            w.cells.add(row);
+        private List<Cell> wrappedRow(int i) {
+            return Stream.concat(
+                    Stream.concat(
+                            Stream.of(new BorderCell()),
+                            row(i).stream()
+                    ),
+                    Stream.of(new BorderCell())
+            ).collect(Collectors.toList());
         }
 
-        private void addBorderRow() {
-            List<Cell> row = new ArrayList<>(size + 2);
-            IntStream.range(0, size + 2).forEach(i1 -> {
-                row.add(new BorderCell());
+        private List<Cell> borderRow() {
+            return Stream.generate(BorderCell::new).limit(size + 2).collect(Collectors.toList());
+        }
+
+        private List<Cell> row(int i) {
+            List<Cell> row = new ArrayList<>();
+            IntStream.range(0, size).forEach(j -> {
+                row.add(newCell(i, j));
             });
-            w.cells.add(row);
+            return row;
+        }
+
+        private Cell newCell(int i, int j) {
+            try {
+                int state = world[i][j];
+                Cell c = prototypes[state].newInstance();
+                c.setX(i);
+                c.setY(j);
+                return c;
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
     }
