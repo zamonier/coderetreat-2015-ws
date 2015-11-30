@@ -65,27 +65,29 @@ final class Cell {
     /**
      * @return Cell bottom of most left cell in line. null if bottom of the  most left is null
      */
-    static Cell moveNextLine(Cell current) {
+    static Cell getNextLineCell(Cell cell) {
 
-        Objects.nonNull(current);
+        Cell current = cell;
+        if (current == null) {
+            return null;
+        }
 
-        // rewind to the left
+        // left rewind
         while (current.left != null)
             current = current.left;
 
-        if (current.bottom != null)
-            current = current.bottom;
-
-        return current;
+        // move to the next cell in column
+        return current.bottom;
 
     }
 
     /**
+     * This method can be called ONLY for the most left cell in the line - no left rewind will be performed
      * @return IntStream of the results of function.apply(cell) applied to each cell in line
      */
-    static IntStream lineToStream(Cell firstInline, Function<Cell,Integer> function) {
+    static IntStream lineToStream(Cell cell, Function<Cell,Integer> function) {
 
-        Cell current = firstInline;
+        Cell current = cell;
         if (current == null) {
             return IntStream.empty();
         }
@@ -104,15 +106,19 @@ final class Cell {
     /**
      * @return  Stream<IntStream> of the results of function.apply(cell) applied to each cell
      */
-    static Stream<IntStream> cellToStream(Cell current, Function<Cell,Integer> function) {
+    static Stream<IntStream> cellToStream(Cell cell, Function<Cell,Integer> function) {
 
-        Objects.nonNull(current); // todo return empty
-        Stream.Builder<IntStream> columnBuilder =Stream.builder();
+        Cell current = cell;
+        if (current == null) {
+            return Stream.empty();
+        }
+
+        Stream.Builder<IntStream> columnBuilder = Stream.builder();
         do {
 
             IntStream intStream = lineToStream(current,function);
             columnBuilder.add(intStream);
-            current = moveNextLine(current);
+            current = getNextLineCell(current);
 
         } while (current != null);
         return columnBuilder.build();
