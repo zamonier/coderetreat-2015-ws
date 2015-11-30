@@ -54,25 +54,9 @@ public class CellHolderTest {
 
         CellHolder.mergeHorizontal(left,right);
 
-        assertEquals(Cell.lineToStream(left.cell, cell -> cell.state).mapToObj(value -> "" + value).collect(Collectors.joining(" ")),expectedAsString);
-        assertEquals(Cell.lineToStream(right.cell, cell -> cell.state).mapToObj(value -> "" + value).collect(Collectors.joining(" ")),expectedAsString);
-        // TODO uncomment!
-//        assertEquals(left.toString(),expectedAsString);
-//        assertEquals(right.toString(),expectedAsString);
+        assertEquals(left.toString(),expectedAsString);
+        assertEquals(right.toString(),expectedAsString);
 
-    }
-
-
-    @Test
-    public void testMethod() {
-        CellHolder cellHolder = new CellHolder();
-        CellHolder.append(cellHolder,0);
-        CellHolder.append(cellHolder,1);
-        CellHolder.append(cellHolder,0);
-        CellHolder.append(cellHolder,1);
-        CellHolder.append(cellHolder,1);
-        //String string = cellHolder.toString();
-        System.out.println("TA DAAAAA!");
     }
 
 

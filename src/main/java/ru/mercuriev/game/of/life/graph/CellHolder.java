@@ -1,5 +1,7 @@
 package ru.mercuriev.game.of.life.graph;
 
+import jdk.nashorn.internal.ir.WhileNode;
+
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -29,8 +31,6 @@ class CellHolder {
             line.cell = line.cell.right;
         }
     }
-
-    //TODO maybe trouble is in here. right should be null?
 
     public static void mergeHorizontal(CellHolder left, CellHolder right) {
 
@@ -64,9 +64,6 @@ class CellHolder {
         // because cell lines in both cellHolder are now the same
         left.cell = right.cell; // see IntPipeLine.collect
     }
-
-
-    //TODO maybe trouble is in here. top should be null?
 
     public static CellHolder mergeVertical(CellHolder top, CellHolder bottom) {
 
@@ -110,17 +107,24 @@ class CellHolder {
 
     public Cell toCell() {
 
-        while (cell.left != null)
-            cell = cell.left;
+        Cell current = cell;
 
-        while (cell.top != null)
-            cell = cell.top;
+        if (current != null) {
+            while (current.left != null)
+                current = current.left;
 
-        return cell;
+            while (current.top != null)
+                current = current.top;
+
+            return current;
+        }
+
+        return null;
 
     }
 
     @Override
+    // TODO implement
     public String toString() {
 
         Cell current = cell;
@@ -129,10 +133,16 @@ class CellHolder {
             while (current.left != null)
                 current = current.left;
 
-            while (current.top != null)
-                current = current.top;
+//            while (current.top != null)
+//                current = current.top;
 
-            return "dfdfgd";
+            StringBuilder builder = new StringBuilder();
+            builder.append(current.state);
+            while (current.right != null) {
+                current = current.right;
+                builder.append(current.state);
+            }
+            return builder.toString();
 
 //            return current.toStream()
 //                          .map(ints -> ints.mapToObj(value -> "" + value)
@@ -144,30 +154,5 @@ class CellHolder {
         }
 
     }
-
-//    @Override
-//    public String toString() {
-//
-//        Cell current = cell;
-//
-//        if (current != null) {
-//
-//            while (current.left != null)
-//                current = current.left;
-//
-//            String result = "" + current.state;
-//            while (current.right != null) {
-//                current = current.right;
-//                result += "" + current.state;
-//            }
-//            return result;
-//
-//        } else {
-//
-//            return "[empty]";
-//
-//        }
-//
-//    }
 
 }
