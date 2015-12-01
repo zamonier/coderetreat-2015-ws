@@ -28,7 +28,8 @@ public final class World {
     }
 
     public static World newInstance(int[][] world) {
-        return new WrappedWorldBuilder(world).build();
+        World build = new WorldBuilder(world).build();
+        return new WrappedWorldBuilder(build).build();
     }
 
     public List<Cell> getRow(int i) {
@@ -44,21 +45,22 @@ public final class World {
         return cells.get(i + BORDER_OFFSET).get(j + BORDER_OFFSET);
     }
 
-    private static class WrappedWorldBuilder extends WorldBuilder {
+    private static class WrappedWorldBuilder {
 
-        public WrappedWorldBuilder(int[][] world) {
-            super(world);
+        private int size;
+        private World w;
+
+        public WrappedWorldBuilder(World world) {
+            this.size = world.cells.size();
+            this.w = world;
         }
 
-        @Override
         protected World build() {
-
-            super.build();
 
             List<List<Cell>> result = new ArrayList<>();
 
             result.add(borderRow());
-            IntStream.range(0, size).forEach(i -> result.add(wrappedRow(i)));
+            IntStream.range(0, w.cells.size()).forEach(i -> result.add(wrappedRow(i)));
             result.add(borderRow());
             w.cells = result;
             return w;
@@ -82,9 +84,9 @@ public final class World {
 
     public static class WorldBuilder {
         private static Class<Cell>[] prototypes = new Class[]{DeadCell.class, AliveCell.class};
-        protected int[][] world;
-        protected int size;
-        protected World w;
+        private int[][] world;
+        private int size;
+        private World w;
 
         public WorldBuilder(int[][] world) {
             this.size = world.length;
