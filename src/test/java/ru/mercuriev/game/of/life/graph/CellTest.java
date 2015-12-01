@@ -11,7 +11,8 @@ import java.util.stream.Stream;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static ru.mercuriev.game.of.life.graph.CellTestUtils.construct;
+import static ru.mercuriev.game.of.life.graph.CellTestUtils.constructCell;
+import static ru.mercuriev.game.of.life.graph.CellTestUtils.constructLine;
 
 /**
  * @author paul
@@ -73,15 +74,16 @@ public class CellTest {
     @DataProvider
     public Object[][] getTestLineToStreamData() {
         return new Object[][]{
-                {construct(0, 1, 0, 1, 1), "0 1 0 1 1"},
-                {construct(0), "0"},
-                {construct(), ""},
+                {new int[] {0, 1, 0, 1, 1}, "0 1 0 1 1"},
+                {new int[] {0}, "0"},
+                {new int[] {}, ""},
         };
     }
 
     @Test(dataProvider = "getTestLineToStreamData")
-    public void testLineToStream(CellHolder cellHolder, String expectedAsString) {
+    public void testLineToStream(int[] array, String expectedAsString) {
 
+        CellHolder cellHolder = constructLine(array);
         Cell current = cellHolder.cell;
 
         if (current != null) {
@@ -99,15 +101,16 @@ public class CellTest {
     @DataProvider
     public Object[][] getTestGetNextLineCellSingleLineData() {
         return new Object[][]{
-                {construct(0, 1, 0, 1, 1)},
-                {construct(0)},
-                {construct()},
+                {new int[] {0, 1, 0, 1, 1}},
+                {new int[] {0}},
+                {new int[] {}},
         };
     }
 
     @Test(dataProvider = "getTestGetNextLineCellSingleLineData")
-    public void testGetNextLineCellSingleLine(CellHolder cellHolder) {
+    public void testGetNextLineCellSingleLine(int[] array) {
 
+        CellHolder cellHolder = constructLine(array);
         Cell current = cellHolder.cell;
 
         Cell actualNextLineCell = Cell.getNextLineCell(current);
@@ -118,15 +121,17 @@ public class CellTest {
     @DataProvider
     public Object[][] getTestGetNextLineCellMultiLineData() {
         return new Object[][]{
-                {construct(0, 1, 0, 1, 1)},
-                {construct(0)},
+                {new int[] {0, 1, 0, 1, 1}},
+                {new int[] {0}},
         };
     }
 
+    // TODO rename remove warning
     @SuppressWarnings("SuspiciousNameCombination")
     @Test(dataProvider = "getTestGetNextLineCellMultiLineData")
-    public void testGetNextLineCellMultiLine(CellHolder cellHolder) {
+    public void testGetNextLineCellMultiLine(int[] array) {
 
+        CellHolder cellHolder = constructLine(array);
         Cell current = cellHolder.cell;
 
         Cell expectedLeft = cellHolder.cell;
@@ -144,6 +149,81 @@ public class CellTest {
 
         assertEquals(actualBottom, expectedBottom);
         assertEquals(actualLeft, expectedLeft);
+
+    }
+
+    @DataProvider
+    public Object[][] getTestCellToStreamData() {
+        return new Object[][] {
+                {new int[][] {{0,1,0},{0,0,0},{1,1,1}},"<[0 1 0]-[0 0 0]-[1 1 1]>"},
+                {new int[][] {{0,0},{1,1}},"<[0 0]-[1 1]>"},
+                {new int[][] {{0}}, "<[0]>"},
+                {new int[][] {{}}, "<>"},
+        };
+    }
+
+    @Test(dataProvider = "getTestCellToStreamData")
+    public void testCellToStream(int[][] values, String expectedValue) {
+
+        Cell current = constructCell(values);
+
+        Stream<IntStream> stream = Cell.cellToStream(current,cell -> cell.state);
+
+        String actualValue =
+                stream.map(intStream -> intStream.mapToObj(value -> "" + value)
+                                                 .collect(Collectors.joining(" ", "[", "]")))
+                      .collect(Collectors.joining("-", "<", ">"));
+
+        assertEquals(actualValue,expectedValue);
+
+    }
+
+    @DataProvider
+    public Object[][] getTesGetCountOfNeighboursAliveData() {
+        return new Object[][] {
+                {null,null,null,null,null,null,null,null,},
+        };
+    }
+
+    @Test(dataProvider = "getTesGetCountOfNeighboursAliveData")
+    public void tesGetCountOfNeighboursAlive(Integer leftTopValue, Integer topValue, Integer rightTopValue,
+                                             Integer rightValue,
+                                             Integer rightBottomValue, Integer bottomValue, Integer leftBottomValue,
+                                             Integer leftValue) {
+
+        Cell central = new Cell(0);
+
+        if (topValue != null)  {
+            central.top = new Cell(topValue);
+
+            if (leftTopValue != null) {
+                central.top.left = new Cell(leftTopValue);
+            }
+
+            if (rightTopValue != null) {
+                central.top.right = new Cell(rightTopValue);
+            }
+
+        }
+
+        if (bottomValue != null)  {
+            central.bottom = new Cell(bottomValue);
+
+            if (leftBottomValue != null) {
+                central.bottom.left = new Cell(leftBottomValue);
+            }
+
+            if (rightBottomValue != null) {
+                central.bottom.right = new Cell(rightBottomValue);
+            }
+
+        }
+
+
+        // TODO + left
+                // TODO + right
+
+
 
     }
 

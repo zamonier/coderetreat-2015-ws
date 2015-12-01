@@ -3,8 +3,6 @@ package ru.mercuriev.game.of.life.graph;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.stream.Collectors;
-
 import static org.testng.Assert.*;
 import static ru.mercuriev.game.of.life.graph.CellTestUtils.*;
 
@@ -16,9 +14,9 @@ public class CellHolderTest {
     @DataProvider
     public Object[][] getTestAppendData() {
         return new Object[][] {
-                {construct(0,1,0,0),0,0,false,"01000"},
-                {construct(0),1,1,false,"01"},
-                {construct(),1,1,true,"1"},
+                {constructLine(0,1,0,0),0,0,false,"01000"},
+                {constructLine(0),1,1,false,"01"},
+                {constructLine(),1,1,true,"1"},
         };
     }
 
@@ -41,10 +39,10 @@ public class CellHolderTest {
     @DataProvider
     public Object[][] getTestMergeHorizontalData() {
         return new Object[][] {
-                {construct(0,1,0,0),construct(1,0),"010010"},
-                {construct(0,1,0,0),construct(),"0100"},
-                {construct(),construct(0,1,0,0),"0100"},
-                {construct(),construct(),"[empty]"},
+                {constructLine(0,1,0,0), constructLine(1,0),"010010"},
+                {constructLine(0,1,0,0), constructLine(),"0100"},
+                {constructLine(), constructLine(0,1,0,0),"0100"},
+                {constructLine(), constructLine(),"[empty]"},
         };
     }
 

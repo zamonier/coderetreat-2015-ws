@@ -59,7 +59,7 @@ final class Cell {
      * @return Stream representing next generation
      */
     public Stream<IntStream> getNextGeneration() {
-        return cellToStream(this,cell -> calculateNextState(cell,getCountOfLiveNeighbours(cell)));
+        return cellToStream(this,cell -> calculateNextState(cell, getCountOfNeighboursAlive(cell)));
     }
 
     /**
@@ -144,7 +144,7 @@ final class Cell {
     /**
      * @return count of alive Neighbours of the cell
      */
-    static int getCountOfLiveNeighbours(Cell current) {
+    static int getCountOfNeighboursAlive(Cell current) {
 
         Objects.nonNull(current);
         int count = 0;
