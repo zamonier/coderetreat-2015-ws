@@ -14,16 +14,16 @@ public class NeighboursCollectorTest implements Fixture {
 
     @Test
     public void testCollect() throws Exception {
-        World world = World.newInstance(GENERATION);
-        NeighboursCollector collector = new NeighboursCollector(world);
-        List<Cell> neighbours = collector.collect(world.cellAt(2, 0));
+        WrappedWorld wrappedWorld = WrappedWorld.newInstance(GENERATION);
+        NeighboursCollector collector = new NeighboursCollector(wrappedWorld);
+        List<Cell> neighbours = collector.collect(wrappedWorld.cellAt(2, 0));
         assertNotNull(neighbours);
         assertEquals(8, neighbours.size());
     }
 
     @Test
     public void testCollectFull() {
-        World w = World.newInstance(GENERATION);
+        WrappedWorld w = WrappedWorld.newInstance(GENERATION);
         NeighboursCollector c = new NeighboursCollector(w);
         IntStream.range(0, w.size()).forEach(i ->
                 IntStream.range(0, w.size()).forEach(j -> {

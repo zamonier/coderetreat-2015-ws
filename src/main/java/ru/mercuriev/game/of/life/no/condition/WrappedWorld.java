@@ -17,18 +17,18 @@ import java.util.stream.Stream;
  * @author Eugene
  * @since 26.11.15.
  */
-public final class World {
+public final class WrappedWorld {
 
     public static final int BORDER_OFFSET = 1;
 
     private List<List<Cell>> cells;
 
-    private World(int size) {
+    private WrappedWorld(int size) {
         this.cells = new ArrayList<>(size + 2 * BORDER_OFFSET);
     }
 
-    public static World newInstance(int[][] world) {
-        World build = new WorldBuilder(world).build();
+    public static WrappedWorld newInstance(int[][] world) {
+        WrappedWorld build = new WorldBuilder(world).build();
         return new WrappedWorldBuilder(build).build();
     }
 
@@ -48,32 +48,31 @@ public final class World {
     private static class WrappedWorldBuilder {
 
         private int size;
-        private World w;
+        private WrappedWorld w;
 
-        public WrappedWorldBuilder(World world) {
-            this.size = world.cells.size();
-            this.w = world;
+        public WrappedWorldBuilder(WrappedWorld wrappedWorld) {
+            this.size = wrappedWorld.cells.size();
+            this.w = wrappedWorld;
         }
 
-        protected World build() {
+        protected WrappedWorld build() {
 
             List<List<Cell>> result = new ArrayList<>();
 
             result.add(borderRow());
-            IntStream.range(0, w.cells.size()).forEach(i -> result.add(wrappedRow(i)));
+            result.addAll(w.cells.stream().map(row -> wrappedRow(row)).collect(Collectors.toList()));
             result.add(borderRow());
             w.cells = result;
             return w;
         }
 
-        private List<Cell> wrappedRow(int i) {
+        private List<Cell> wrappedRow(List<Cell> row) {
             return Stream.concat(
                     Stream.concat(
                             Stream.of(new BorderCell()),
-                            w.cells.get(i).stream()
+                            row.stream()
                     ),
-                    Stream.of(new BorderCell())
-            ).collect(Collectors.toList());
+                    Stream.of(new BorderCell())).collect(Collectors.toList());
         }
 
         private List<Cell> borderRow() {
@@ -86,15 +85,15 @@ public final class World {
         private static Class<Cell>[] prototypes = new Class[]{DeadCell.class, AliveCell.class};
         private int[][] world;
         private int size;
-        private World w;
+        private WrappedWorld w;
 
         public WorldBuilder(int[][] world) {
             this.size = world.length;
-            w = new World(size);
+            w = new WrappedWorld(size);
             this.world = world;
         }
 
-        protected World build() {
+        protected WrappedWorld build() {
 
             IntStream.range(0, size).forEach(i -> w.cells.add(row(i)));
 

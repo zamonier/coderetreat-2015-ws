@@ -8,23 +8,23 @@ import java.util.stream.IntStream;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class WorldTest implements Fixture {
+public class WrappedWorldTest implements Fixture {
 
     @Test
     public void testNewInstance() throws Exception {
-        World w = World.newInstance(GENERATION);
+        WrappedWorld w = WrappedWorld.newInstance(GENERATION);
         assertNotNull(w);
     }
 
     @Test
     public void testSize() throws Exception {
-        World w = World.newInstance(GENERATION);
+        WrappedWorld w = WrappedWorld.newInstance(GENERATION);
         assertEquals(GENERATION.length, w.size());
     }
 
     @Test
     public void testCells() throws Exception {
-        World w = World.newInstance(GENERATION);
+        WrappedWorld w = WrappedWorld.newInstance(GENERATION);
         IntStream.range(0, GENERATION.length).forEach(i ->
                 IntStream.range(0, GENERATION.length).forEach(j ->
                         assertEquals(GENERATION[i][j], w.cellAt(i, j).getState())

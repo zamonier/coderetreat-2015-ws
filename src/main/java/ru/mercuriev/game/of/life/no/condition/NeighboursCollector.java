@@ -7,10 +7,10 @@ import java.util.List;
 
 public class NeighboursCollector {
 
-    World world;
+    WrappedWorld wrappedWorld;
 
-    public NeighboursCollector(World world) {
-        this.world = world;
+    public NeighboursCollector(WrappedWorld wrappedWorld) {
+        this.wrappedWorld = wrappedWorld;
     }
 
     public List<Cell> collect(Cell cell) {
@@ -19,16 +19,16 @@ public class NeighboursCollector {
         int i = cell.getX();
         int j = cell.getY();
 
-        n.add(world.cellAt(i - 1, j - 1));
-        n.add(world.cellAt(i - 1, j));
-        n.add(world.cellAt(i - 1, j + 1));
+        n.add(wrappedWorld.cellAt(i - 1, j - 1));
+        n.add(wrappedWorld.cellAt(i - 1, j));
+        n.add(wrappedWorld.cellAt(i - 1, j + 1));
 
-        n.add(world.cellAt(i, j - 1));
-        n.add(world.cellAt(i, j + 1));
+        n.add(wrappedWorld.cellAt(i, j - 1));
+        n.add(wrappedWorld.cellAt(i, j + 1));
 
-        n.add(world.cellAt(i + 1, j - 1));
-        n.add(world.cellAt(i + 1, j));
-        n.add(world.cellAt(i + 1, j + 1));
+        n.add(wrappedWorld.cellAt(i + 1, j - 1));
+        n.add(wrappedWorld.cellAt(i + 1, j));
+        n.add(wrappedWorld.cellAt(i + 1, j + 1));
 
         return n;
     }
