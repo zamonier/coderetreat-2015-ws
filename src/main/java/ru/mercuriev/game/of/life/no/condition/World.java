@@ -53,10 +53,14 @@ public final class World {
         @Override
         protected World build() {
 
-            w.cells.add(borderRow());
-            IntStream.range(0, size).forEach(i -> w.cells.add(wrappedRow(i)));
-            w.cells.add(borderRow());
+            super.build();
 
+            List<List<Cell>> result = new ArrayList<>();
+
+            result.add(borderRow());
+            IntStream.range(0, size).forEach(i -> result.add(wrappedRow(i)));
+            result.add(borderRow());
+            w.cells = result;
             return w;
         }
 
@@ -64,7 +68,7 @@ public final class World {
             return Stream.concat(
                     Stream.concat(
                             Stream.of(new BorderCell()),
-                            row(i).stream()
+                            w.cells.get(i).stream()
                     ),
                     Stream.of(new BorderCell())
             ).collect(Collectors.toList());
@@ -95,7 +99,7 @@ public final class World {
             return w;
         }
 
-        protected List<Cell> row(int i) {
+        private List<Cell> row(int i) {
             List<Cell> row = new ArrayList<>();
             IntStream.range(0, size).forEach(j -> {
                 row.add(newCell(i, j));
