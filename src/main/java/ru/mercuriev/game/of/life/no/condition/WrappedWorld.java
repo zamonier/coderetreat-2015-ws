@@ -33,25 +33,21 @@ public final class WrappedWorld extends World {
 
     private static class WrappedWorldBuilder {
 
-        private int size;
-        private World ww;
+        private World world;
+        private WrappedWorld wrappedWorld;
 
-        public WrappedWorldBuilder(World ww) {
-            this.size = ww.cells.size();
-            this.ww = ww;
+        public WrappedWorldBuilder(World world) {
+            this.world = world;
+            wrappedWorld = new WrappedWorld(world.size());
         }
 
         protected WrappedWorld build() {
 
-            WrappedWorld w = new WrappedWorld(size + 2 * BORDER_OFFSET);
+            wrappedWorld.cells.add(borderRow());
+            wrappedWorld.cells.addAll(world.cells.stream().map(this::wrappedRow).collect(Collectors.toList()));
+            wrappedWorld.cells.add(borderRow());
 
-            List<List<Cell>> result = new ArrayList<>();
-            result.add(borderRow());
-            result.addAll(ww.cells.stream().map(this::wrappedRow).collect(Collectors.toList()));
-            result.add(borderRow());
-
-            w.cells = result;
-            return w;
+            return wrappedWorld;
         }
 
         private List<Cell> wrappedRow(List<Cell> row) {
@@ -64,7 +60,7 @@ public final class WrappedWorld extends World {
         }
 
         private List<Cell> borderRow() {
-            return Stream.generate(BorderCell::new).limit(size + 2 * BORDER_OFFSET).collect(Collectors.toList());
+            return Stream.generate(BorderCell::new).limit(world.size() + 2 * BORDER_OFFSET).collect(Collectors.toList());
         }
 
     }

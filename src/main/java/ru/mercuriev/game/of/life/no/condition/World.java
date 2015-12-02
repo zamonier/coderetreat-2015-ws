@@ -26,7 +26,6 @@ public class World {
         return this.cells.get(i);
     }
 
-
     public static World newInstance(int[][] world) {
         return new WorldBuilder(world).build();
     }
