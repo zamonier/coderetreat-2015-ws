@@ -18,8 +18,10 @@ public class World {
         this.cells = new ArrayList<>(size);
     }
 
-    public World() {
+    public int size() {
+        return cells.size();
     }
+
 
     public static World newInstance(int[][] world) {
         return new WorldBuilder(world).build();

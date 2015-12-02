@@ -19,6 +19,7 @@ public final class WrappedWorld extends World {
     public static final int BORDER_OFFSET = 1;
 
     protected WrappedWorld(int size) {
+        super(size);
         this.cells = new ArrayList<>(size + 2 * BORDER_OFFSET);
     }
 
@@ -29,10 +30,6 @@ public final class WrappedWorld extends World {
     public List<Cell> getRow(int i) {
         List<Cell> row = this.cells.get(i + BORDER_OFFSET);
         return row.subList(BORDER_OFFSET, row.size() - BORDER_OFFSET);
-    }
-
-    public int size() {
-        return cells.size() - 2 * BORDER_OFFSET;
     }
 
     public Cell cellAt(int i, int j) {

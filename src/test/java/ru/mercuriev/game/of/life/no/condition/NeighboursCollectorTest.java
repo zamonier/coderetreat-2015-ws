@@ -27,8 +27,8 @@ public class NeighboursCollectorTest implements Fixture {
         World build = World.newInstance(GENERATION);
         WrappedWorld w = WrappedWorld.newInstance(build);
         NeighboursCollector c = new NeighboursCollector(w);
-        IntStream.range(0, w.size()).forEach(i ->
-                IntStream.range(0, w.size()).forEach(j -> {
+        IntStream.range(0, build.size()).forEach(i ->
+                IntStream.range(0, build.size()).forEach(j -> {
                             int amount = c.collect(w.cellAt(i, j)).stream().mapToInt(Cell::getState).sum();
                             assertEquals(NEIGHBOURS[i][j], amount);
                         }

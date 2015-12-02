@@ -19,7 +19,7 @@ public class NoConditionEngine {
 
         final List<List<Cell>> result = new ArrayList<>();
 
-        IntStream.range(0, w.size()).forEach(i -> {
+        IntStream.range(0, build.size()).forEach(i -> {
             List<Cell> nextGen = w.getRow(i).stream()
                     .map(c -> DisionMaker.nextGenCell(c, collector.sum(c)))
                     .collect(Collectors.toList());

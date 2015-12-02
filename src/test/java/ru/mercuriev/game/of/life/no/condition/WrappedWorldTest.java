@@ -21,7 +21,7 @@ public class WrappedWorldTest implements Fixture {
     public void testSize() throws Exception {
         World build = World.newInstance(GENERATION);
         WrappedWorld w = WrappedWorld.newInstance(build);
-        assertEquals(GENERATION.length, w.size());
+        assertEquals(GENERATION.length, build.size());
     }
 
     @Test
