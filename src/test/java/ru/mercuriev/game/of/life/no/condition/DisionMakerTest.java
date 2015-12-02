@@ -12,7 +12,8 @@ public class DisionMakerTest implements Fixture {
 
     @Test
     public void testNextGenCell() throws Exception {
-        WrappedWorld w = WrappedWorld.newInstance(GENERATION);
+        WrappedWorld build = WrappedWorld.newInstance(GENERATION);
+        WrappedWorld w = WrappedWorld.newInstance(build);
         IntStream.range(0, w.size()).forEach(i -> {
             IntStream.range(0, w.size()).forEach(j -> {
                 Cell cell = DisionMaker.nextGenCell(w.cellAt(i, j), NEIGHBOURS[i][j]);
