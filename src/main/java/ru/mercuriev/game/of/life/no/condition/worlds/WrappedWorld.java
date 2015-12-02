@@ -11,9 +11,9 @@ import java.util.List;
  * @author Eugene
  * @since 26.11.15.
  */
-public final class WrappedWorld {
+public class WrappedWorld {
 
-    public static final int BORDER_OFFSET = 1;
+    static final int BORDER_OFFSET = 1;
 
     List<List<Cell>> cells = new ArrayList<>();
 

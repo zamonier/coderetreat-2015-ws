@@ -15,10 +15,11 @@ public class NoConditionEngine {
         NeighboursCounter neighboursCounter = NeighboursCounter.forWorld(world);
 
         return world.rowsAsStream()
-                .map(row -> row.stream()
-                        .map(cell -> nextGenerationCell(cell, neighboursCounter.neighboursAmount(cell)))
-                        .mapToInt(Cell::getState)
-                        .toArray())
+                .map(row ->
+                        row.stream()
+                                .map(cell -> nextGenerationCell(cell, neighboursCounter.neighboursAmount(cell)))
+                                .mapToInt(Cell::getState)
+                                .toArray())
                 .toArray(int[][]::new);
     }
 
