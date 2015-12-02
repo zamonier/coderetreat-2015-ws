@@ -7,27 +7,47 @@ import ru.mercuriev.game.of.life.no.condition.cells.DeadCell;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
- * Created by Eugene on 02.12.15.
+ * Representation of board(world) with cells on it
+ *
+ * @author Eugene
+ * @since 26.11.15.
  */
 public class World {
-    protected List<List<Cell>> cells;
+
+    private List<List<Cell>> cells;
 
     protected World(int size) {
         this.cells = new ArrayList<>(size);
+    }
+
+    public Stream<List<Cell>> getRows() {
+        return cells.stream();
     }
 
     public int size() {
         return cells.size();
     }
 
-    public List<Cell> getRow(int i) {
-        return this.cells.get(i);
-    }
-
     public static World newInstance(int[][] world) {
         return new WorldBuilder(world).build();
+    }
+
+    public static World newInstance(List<List<Cell>> cells) {
+        World world = new World(cells.size());
+        world.cells = cells;
+        return world;
+    }
+
+    public int[][] toArray() {
+        int size = cells.size();
+        int[][] result = new int[size][size];
+        IntStream.range(0, size).forEach(i ->
+                result[i] = cells.get(i).stream().mapToInt(Cell::getState).toArray()
+        );
+        return result;
     }
 
     public static class WorldBuilder {

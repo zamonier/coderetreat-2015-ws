@@ -9,17 +9,18 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Representation of board(world) with cells on it
+ * Representation board(world) with of OutOfRangeError protection
  *
  * @author Eugene
  * @since 26.11.15.
  */
-public final class WrappedWorld extends World {
+public final class WrappedWorld {
+
+    private List<List<Cell>> cells;
 
     public static final int BORDER_OFFSET = 1;
 
     protected WrappedWorld(int size) {
-        super(size);
         this.cells = new ArrayList<>(size + 2 * BORDER_OFFSET);
     }
 
@@ -44,7 +45,7 @@ public final class WrappedWorld extends World {
         protected WrappedWorld build() {
 
             wrappedWorld.cells.add(borderRow());
-            wrappedWorld.cells.addAll(world.cells.stream().map(this::wrappedRow).collect(Collectors.toList()));
+            wrappedWorld.cells.addAll(world.getRows().map(this::wrappedRow).collect(Collectors.toList()));
             wrappedWorld.cells.add(borderRow());
 
             return wrappedWorld;

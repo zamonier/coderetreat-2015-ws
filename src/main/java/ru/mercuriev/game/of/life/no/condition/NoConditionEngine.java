@@ -6,36 +6,29 @@ import ru.mercuriev.game.of.life.no.condition.cells.Cell;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+
+import static ru.mercuriev.game.of.life.no.condition.DisionMaker.nextGenCell;
 
 @Service
 public class NoConditionEngine {
 
-    public int[][] next(int[][] world) {
+    public int[][] next(int[][] ints) {
 
-        World build = World.newInstance(world);
-        WrappedWorld w = WrappedWorld.newInstance(build);
-        NeighboursCollector collector = new NeighboursCollector(w);
+        World world = World.newInstance(ints);
+        WrappedWorld w = WrappedWorld.newInstance(world);
+        NeighboursCollector neighboursCollector = new NeighboursCollector(w);
 
         final List<List<Cell>> result = new ArrayList<>();
 
-        IntStream.range(0, build.size()).forEach(i -> {
-            List<Cell> nextGen = build.getRow(i).stream()
-                    .map(c -> DisionMaker.nextGenCell(c, collector.sum(c)))
+        world.getRows().forEach(row -> {
+            List<Cell> nextGen = row.stream()
+                    .map(cell -> nextGenCell(cell, neighboursCollector.sum(cell)))
                     .collect(Collectors.toList());
             result.add(nextGen);
         });
 
-        return toArray(result);
-    }
-
-    private static int[][] toArray(List<List<Cell>> cells) {
-        int size = cells.size();
-        int[][] result = new int[size][size];
-        IntStream.range(0, size).forEach(i ->
-                result[i] = cells.get(i).stream().mapToInt(Cell::getState).toArray()
-        );
-        return result;
+        World nextGen = World.newInstance(result);
+        return nextGen.toArray();
     }
 
 }
