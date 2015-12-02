@@ -14,7 +14,14 @@ import java.util.stream.IntStream;
 public class World {
     protected List<List<Cell>> cells;
 
-    public static WrappedWorld newInstance(int[][] world) {
+    protected World(int size) {
+        this.cells = new ArrayList<>(size);
+    }
+
+    public World() {
+    }
+
+    public static World newInstance(int[][] world) {
         return new WorldBuilder(world).build();
     }
 
@@ -22,18 +29,15 @@ public class World {
         private static Class<Cell>[] prototypes = new Class[]{DeadCell.class, AliveCell.class};
         private int[][] world;
         private int size;
-        private WrappedWorld w;
 
         public WorldBuilder(int[][] world) {
             this.size = world.length;
-            w = new WrappedWorld(size);
             this.world = world;
         }
 
-        protected WrappedWorld build() {
-
+        protected World build() {
+            World w = new World(size);
             IntStream.range(0, size).forEach(i -> w.cells.add(row(i)));
-
             return w;
         }
 

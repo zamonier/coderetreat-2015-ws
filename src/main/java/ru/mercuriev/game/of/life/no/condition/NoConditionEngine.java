@@ -13,7 +13,7 @@ public class NoConditionEngine {
 
     public int[][] next(int[][] world) {
 
-        World build = WrappedWorld.newInstance(world);
+        World build = World.newInstance(world);
         WrappedWorld w = WrappedWorld.newInstance(build);
         NeighboursCollector collector = new NeighboursCollector(w);
 

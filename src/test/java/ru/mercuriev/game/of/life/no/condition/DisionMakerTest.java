@@ -12,7 +12,7 @@ public class DisionMakerTest implements Fixture {
 
     @Test
     public void testNextGenCell() throws Exception {
-        World build = WrappedWorld.newInstance(GENERATION);
+        World build = World.newInstance(GENERATION);
         WrappedWorld w = WrappedWorld.newInstance(build);
         IntStream.range(0, w.size()).forEach(i -> {
             IntStream.range(0, w.size()).forEach(j -> {

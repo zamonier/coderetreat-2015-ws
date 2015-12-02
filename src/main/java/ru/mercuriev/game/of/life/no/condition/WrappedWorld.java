@@ -54,10 +54,10 @@ public final class WrappedWorld extends World {
             WrappedWorld w = new WrappedWorld(size + 2 * BORDER_OFFSET);
 
             List<List<Cell>> result = new ArrayList<>();
+            result.add(borderRow());
+            result.addAll(ww.cells.stream().map(this::wrappedRow).collect(Collectors.toList()));
+            result.add(borderRow());
 
-            result.add(borderRow());
-            result.addAll(ww.cells.stream().map(row -> wrappedRow(row)).collect(Collectors.toList()));
-            result.add(borderRow());
             w.cells = result;
             return w;
         }
