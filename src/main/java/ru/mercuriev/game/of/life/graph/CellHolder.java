@@ -1,18 +1,13 @@
 package ru.mercuriev.game.of.life.graph;
 
-import jdk.nashorn.internal.ir.WhileNode;
-
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * This object holds the pointer to the cell while constructing new world of cells
  *
  * Each time any method of the object is called current cell is pointed to the most right bottom cell
  *
- * Class is nor thread safe - do not use in parallel stream without proper synchronization
+ * Class is not thread safe - do not use in parallel stream without proper synchronization
  *
  * @author paul
  */
@@ -65,6 +60,7 @@ class CellHolder {
         left.cell = right.cell; // see IntPipeLine.collect
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     public static CellHolder mergeVertical(CellHolder top, CellHolder bottom) {
 
         Objects.nonNull(top);
@@ -84,22 +80,48 @@ class CellHolder {
             return bottom; // no merge is needed - only copy top to bottom
         }
 
+        // now current cells of both line buckets are at the right most position
+
+        Cell topCurrent = top.cell;
+        Cell bottomCurrent = bottom.cell;
+
         // rewind both lines to the left most cell
-        while (top.cell.left != null)
-            top.cell = top.cell.left;
-        while (bottom.cell.left != null)
-            bottom.cell = bottom.cell.left;
+        while (topCurrent.left != null)
+            topCurrent = topCurrent.left;
+        while (bottomCurrent.left != null)
+            bottomCurrent = bottomCurrent.left;
 
-        while (top.cell.right != null && bottom.cell.right != null) {
+        // in order to merge top line bucket and bottom line bucket
+        // 1. bottom line of the top line bucket
+        // should be merged with
+        // 2. top line of the bottom line bucket
 
-            // glue the top and bottom cell in one column
-            top.cell.bottom = bottom.cell;
-            bottom.cell.top = top.cell;
+        // for merging from left to right current
+        //
+        // 1. cell of the top CellHolder should point to the left & bottom most cell in line.
+        // this condition is true out of the box  - for the bucket of single line it is always true,
+        // and for bucket of multiple lines mergeVertical returns CellHolder
+        // with cell pointed to the last cell of the bottom bucket
+
+        // 2. cell of the bottom CellHolder should point to the left & top most cell in line.
+        // this condition is false - rewind top should be done
+        while (bottomCurrent.top != null)
+            bottomCurrent = bottomCurrent.top;
+
+        // it is ok to start merging
+
+        // glue the top and bottom cell in one column
+        topCurrent.bottom = bottomCurrent;
+        bottomCurrent.top = topCurrent;
+        while (topCurrent.right != null && bottomCurrent.right != null)  {
 
             // move to the next cell in line
-            top.cell = top.cell.right;
-            bottom.cell = bottom.cell.right;
+            topCurrent = topCurrent.right;
+            bottomCurrent = bottomCurrent.right;
 
+            // glue the top and bottom cell in one column
+            topCurrent.bottom = bottomCurrent;
+            bottomCurrent.top = topCurrent;
         }
 
         return bottom;
