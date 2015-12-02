@@ -181,15 +181,29 @@ public class CellTest {
     @DataProvider
     public Object[][] getTesGetCountOfNeighboursAliveData() {
         return new Object[][] {
-                {null,null,null,null,null,null,null,null,},
+                {null,null,null,/**/null,/**/null,null,null,/**/null,/**/0},
+                {1,1,1,/**/1,/**/1,1,1,/**/1,/**/8},
+                {0,1,0,/**/1,/**/0,1,0,/**/1,/**/4},
+                {0,null,0,/**/1,/**/0,1,0,/**/1,/**/3},
+                {0,null,0,/**/1,/**/0,null,0,/**/0,/**/1},
+                {null,null,null,/**/1,/**/null,1,1,/**/null,/**/3}, // left top corner
+                {null,null,null,/**/null,/**/1,0,null,/**/0,/**/1}, // right top corner
+                {0,1,null,/**/null,/**/null,null,null,/**/1,/**/2}, // right bottom corner
+                {null,1,0,/**/1,/**/null,null,null,/**/null,/**/2}, // left bottom corner
+                {null,1,1,/**/1,/**/0,0,null,/**/0,/**/3}, // left edge
+                {null,null,null,/**/1,/**/0,0,1,/**/0,/**/2}, // top edge
+                {0,1,null,/**/null,/**/1,0,null,/**/1,/**/3}, // right edge
+                {1,1,1,/**/1,/**/null,null,null,/**/1,/**/5}, // bottom edge
         };
     }
 
     @Test(dataProvider = "getTesGetCountOfNeighboursAliveData")
     public void tesGetCountOfNeighboursAlive(Integer leftTopValue, Integer topValue, Integer rightTopValue,
                                              Integer rightValue,
+                                             // TODO check order of this
                                              Integer rightBottomValue, Integer bottomValue, Integer leftBottomValue,
-                                             Integer leftValue) {
+                                             Integer leftValue,
+                                             int expectedCount) {
 
         Cell central = new Cell(0);
 
@@ -219,11 +233,16 @@ public class CellTest {
 
         }
 
+        if (leftValue != null) {
+            central.left = new Cell(leftValue);
+        }
 
-        // TODO + left
-                // TODO + right
+        if (rightValue != null) {
+            central.right = new Cell(rightValue);
+        }
 
-
+        int actualCount = Cell.getCountOfNeighboursAlive(central);
+        assertEquals(actualCount, expectedCount);
 
     }
 
