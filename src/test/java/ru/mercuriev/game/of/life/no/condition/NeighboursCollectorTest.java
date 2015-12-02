@@ -3,6 +3,8 @@ package ru.mercuriev.game.of.life.no.condition;
 import org.junit.Test;
 import ru.mercuriev.Fixture;
 import ru.mercuriev.game.of.life.no.condition.cells.Cell;
+import ru.mercuriev.game.of.life.no.condition.worlds.World;
+import ru.mercuriev.game.of.life.no.condition.worlds.WrappedWorld;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -16,7 +18,7 @@ public class NeighboursCollectorTest implements Fixture {
     public void testCollect() throws Exception {
         World build = World.newInstance(GENERATION);
         WrappedWorld wrappedWorld = WrappedWorld.newInstance(build);
-        NeighboursCollector collector = new NeighboursCollector(wrappedWorld);
+        NeighboursCollector collector = new NeighboursCollector(build);
         List<Cell> neighbours = collector.collect(wrappedWorld.cellAt(2, 0));
         assertNotNull(neighbours);
         assertEquals(8, neighbours.size());
@@ -26,7 +28,7 @@ public class NeighboursCollectorTest implements Fixture {
     public void testCollectFull() {
         World build = World.newInstance(GENERATION);
         WrappedWorld w = WrappedWorld.newInstance(build);
-        NeighboursCollector c = new NeighboursCollector(w);
+        NeighboursCollector c = new NeighboursCollector(build);
         IntStream.range(0, build.size()).forEach(i ->
                 IntStream.range(0, build.size()).forEach(j -> {
                             int amount = c.collect(w.cellAt(i, j)).stream().mapToInt(Cell::getState).sum();
