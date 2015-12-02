@@ -3,7 +3,6 @@ package ru.mercuriev.game.of.life.no.condition;
 import org.springframework.stereotype.Service;
 import ru.mercuriev.game.of.life.no.condition.cells.Cell;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,17 +17,13 @@ public class NoConditionEngine {
         WrappedWorld w = WrappedWorld.newInstance(world);
         NeighboursCollector neighboursCollector = new NeighboursCollector(w);
 
-        final List<List<Cell>> result = new ArrayList<>();
+        List<List<Cell>> nextGeneration = world.getRows().map(row ->
+                row.stream()
+                        .map(cell -> nextGenCell(cell, neighboursCollector.sum(cell)))
+                        .collect(Collectors.toList())
+        ).collect(Collectors.toList());
 
-        world.getRows().forEach(row -> {
-            List<Cell> nextGen = row.stream()
-                    .map(cell -> nextGenCell(cell, neighboursCollector.sum(cell)))
-                    .collect(Collectors.toList());
-            result.add(nextGen);
-        });
-
-        World nextGen = World.newInstance(result);
-        return nextGen.toArray();
+        return World.newInstance(nextGeneration).toArray();
     }
 
 }
