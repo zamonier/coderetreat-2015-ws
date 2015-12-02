@@ -27,11 +27,6 @@ public final class WrappedWorld extends World {
         return new WrappedWorldBuilder(world).build();
     }
 
-    public List<Cell> getRow(int i) {
-        List<Cell> row = this.cells.get(i + BORDER_OFFSET);
-        return row.subList(BORDER_OFFSET, row.size() - BORDER_OFFSET);
-    }
-
     public Cell cellAt(int i, int j) {
         return cells.get(i + BORDER_OFFSET).get(j + BORDER_OFFSET);
     }

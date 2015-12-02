@@ -22,6 +22,10 @@ public class World {
         return cells.size();
     }
 
+    public List<Cell> getRow(int i) {
+        return this.cells.get(i);
+    }
+
 
     public static World newInstance(int[][] world) {
         return new WorldBuilder(world).build();
