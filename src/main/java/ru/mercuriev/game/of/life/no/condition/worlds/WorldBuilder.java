@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-/**
- * Created by Eugene on 02.12.15.
- */
 class WorldBuilder {
+
     private final static Class<Cell>[] prototypes = new Class[]{DeadCell.class, AliveCell.class};
     private int[][] world;
     private int size;
@@ -21,16 +19,14 @@ class WorldBuilder {
         this.world = world;
     }
 
-    protected World build() {
+    World build() {
         World w = new World();
         IntStream.range(0, size).forEach(i -> {
 
             List<Cell> row = new ArrayList<>();
-            IntStream.range(0, size).forEach(j -> {
-                row.add(newCell(i, j));
-            });
-
+            IntStream.range(0, size).forEach(j -> row.add(newCell(i, j)));
             w.cells.add(row);
+
         });
         return w;
     }

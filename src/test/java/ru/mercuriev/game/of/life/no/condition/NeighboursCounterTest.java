@@ -10,18 +10,21 @@ import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertEquals;
 
-public class DisionMakerTest implements Fixture {
+public class NeighboursCounterTest implements Fixture {
 
     @Test
-    public void testNextGenCell() throws Exception {
+    public void testNeighboursAmount() {
+
         World build = World.fromArray(GENERATION);
         WrappedWorld w = WrappedWorld.newInstance(build);
-        IntStream.range(0, NEXT_GENERATION.length).forEach(i -> {
-            IntStream.range(0, NEXT_GENERATION.length).forEach(j -> {
-                Cell cell = DisionMaker.nextGenCell(w.cellAt(i, j), NEIGHBOURS[i][j]);
+        NeighboursCounter c = NeighboursCounter.forWorld(build);
 
-                assertEquals(NEXT_GENERATION[i][j], cell.getState());
-            });
-        });
+        IntStream.range(0, NEIGHBOURS.length).forEach(i ->
+                IntStream.range(0, NEIGHBOURS.length).forEach(j -> {
+                    Cell cell = w.cellAt(i, j);
+                    assertEquals(NEIGHBOURS[i][j], c.neighboursAmount(cell));
+                        }
+                )
+        );
     }
 }

@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * Created by Eugene on 02.12.15.
- */
 class WrappedWorldBuilder {
 
     private World world;
@@ -19,7 +16,7 @@ class WrappedWorldBuilder {
         this.world = world;
     }
 
-    protected WrappedWorld build() {
+    WrappedWorld build() {
         WrappedWorld wrappedWorld = new WrappedWorld();
 
         wrappedWorld.cells.add(borderRow());
@@ -29,15 +26,15 @@ class WrappedWorldBuilder {
         return wrappedWorld;
     }
 
+    private List<Cell> borderRow() {
+        return Stream.generate(BorderCell::new).limit(world.cells.size() + WrappedWorld.BORDER_OFFSET * 2).collect(Collectors.toList());
+    }
+
     private List<Cell> wrappedRow(List<Cell> row) {
         LinkedList<Cell> wrappedRow = new LinkedList<>(row);
         wrappedRow.addFirst(new BorderCell());
         wrappedRow.addLast(new BorderCell());
         return wrappedRow;
-    }
-
-    private List<Cell> borderRow() {
-        return Stream.generate(BorderCell::new).limit(world.cells.size() + 2 * WrappedWorld.BORDER_OFFSET).collect(Collectors.toList());
     }
 
 }

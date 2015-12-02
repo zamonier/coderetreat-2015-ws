@@ -13,9 +13,9 @@ import java.util.List;
  */
 public final class WrappedWorld {
 
-    List<List<Cell>> cells = new ArrayList<>();
-
     public static final int BORDER_OFFSET = 1;
+
+    List<List<Cell>> cells = new ArrayList<>();
 
     public static WrappedWorld newInstance(World world) {
         return new WrappedWorldBuilder(world).build();

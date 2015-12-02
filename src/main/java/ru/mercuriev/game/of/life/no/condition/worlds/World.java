@@ -16,12 +16,12 @@ public class World {
 
     List<List<Cell>> cells = new ArrayList<>();
 
-    public Stream<List<Cell>> rowsAsStream() {
-        return cells.stream();
-    }
-
     public static World fromArray(int[][] world) {
         return new WorldBuilder(world).build();
+    }
+
+    public Stream<List<Cell>> rowsAsStream() {
+        return cells.stream();
     }
 
 }
