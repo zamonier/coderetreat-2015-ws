@@ -1,9 +1,8 @@
 package ru.mercuriev.game.of.life.no.condition;
 
 import org.springframework.stereotype.Service;
+import ru.mercuriev.game.of.life.no.condition.cells.Cell;
 import ru.mercuriev.game.of.life.no.condition.worlds.World;
-
-import java.util.stream.Collectors;
 
 import static ru.mercuriev.game.of.life.no.condition.DisionMaker.nextGenCell;
 
@@ -16,15 +15,12 @@ public class NoConditionEngine {
 
         NeighboursCollector neighboursCollector = new NeighboursCollector(world);
 
-        World nextGenWorld = World.fromList(
-                world.rowsAsStream().map(
-                        row -> row.stream()
-                                .map(cell -> nextGenCell(cell, neighboursCollector.neighboursAmount(cell)))
-                                .collect(Collectors.toList())
-                ).collect(Collectors.toList())
-        );
-
-        return nextGenWorld.toArray();
+        return world.rowsAsStream().map(
+                row -> row.stream()
+                        .map(cell -> nextGenCell(cell, neighboursCollector.neighboursAmount(cell)))
+                        .mapToInt(Cell::getState)
+                        .toArray()
+        ).toArray(int[][]::new);
     }
 
 
