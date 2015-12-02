@@ -22,7 +22,7 @@ public final class WrappedWorld extends World {
         this.cells = new ArrayList<>(size + 2 * BORDER_OFFSET);
     }
 
-    public static WrappedWorld newInstance(WrappedWorld world) {
+    public static WrappedWorld newInstance(World world) {
         return new WrappedWorldBuilder(world).build();
     }
 
@@ -42,19 +42,21 @@ public final class WrappedWorld extends World {
     private static class WrappedWorldBuilder {
 
         private int size;
-        private WrappedWorld w;
+        private World ww;
 
-        public WrappedWorldBuilder(WrappedWorld wrappedWorld) {
-            this.size = wrappedWorld.cells.size();
-            this.w = wrappedWorld;
+        public WrappedWorldBuilder(World ww) {
+            this.size = ww.cells.size();
+            this.ww = ww;
         }
 
         protected WrappedWorld build() {
 
+            WrappedWorld w = new WrappedWorld(size + 2 * BORDER_OFFSET);
+
             List<List<Cell>> result = new ArrayList<>();
 
             result.add(borderRow());
-            result.addAll(w.cells.stream().map(row -> wrappedRow(row)).collect(Collectors.toList()));
+            result.addAll(ww.cells.stream().map(row -> wrappedRow(row)).collect(Collectors.toList()));
             result.add(borderRow());
             w.cells = result;
             return w;

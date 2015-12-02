@@ -14,7 +14,7 @@ public class NeighboursCollectorTest implements Fixture {
 
     @Test
     public void testCollect() throws Exception {
-        WrappedWorld build = WrappedWorld.newInstance(GENERATION);
+        World build = WrappedWorld.newInstance(GENERATION);
         WrappedWorld wrappedWorld = WrappedWorld.newInstance(build);
         NeighboursCollector collector = new NeighboursCollector(wrappedWorld);
         List<Cell> neighbours = collector.collect(wrappedWorld.cellAt(2, 0));
@@ -24,7 +24,7 @@ public class NeighboursCollectorTest implements Fixture {
 
     @Test
     public void testCollectFull() {
-        WrappedWorld build = WrappedWorld.newInstance(GENERATION);
+        World build = WrappedWorld.newInstance(GENERATION);
         WrappedWorld w = WrappedWorld.newInstance(build);
         NeighboursCollector c = new NeighboursCollector(w);
         IntStream.range(0, w.size()).forEach(i ->
