@@ -10,15 +10,16 @@ import static ru.mercuriev.game.of.life.no.condition.DisionMaker.nextGenCell;
 @Service
 public class NoConditionEngine {
 
-    public int[][] next(int[][] world) {
-        World world1 = World.newInstance(world);
+    public int[][] next(int[][] ints) {
 
-        NeighboursCollector neighboursCollector = new NeighboursCollector(world1);
+        World world = World.fromArray(ints);
+
+        NeighboursCollector neighboursCollector = new NeighboursCollector(world);
 
         World nextGenWorld = World.fromList(
-                world1.getRows().map(row ->
-                        row.stream()
-                                .map(cell -> nextGenCell(cell, neighboursCollector.sum(cell)))
+                world.rowsAsStream().map(
+                        row -> row.stream()
+                                .map(cell -> nextGenCell(cell, neighboursCollector.neighboursAmount(cell)))
                                 .collect(Collectors.toList())
                 ).collect(Collectors.toList())
         );

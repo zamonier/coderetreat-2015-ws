@@ -14,21 +14,14 @@ public class WrappedWorldTest implements Fixture {
 
     @Test
     public void testNewInstance() throws Exception {
-        World build = World.newInstance(GENERATION);
+        World build = World.fromArray(GENERATION);
         WrappedWorld w = WrappedWorld.newInstance(build);
         assertNotNull(w);
     }
 
     @Test
-    public void testSize() throws Exception {
-        World build = World.newInstance(GENERATION);
-        WrappedWorld w = WrappedWorld.newInstance(build);
-        assertEquals(GENERATION.length, build.size());
-    }
-
-    @Test
     public void testCells() throws Exception {
-        World build = World.newInstance(GENERATION);
+        World build = World.fromArray(GENERATION);
         WrappedWorld w = WrappedWorld.newInstance(build);
         IntStream.range(0, GENERATION.length).forEach(i ->
                 IntStream.range(0, GENERATION.length).forEach(j ->

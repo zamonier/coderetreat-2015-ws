@@ -23,16 +23,16 @@ class WorldBuilder {
 
     protected World build() {
         World w = new World();
-        IntStream.range(0, size).forEach(i -> w.cells.add(row(i)));
-        return w;
-    }
+        IntStream.range(0, size).forEach(i -> {
 
-    private List<Cell> row(int i) {
-        List<Cell> row = new ArrayList<>();
-        IntStream.range(0, size).forEach(j -> {
-            row.add(newCell(i, j));
+            List<Cell> row = new ArrayList<>();
+            IntStream.range(0, size).forEach(j -> {
+                row.add(newCell(i, j));
+            });
+
+            w.cells.add(row);
         });
-        return row;
+        return w;
     }
 
     private Cell newCell(int i, int j) {

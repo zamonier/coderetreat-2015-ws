@@ -17,15 +17,11 @@ public class World {
 
     List<List<Cell>> cells = new ArrayList<>();
 
-    public Stream<List<Cell>> getRows() {
+    public Stream<List<Cell>> rowsAsStream() {
         return cells.stream();
     }
 
-    public int size() {
-        return cells.size();
-    }
-
-    public static World newInstance(int[][] world) {
+    public static World fromArray(int[][] world) {
         return new WorldBuilder(world).build();
     }
 

@@ -15,14 +15,14 @@ public class NeighboursCollector {
         this.wrappedWorld = WrappedWorld.newInstance(world);
     }
 
-    public int sum(Cell c) {
-        return this.collect(c)
+    public int neighboursAmount(Cell c) {
+        return this.collectNeighbours(c)
                 .stream()
                 .mapToInt(Cell::getState)
                 .sum();
     }
 
-    List<Cell> collect(Cell cell) {
+    List<Cell> collectNeighbours(Cell cell) {
         List<Cell> n = new ArrayList<>();
 
         int i = cell.getX();
