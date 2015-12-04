@@ -1,5 +1,9 @@
 package ru.mercuriev.game.of.life.graph;
 
+import java.util.Objects;
+
+import static org.testng.Assert.assertTrue;
+
 /**
  * Utility class for testing Cell & CellHolder
  *
@@ -7,15 +11,21 @@ package ru.mercuriev.game.of.life.graph;
  */
 public class CellTestUtils {
 
-    static CellHolder constructLine(int ... values) {
+    // TODO Change signature to CellHolder constructLine(int value, int... values) - there can not be CellHolder with no Cell
+    // TODO replace for CellHolder.append()
+    /**
+     * @deprecated use CellHolder.append()
+     */
+    @Deprecated
+    static CellHolder constructLine(int... values) {
         CellHolder cellHolder = new CellHolder();
         for (int value : values) {
-            CellHolder.append(cellHolder,value);
+            CellHolder.append(cellHolder, value);
         }
         return cellHolder;
     }
 
-    static Cell constructCell(int[][] values) {
+    static Cell constructMultiline(int[][] values) {
 
         int lineCounter = 0;
 
@@ -26,8 +36,8 @@ public class CellTestUtils {
             Cell next = cellHolder.cell;
 
             // rewind to the left most cell in line
-            if (next != null ) {
-                while (next.left != null){
+            if (next != null) {
+                while (next.left != null) {
                     next = next.left;
                 }
             }
@@ -50,6 +60,38 @@ public class CellTestUtils {
         }
 
         return prev;
+
+    }
+
+    /**
+     * method execution will fall with error if
+     * - top or bottom is null
+     * - top or bottom lines have different "length"
+     * - one of the bottom link cell in top cell line is not equals to the corresponding bottom cell
+     * - one of the top link cell in bottom cell line is not equals to the corresponding top cell
+     *
+     */
+    @SuppressWarnings("SuspiciousNameCombination")
+    static void checkLinesAreMerged(Cell top, Cell bottom) {
+
+        Objects.nonNull(top);
+        Objects.nonNull(bottom);
+
+        Cell topCurrent = top;
+        Cell bottomCurrent = bottom;
+
+        // rewind to the left most cell
+        while (topCurrent.left != null)
+            topCurrent = topCurrent.left;
+        while (bottomCurrent.left != null)
+            bottomCurrent = bottomCurrent.left;
+
+        while (topCurrent.right != null && bottomCurrent.right != null) {
+            assertTrue(topCurrent.bottom == bottomCurrent);
+            assertTrue(bottomCurrent.top == topCurrent);
+            topCurrent = topCurrent.right;
+            bottomCurrent = bottomCurrent.right;
+        }
 
     }
 

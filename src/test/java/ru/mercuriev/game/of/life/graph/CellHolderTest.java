@@ -69,14 +69,17 @@ public class CellHolderTest {
     @DataProvider
     public Object[][] getTestMergeVerticalData() {
         return new Object[][] {
-                //{new int[] {0,1,0,0}, new int[] {0,1,0,1},"<[0 1 0 0]-[0 1 0 1]>"},
-                //{new int[] {}, new int[] {},"<>"},
-                {new int[] {0,1,0,0}, new int[] {},"<>"},
+                {new int[] {0,1,0,0}, new int[] {0,1,0,1},"<[0 1 0 0]-[0 1 0 1]>"},
+                {new int[] {}, new int[] {},null},
+                {new int[] {0,1,0,0}, new int[] {}, "<[0 1 0 0]>"},
+                {new int[] {}, new int[] {0,1,0,0}, "<[0 1 0 0]>"},
         };
     }
 
     // TODO separate method for merging multiline
     // TODO separate method with null
+
+    // TODo SHOULD! be rewritten
 
     @SuppressWarnings("SuspiciousNameCombination")
     @Test(dataProvider = "getTestMergeVerticalData")
@@ -85,21 +88,41 @@ public class CellHolderTest {
         CellHolder top = constructLine(statesTop);
         CellHolder bottom = constructLine(statesBottom);
 
-        CellHolder result = CellHolder.mergeVertical(top, bottom);
-
-        // check merging
-        Cell topCurrent = top.cell;
-        Cell bottomCurrent = bottom.cell;
-        if (topCurrent != null && bottomCurrent != null) {
-            while (topCurrent.left != null) {
-                assertTrue(topCurrent.bottom == bottomCurrent);
-                assertTrue(bottomCurrent.top == topCurrent);
-                topCurrent = topCurrent.left;
-                bottomCurrent = bottomCurrent.left;
-            }
+        boolean allIsNull = false;
+        if (top.cell == null && bottom.cell == null) {
+            allIsNull = true;
         }
 
+        boolean topIsNull = false;
+        if (top.cell == null) {
+            topIsNull = true;
+        }
+
+        boolean bottomIsNull = false;
+        if (bottom.cell == null) {
+            bottomIsNull = true;
+        }
+
+        CellHolder result = CellHolder.mergeVertical(top, bottom);
+
+        if (allIsNull) {
+            assertTrue(bottom == result);
+            return;
+        }
+
+        if (topIsNull || bottomIsNull) {
+            assertTrue(bottom == result);
+        }
+
+        if (!topIsNull && !bottomIsNull) {
+            // check merging
+            checkLinesAreMerged(top.cell, bottom.cell);
+        }
+
+
         // checking whole result
+        // TODO use toString
+        // ---------------------------------------------------
         Cell current = result.cell;
         if (current != null) {
             while (current.left != null)
@@ -116,7 +139,62 @@ public class CellHolderTest {
                         .collect(Collectors.joining("-", "<", ">"));
 
         System.out.println("actualAsString = " + actualAsString);
+        // ---------------------------------------------------
         assertEquals(actualAsString,expectedAsString);
+
+    }
+
+    @Test
+    public void testMergeVerticalCpmplex() {
+
+        CellHolder first = constructLine(0,1,0,1,1);
+        Cell firstCell = first.cell;
+        CellHolder second = constructLine(0,0,0,0,0);
+        Cell secondCell = second.cell;
+
+        CellHolder third = constructLine(1,1,1,1,1);
+        Cell thirdCell = third.cell;
+
+        CellHolder fourth = constructLine(0,0,0,1,1);
+        Cell fourthCell = fourth.cell;
+
+        CellHolder fifth = constructLine(1,1,0,0,0);
+        Cell fifthCell = fifth.cell;
+
+        CellHolder.mergeVertical(first,second);
+        CellTestUtils.checkLinesAreMerged(firstCell,secondCell);
+
+        CellHolder.mergeVertical(second,third);
+        CellTestUtils.checkLinesAreMerged(secondCell,thirdCell);
+
+        CellHolder.mergeVertical(fourth,fifth);
+        CellTestUtils.checkLinesAreMerged(fourthCell,fifthCell);
+
+        CellHolder.mergeVertical(third,fifth);
+        CellTestUtils.checkLinesAreMerged(thirdCell,fourthCell);
+
+        // TODO use toString
+        // ---------------------------------------------------
+        Cell current = fourthCell;
+        if (current != null) {
+            while (current.left != null)
+                current = current.left;
+            while (current.top != null)
+                current = current.top;
+        }
+
+        Stream<IntStream> stream = Cell.cellToStream(current, cell -> cell.state);
+
+        String actualAsString =
+                stream.map(intStream -> intStream.mapToObj(value -> "" + value)
+                        .collect(Collectors.joining(" ", "[", "]")))
+                        .collect(Collectors.joining("-", "<", ">"));
+
+        System.out.println("actualAsString = " + actualAsString);
+        // ---------------------------------------------------
+        assertEquals(actualAsString,"<[0 1 0 1 1]-[0 0 0 0 0]-[1 1 1 1 1]-[0 0 0 1 1]-[1 1 0 0 0]>");
+
+
 
     }
 

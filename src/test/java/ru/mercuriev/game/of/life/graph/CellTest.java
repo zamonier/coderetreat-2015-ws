@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static ru.mercuriev.game.of.life.graph.CellTestUtils.constructCell;
+import static ru.mercuriev.game.of.life.graph.CellTestUtils.constructMultiline;
 import static ru.mercuriev.game.of.life.graph.CellTestUtils.constructLine;
 
 /**
@@ -165,7 +165,7 @@ public class CellTest {
     @Test(dataProvider = "getTestCellToStreamData")
     public void testCellToStream(int[][] values, String expectedValue) {
 
-        Cell current = constructCell(values);
+        Cell current = constructMultiline(values);
 
         Stream<IntStream> stream = Cell.cellToStream(current,cell -> cell.state);
 

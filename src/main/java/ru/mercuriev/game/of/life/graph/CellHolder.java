@@ -11,9 +11,17 @@ import java.util.Objects;
  *
  * @author paul
  */
+// TODO MAYBE!!!   |
+// TODO            |
+// TODO            V
+// TODO move CellHolder to the package ru.mercuriev.game.of.life.graph.cell.holder
+// TODO Make cell private. write set & get // get will return lat cell in line. always
+// TODO getFirst should return the first cell in line. append method shuold store ir in separate feiled
+// TODO only another Cellholder should have
 class CellHolder {
 
-    Cell cell = null; // TODO Make private. write set & get
+    Cell cell = null;
+    // TODO getter should throw Assertion error if cell is not initialized
 
     public static void append(CellHolder line, int value) {
         Objects.nonNull(line);
@@ -60,6 +68,7 @@ class CellHolder {
         left.cell = right.cell; // see IntPipeLine.collect
     }
 
+    // todo move all comments to javadoc
     @SuppressWarnings("SuspiciousNameCombination")
     public static CellHolder mergeVertical(CellHolder top, CellHolder bottom) {
 
