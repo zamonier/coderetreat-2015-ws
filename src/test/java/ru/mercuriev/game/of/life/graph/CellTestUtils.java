@@ -1,6 +1,9 @@
 package ru.mercuriev.game.of.life.graph;
 
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.testng.Assert.assertTrue;
 
@@ -10,6 +13,24 @@ import static org.testng.Assert.assertTrue;
  * @author paul
  */
 public class CellTestUtils {
+
+    static int[][] CURRENT_GENERATION = {
+            {0, 0, 0, 0, 0},
+            {0, 0, 0, 1, 0},
+            {0, 1, 0, 1, 0},
+            {0, 0, 1, 1, 0},
+            {0, 0, 0, 0, 0},
+    };
+    static Stream<IntStream> CURRENT_GENERATION_STREAM = Arrays.stream(CURRENT_GENERATION).map(Arrays::stream);
+
+    static int[][] NEXT_GENERATION = {
+            {0, 0, 0, 0, 0},
+            {0, 0, 1, 0, 0},
+            {0, 0, 0, 1, 1},
+            {0, 0, 1, 1, 0},
+            {0, 0, 0, 0, 0},
+    };
+    static Stream<IntStream> NEXT_GENERATION_STREAM = Arrays.stream(NEXT_GENERATION).map(Arrays::stream);
 
     // TODO Change signature to CellHolder constructLine(int value, int... values) - there can not be CellHolder with no Cell
     // TODO replace for CellHolder.append()

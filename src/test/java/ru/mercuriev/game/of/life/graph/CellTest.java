@@ -11,31 +11,12 @@ import java.util.stream.Stream;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static ru.mercuriev.game.of.life.graph.CellTestUtils.constructMultiline;
-import static ru.mercuriev.game.of.life.graph.CellTestUtils.constructLine;
+import static ru.mercuriev.game.of.life.graph.CellTestUtils.*;
 
 /**
  * @author paul
  */
 public class CellTest {
-
-    private int[][] CURRENT_GENERATION = {
-            {0, 0, 0, 0, 0},
-            {0, 0, 0, 1, 0},
-            {0, 1, 0, 1, 0},
-            {0, 0, 1, 1, 0},
-            {0, 0, 0, 0, 0},
-    };
-    private Stream<IntStream> CURRENT_GENERATION_STREAM = Arrays.stream(CURRENT_GENERATION).map(Arrays::stream);
-
-    private int[][] NEXT_GENERATION = {
-            {0, 0, 0, 0, 0},
-            {0, 0, 1, 0, 0},
-            {0, 0, 0, 1, 1},
-            {0, 0, 1, 1, 0},
-            {0, 0, 0, 0, 0},
-    };
-    private Stream<IntStream> NEXT_GENERATION_STREAM = Arrays.stream(NEXT_GENERATION).map(Arrays::stream);
 
     @DataProvider
     public Object[][] getCalculateNextStateData() {
@@ -312,6 +293,23 @@ public class CellTest {
         Stream<IntStream> inputStream = Arrays.stream(array).map(Arrays::stream);
         Cell cell = Cell.valueOf(inputStream);
         String actualValue = cell.toString();
+        assertEquals(actualValue,expectedValue);
+
+    }
+
+    @Test
+    public void testGetNextGeneration() {
+
+        Cell current = Cell.valueOf(CURRENT_GENERATION_STREAM);
+        Stream<IntStream> nextGeneration = current.getNextGeneration();
+        Cell actualNextGeneration = Cell.valueOf(nextGeneration);
+        String actualValue = actualNextGeneration.toString();
+        System.out.println(actualValue);
+
+        Cell expectedNextGeneration = Cell.valueOf(NEXT_GENERATION_STREAM);
+        String expectedValue = expectedNextGeneration.toString();
+        System.out.println(expectedValue);
+
         assertEquals(actualValue,expectedValue);
 
     }
