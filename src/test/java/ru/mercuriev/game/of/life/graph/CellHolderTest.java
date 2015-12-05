@@ -131,7 +131,7 @@ public class CellHolderTest {
                 current = current.top;
         }
 
-        Stream<IntStream> stream = Cell.cellToStream(current, cell -> cell.state);
+        Stream<IntStream> stream = current.toStream();
 
         String actualAsString =
                 stream.map(intStream -> intStream.mapToObj(value -> "" + value)
@@ -183,7 +183,7 @@ public class CellHolderTest {
                 current = current.top;
         }
 
-        Stream<IntStream> stream = Cell.cellToStream(current, cell -> cell.state);
+        Stream<IntStream> stream = current.toStream();
 
         // TODO toString
         String actualAsString =

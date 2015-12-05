@@ -63,6 +63,7 @@ final class Cell {
 
     /**
      * @return Stream representation of the Cell
+     * remove?
      */
     public Stream<IntStream> toStream() {
         return cellToStream(this,cell -> cell.state);
