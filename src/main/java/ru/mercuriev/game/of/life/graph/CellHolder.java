@@ -3,11 +3,10 @@ package ru.mercuriev.game.of.life.graph;
 import java.util.Objects;
 
 /**
- * This object holds the pointer to the cell while constructing new world of cells
+ * This object holds the pointer to the current cell while merging cells together
+ * Each time any method of the object is current cell - tight and bottom cell in holder
  *
- * Each time any method of the object is called current cell is pointed to the most right bottom cell
- *
- * Class is not thread safe - do not use in parallel stream without proper synchronization
+ * Class is not thread safe - do not use it without proper synchronization (e.g. in parallel stream )
  *
  * @author paul
  */
@@ -18,10 +17,23 @@ import java.util.Objects;
 // TODO Make cell private. write set & get // get will return lat cell in line. always
 // TODO getFirst should return the first cell in line. append method shuold store ir in separate feiled
 // TODO only another Cellholder should have
+
+
+
+    // TODO implements AutoClosable ?
 final class CellHolder {
 
-    Cell cell = null;
-    // TODO getter should throw Assertion error if cell is not initialized
+    /**
+     * holds the current cell - tight and bottom cell in holder
+     */
+    private Cell cell = null;
+
+    /**
+     * @return current cell
+     */
+    public Cell getCell() {
+        return cell;
+    }
 
     public static void append(CellHolder line, int value) {
         Objects.nonNull(line);
@@ -140,6 +152,9 @@ final class CellHolder {
         return bottom;
     }
 
+    /**
+     * @return the left and top most cell in the holder
+     */
     public Cell toCell() {
 
         Cell current = cell;
@@ -147,10 +162,8 @@ final class CellHolder {
         if (current != null) {
             while (current.left != null)
                 current = current.left;
-
             while (current.top != null)
                 current = current.top;
-
             return current;
         }
 
@@ -159,7 +172,6 @@ final class CellHolder {
     }
 
     @Override
-    // TODO implement
     public String toString() {
 
         Cell current = cell;

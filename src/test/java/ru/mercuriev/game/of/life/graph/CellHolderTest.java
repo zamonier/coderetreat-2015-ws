@@ -31,7 +31,7 @@ public class CellHolderTest {
 
         CellHolder.append(cellHolder,value);
 
-        Cell current = cellHolder.cell;
+        Cell current = cellHolder.getCell();
 
         assertEquals(cellHolder.toString(),expectedStringRepresentation);
         assertEquals(current.state,expectedState);
@@ -88,18 +88,19 @@ public class CellHolderTest {
         CellHolder top = constructLine(statesTop);
         CellHolder bottom = constructLine(statesBottom);
 
+        // TODO remove - there can not be CellHolder without any cell
         boolean allIsNull = false;
-        if (top.cell == null && bottom.cell == null) {
+        if (top.getCell() == null && bottom.getCell() == null) {
             allIsNull = true;
         }
 
         boolean topIsNull = false;
-        if (top.cell == null) {
+        if (top.getCell() == null) {
             topIsNull = true;
         }
 
         boolean bottomIsNull = false;
-        if (bottom.cell == null) {
+        if (bottom.getCell() == null) {
             bottomIsNull = true;
         }
 
@@ -116,14 +117,14 @@ public class CellHolderTest {
 
         if (!topIsNull && !bottomIsNull) {
             // check merging
-            checkLinesAreMerged(top.cell, bottom.cell);
+            checkLinesAreMerged(top.getCell(), bottom.getCell());
         }
 
 
         // checking whole result
         // TODO use toString
         // ---------------------------------------------------
-        Cell current = result.cell;
+        Cell current = result.getCell();
         if (current != null) {
             while (current.left != null)
                 current = current.left;
@@ -138,7 +139,6 @@ public class CellHolderTest {
                         .collect(Collectors.joining(" ", "[", "]")))
                         .collect(Collectors.joining("-", "<", ">"));
 
-        System.out.println("actualAsString = " + actualAsString);
         // ---------------------------------------------------
         assertEquals(actualAsString,expectedAsString);
 
@@ -148,18 +148,18 @@ public class CellHolderTest {
     public void testMergeVerticalCpmplex() {
 
         CellHolder first = constructLine(0,1,0,1,1);
-        Cell firstCell = first.cell;
+        Cell firstCell = first.getCell();
         CellHolder second = constructLine(0,0,0,0,0);
-        Cell secondCell = second.cell;
+        Cell secondCell = second.getCell();
 
         CellHolder third = constructLine(1,1,1,1,1);
-        Cell thirdCell = third.cell;
+        Cell thirdCell = third.getCell();
 
         CellHolder fourth = constructLine(0,0,0,1,1);
-        Cell fourthCell = fourth.cell;
+        Cell fourthCell = fourth.getCell();
 
         CellHolder fifth = constructLine(1,1,0,0,0);
-        Cell fifthCell = fifth.cell;
+        Cell fifthCell = fifth.getCell();
 
         CellHolder.mergeVertical(first,second);
         CellTestUtils.checkLinesAreMerged(firstCell,secondCell);
@@ -191,7 +191,6 @@ public class CellHolderTest {
                         .collect(Collectors.joining(" ", "[", "]")))
                         .collect(Collectors.joining("-", "<", ">"));
 
-        System.out.println("actualAsString = " + actualAsString);
         // ---------------------------------------------------
         assertEquals(actualAsString,"<[0 1 0 1 1]-[0 0 0 0 0]-[1 1 1 1 1]-[0 0 0 1 1]-[1 1 0 0 0]>");
 

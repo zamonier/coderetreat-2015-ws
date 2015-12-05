@@ -54,7 +54,7 @@ public class CellTestUtils {
         while (lineCounter < values.length) {
 
             CellHolder cellHolder = constructLine(values[lineCounter]);
-            Cell next = cellHolder.cell;
+            Cell next = cellHolder.getCell();
 
             // rewind to the left most cell in line
             if (next != null) {

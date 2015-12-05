@@ -65,7 +65,7 @@ public class CellTest {
     public void testLineToStream(int[] array, String expectedAsString) {
 
         CellHolder cellHolder = constructLine(array);
-        Cell current = cellHolder.cell;
+        Cell current = cellHolder.getCell();
 
         if (current != null) {
             while (current.left != null)
@@ -92,7 +92,7 @@ public class CellTest {
     public void testGetNextLineCellSingleLine(int[] array) {
 
         CellHolder cellHolder = constructLine(array);
-        Cell current = cellHolder.cell;
+        Cell current = cellHolder.getCell();
 
         Cell actualNextLineCell = Cell.getNextLineCell(current);
         assertEquals(actualNextLineCell, null);
@@ -113,9 +113,9 @@ public class CellTest {
     public void testGetNextLineCellMultiLine(int[] array) {
 
         CellHolder cellHolder = constructLine(array);
-        Cell current = cellHolder.cell;
+        Cell current = cellHolder.getCell();
 
-        Cell expectedLeft = cellHolder.cell;
+        Cell expectedLeft = cellHolder.getCell();
         while (expectedLeft.left != null)
             expectedLeft = expectedLeft.left;
 
@@ -150,7 +150,6 @@ public class CellTest {
 
         Stream<IntStream> stream = Cell.cellToStream(current,cell -> cell.state);
 
-        // TODO replace to toString();
         String actualValue =
                 stream.map(intStream -> intStream.mapToObj(value -> "" + value)
                                                  .collect(Collectors.joining(" ", "[", "]")))
@@ -272,8 +271,7 @@ public class CellTest {
 
         CellHolder cellHolder = Cell.getCellHolder(streamOfLines);
 
-        String actualValue = cellHolder.cell.toString();
-
+        String actualValue = cellHolder.getCell().toString();
         assertEquals(actualValue,expectedValue);
 
     }
@@ -307,11 +305,9 @@ public class CellTest {
         Stream<IntStream> nextGeneration = current.getNextGeneration();
         Cell actualNextGeneration = Cell.valueOf(nextGeneration);
         String actualValue = actualNextGeneration.toString();
-        System.out.println(actualValue);
 
         Cell expectedNextGeneration = Cell.valueOf(NEXT_GENERATION_STREAM);
         String expectedValue = expectedNextGeneration.toString();
-        System.out.println(expectedValue);
 
         assertEquals(actualValue,expectedValue);
 
