@@ -1,4 +1,4 @@
-package ru.mercuriev.game.of.life.graph;
+package ru.mercuriev.game.of.life.graph.cell;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -8,12 +8,12 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.testng.Assert.*;
-import static ru.mercuriev.game.of.life.graph.CellTestUtils.*;
+import static ru.mercuriev.game.of.life.graph.cell.CellTestUtils.*;
 
 /**
  * @author paul
  */
-public class CellHolderTest {
+public class CellBuilderTest {
 
     @DataProvider
     public Object[][] getTestAppendData() {
@@ -27,13 +27,13 @@ public class CellHolderTest {
     @Test(dataProvider = "getTestAppendData")
     public void testAppend(int[] states,int value, int expectedState,boolean leftCellIsNull, String expectedStringRepresentation) {
 
-        CellHolder cellHolder = constructLine(states);
+        CellBuilder cellBuilder = constructLine(states);
 
-        CellHolder.append(cellHolder,value);
+        CellBuilder.append(cellBuilder,value);
 
-        Cell current = cellHolder.getCell();
+        Cell current = cellBuilder.getCell();
 
-        assertEquals(cellHolder.toString(),expectedStringRepresentation);
+        assertEquals(cellBuilder.toString(),expectedStringRepresentation);
         assertEquals(current.state,expectedState);
         assertEquals(current.left == null,leftCellIsNull);
         assertNull(current.right);
@@ -56,10 +56,10 @@ public class CellHolderTest {
     @Test(dataProvider = "getTestMergeHorizontalData")
     public void testMergeHorizontal(int[] statesLeft, int[] statesRight, String expectedAsString) {
 
-        CellHolder left = constructLine(statesLeft);
-        CellHolder right = constructLine(statesRight);
+        CellBuilder left = constructLine(statesLeft);
+        CellBuilder right = constructLine(statesRight);
 
-        CellHolder.mergeHorizontal(left,right);
+        CellBuilder.mergeHorizontal(left,right);
 
         assertEquals(left.toString(),expectedAsString);
         assertEquals(right.toString(),expectedAsString);
@@ -85,10 +85,10 @@ public class CellHolderTest {
     @Test(dataProvider = "getTestMergeVerticalData")
     public void testMergeVertical(int[] statesTop, int[] statesBottom, String expectedAsString) {
 
-        CellHolder top = constructLine(statesTop);
-        CellHolder bottom = constructLine(statesBottom);
+        CellBuilder top = constructLine(statesTop);
+        CellBuilder bottom = constructLine(statesBottom);
 
-        // TODO remove - there can not be CellHolder without any cell
+        // TODO remove - there can not be CellBuilder without any cell
         boolean allIsNull = false;
         if (top.getCell() == null && bottom.getCell() == null) {
             allIsNull = true;
@@ -104,7 +104,7 @@ public class CellHolderTest {
             bottomIsNull = true;
         }
 
-        CellHolder result = CellHolder.mergeVertical(top, bottom);
+        CellBuilder result = CellBuilder.mergeVertical(top, bottom);
 
         if (allIsNull) {
             assertTrue(bottom == result);
@@ -147,30 +147,30 @@ public class CellHolderTest {
     @Test
     public void testMergeVerticalCpmplex() {
 
-        CellHolder first = constructLine(0,1,0,1,1);
+        CellBuilder first = constructLine(0,1,0,1,1);
         Cell firstCell = first.getCell();
-        CellHolder second = constructLine(0,0,0,0,0);
+        CellBuilder second = constructLine(0,0,0,0,0);
         Cell secondCell = second.getCell();
 
-        CellHolder third = constructLine(1,1,1,1,1);
+        CellBuilder third = constructLine(1,1,1,1,1);
         Cell thirdCell = third.getCell();
 
-        CellHolder fourth = constructLine(0,0,0,1,1);
+        CellBuilder fourth = constructLine(0,0,0,1,1);
         Cell fourthCell = fourth.getCell();
 
-        CellHolder fifth = constructLine(1,1,0,0,0);
+        CellBuilder fifth = constructLine(1,1,0,0,0);
         Cell fifthCell = fifth.getCell();
 
-        CellHolder.mergeVertical(first,second);
+        CellBuilder.mergeVertical(first,second);
         CellTestUtils.checkLinesAreMerged(firstCell,secondCell);
 
-        CellHolder.mergeVertical(second,third);
+        CellBuilder.mergeVertical(second,third);
         CellTestUtils.checkLinesAreMerged(secondCell,thirdCell);
 
-        CellHolder.mergeVertical(fourth,fifth);
+        CellBuilder.mergeVertical(fourth,fifth);
         CellTestUtils.checkLinesAreMerged(fourthCell,fifthCell);
 
-        CellHolder.mergeVertical(third,fifth);
+        CellBuilder.mergeVertical(third,fifth);
         CellTestUtils.checkLinesAreMerged(thirdCell,fourthCell);
 
         // TODO use toString

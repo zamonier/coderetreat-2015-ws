@@ -1,5 +1,7 @@
 package ru.mercuriev.game.of.life.graph;
 
+import ru.mercuriev.game.of.life.graph.cell.Cell;
+
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;

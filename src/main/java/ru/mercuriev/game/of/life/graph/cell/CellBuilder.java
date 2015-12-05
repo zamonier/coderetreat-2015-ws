@@ -1,10 +1,10 @@
-package ru.mercuriev.game.of.life.graph;
+package ru.mercuriev.game.of.life.graph.cell;
 
 import java.util.Objects;
 
 /**
  * This object holds the pointer to the current cell while merging cells together
- * Each time any method of the object is current cell - tight and bottom cell in holder
+ * Each time any method of the object is current cell - right and bottom cell in holder
  *
  * Class is not thread safe - do not use it without proper synchronization (e.g. in parallel stream )
  *
@@ -13,29 +13,43 @@ import java.util.Objects;
 // TODO MAYBE!!!   |
 // TODO            |
 // TODO            V
-// TODO move CellHolder to the package ru.mercuriev.game.of.life.graph.cell.holder
+// TODO move CellBuilder to the package ru.mercuriev.game.of.life.graph.cell.holder
 // TODO Make cell private. write set & get // get will return lat cell in line. always
 // TODO getFirst should return the first cell in line. append method shuold store ir in separate feiled
 // TODO only another Cellholder should have
 
-
+//  TODO public CellBuilder append(int value);
 
     // TODO implements AutoClosable ?
-final class CellHolder {
+
+// todo move all comments to javadoc
+
+final class CellBuilder {
 
     /**
-     * holds the current cell - tight and bottom cell in holder
+     * holds the current cell
      */
     private Cell cell = null;
+
+    /**
+     * state of the builder
+     * if true - object can be modified (append(), mergeHorizontal() , mergeVertical())
+     * if buildCell() is called builder become immutable (getCell(), toString())
+     */
+    private boolean underConstruction = true;
 
     /**
      * @return current cell
      */
     public Cell getCell() {
+        // TODO check underConstruction
         return cell;
     }
 
-    public static void append(CellHolder line, int value) {
+
+    //  TODO public CellBuilder append(int value);
+    public static void append(CellBuilder line, int value) {
+
         Objects.nonNull(line);
         if (line.cell == null) {
             line.cell = new Cell(value);
@@ -45,12 +59,17 @@ final class CellHolder {
             next.left = line.cell;
             line.cell = line.cell.right;
         }
+
     }
 
-    public static void mergeHorizontal(CellHolder left, CellHolder right) {
+    //  TODO public CellBuilder mergeHorizontal(CellBuilder right);
+    public static void mergeHorizontal(CellBuilder left, CellBuilder right) {
 
         Objects.nonNull(left);
         Objects.nonNull(right);
+
+        left.checkIsUnderConstruction();
+        right.checkIsUnderConstruction();
 
         if (left.cell == null && right.cell == null) {
             return; // no merge is needed
@@ -80,12 +99,16 @@ final class CellHolder {
         left.cell = right.cell; // see IntPipeLine.collect
     }
 
-    // todo move all comments to javadoc
+   //  TODO public CellBuilder mergeHorizontal(CellBuilder bottom);
+
     @SuppressWarnings("SuspiciousNameCombination")
-    public static CellHolder mergeVertical(CellHolder top, CellHolder bottom) {
+    public static CellBuilder mergeVertical(CellBuilder top, CellBuilder bottom) {
 
         Objects.nonNull(top);
         Objects.nonNull(bottom);
+
+        top.checkIsUnderConstruction();
+        bottom.checkIsUnderConstruction();
 
         if (top.cell == null && bottom.cell == null) {
             return bottom; // no merge is needed
@@ -119,16 +142,16 @@ final class CellHolder {
 
         // for merging from left to right current
         //
-        // 1. cell of the top CellHolder should point to the left & bottom most cell in line.
+        // 1. cell of the top CellBuilder should point to the left & bottom most cell in line.
         // this condition is true out of the box  - for the bucket of single line it is always true,
-        // and for bucket of multiple lines mergeVertical returns CellHolder
+        // and for bucket of multiple lines mergeVertical returns CellBuilder
         // with cell pointed to the last cell of the bottom bucket
         // TODO WTF?! it is not true? WHY?
         // TODO need to do this for proper working
         while (topCurrent.bottom != null)
             topCurrent = topCurrent.bottom;
 
-        // 2. cell of the bottom CellHolder should point to the left & top most cell in line.
+        // 2. cell of the bottom CellBuilder should point to the left & top most cell in line.
         // this condition is false - rewind top should be done
         while (bottomCurrent.top != null)
             bottomCurrent = bottomCurrent.top;
@@ -155,7 +178,12 @@ final class CellHolder {
     /**
      * @return the left and top most cell in the holder
      */
-    public Cell toCell() {
+    // TODO change JavaDoc
+    public Cell buildCell() {
+
+        checkIsUnderConstruction();
+
+        underConstruction = true;
 
         Cell current = cell;
 
@@ -171,9 +199,15 @@ final class CellHolder {
 
     }
 
+    private void checkIsUnderConstruction() {
+        if (!underConstruction) {
+            throw new IllegalStateException("CellBuilder has already built the cell");
+        }
+    }
+
     @Override
     public String toString() {
-
+        // TODO check underConstruction
         Cell current = cell;
         if (current != null) {
            return cell.toString();

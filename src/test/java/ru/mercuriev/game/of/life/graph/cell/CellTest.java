@@ -1,4 +1,4 @@
-package ru.mercuriev.game.of.life.graph;
+package ru.mercuriev.game.of.life.graph.cell;
 
 
 import org.testng.annotations.DataProvider;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static ru.mercuriev.game.of.life.graph.CellTestUtils.*;
+import static ru.mercuriev.game.of.life.graph.cell.CellTestUtils.*;
 
 /**
  * @author paul
@@ -64,8 +64,8 @@ public class CellTest {
     @Test(dataProvider = "getTestLineToStreamData")
     public void testLineToStream(int[] array, String expectedAsString) {
 
-        CellHolder cellHolder = constructLine(array);
-        Cell current = cellHolder.getCell();
+        CellBuilder cellBuilder = constructLine(array);
+        Cell current = cellBuilder.getCell();
 
         if (current != null) {
             while (current.left != null)
@@ -91,8 +91,8 @@ public class CellTest {
     @Test(dataProvider = "getTestGetNextLineCellSingleLineData")
     public void testGetNextLineCellSingleLine(int[] array) {
 
-        CellHolder cellHolder = constructLine(array);
-        Cell current = cellHolder.getCell();
+        CellBuilder cellBuilder = constructLine(array);
+        Cell current = cellBuilder.getCell();
 
         Cell actualNextLineCell = Cell.getNextLineCell(current);
         assertEquals(actualNextLineCell, null);
@@ -112,10 +112,10 @@ public class CellTest {
     @Test(dataProvider = "getTestGetNextLineCellMultiLineData")
     public void testGetNextLineCellMultiLine(int[] array) {
 
-        CellHolder cellHolder = constructLine(array);
-        Cell current = cellHolder.getCell();
+        CellBuilder cellBuilder = constructLine(array);
+        Cell current = cellBuilder.getCell();
 
-        Cell expectedLeft = cellHolder.getCell();
+        Cell expectedLeft = cellBuilder.getCell();
         while (expectedLeft.left != null)
             expectedLeft = expectedLeft.left;
 
@@ -243,9 +243,9 @@ public class CellTest {
 
         Stream<IntStream> inputStream = Arrays.stream(array).map(Arrays::stream);
 
-        Stream<CellHolder> streamOfLines = Cell.getStreamOfLines(inputStream);
+        Stream<CellBuilder> streamOfLines = Cell.getStreamOfLines(inputStream);
 
-        String actualValue = streamOfLines.map(CellHolder::toString).collect(Collectors.joining(""));
+        String actualValue = streamOfLines.map(CellBuilder::toString).collect(Collectors.joining(""));
 
         assertEquals(actualValue,expectedValue);
 
@@ -267,11 +267,11 @@ public class CellTest {
     public void testGetCellHolder(int[][] array, String expectedValue) {
 
         Stream<IntStream> inputStream = Arrays.stream(array).map(Arrays::stream);
-        Stream<CellHolder> streamOfLines = Cell.getStreamOfLines(inputStream);
+        Stream<CellBuilder> streamOfLines = Cell.getStreamOfLines(inputStream);
 
-        CellHolder cellHolder = Cell.getCellHolder(streamOfLines);
+        CellBuilder cellBuilder = Cell.getCellHolder(streamOfLines);
 
-        String actualValue = cellHolder.getCell().toString();
+        String actualValue = cellBuilder.getCell().toString();
         assertEquals(actualValue,expectedValue);
 
     }

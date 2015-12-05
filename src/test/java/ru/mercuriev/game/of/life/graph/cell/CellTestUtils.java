@@ -1,4 +1,4 @@
-package ru.mercuriev.game.of.life.graph;
+package ru.mercuriev.game.of.life.graph.cell;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Utility class for testing Cell & CellHolder
+ * Utility class for testing Cell & CellBuilder
  *
  * @author paul
  */
@@ -32,18 +32,18 @@ public class CellTestUtils {
     };
     static Stream<IntStream> NEXT_GENERATION_STREAM = Arrays.stream(NEXT_GENERATION).map(Arrays::stream);
 
-    // TODO Change signature to CellHolder constructLine(int value, int... values) - there can not be CellHolder with no Cell
-    // TODO replace for CellHolder.append()
+    // TODO Change signature to CellBuilder constructLine(int value, int... values) - there can not be CellBuilder with no Cell
+    // TODO replace for CellBuilder.append()
     /**
-     * @deprecated use CellHolder.append()
+     * @deprecated use CellBuilder.append()
      */
     @Deprecated
-    static CellHolder constructLine(int... values) {
-        CellHolder cellHolder = new CellHolder();
+    static CellBuilder constructLine(int... values) {
+        CellBuilder cellBuilder = new CellBuilder();
         for (int value : values) {
-            CellHolder.append(cellHolder, value);
+            CellBuilder.append(cellBuilder, value);
         }
-        return cellHolder;
+        return cellBuilder;
     }
 
     static Cell constructMultiline(int[][] values) {
@@ -53,8 +53,8 @@ public class CellTestUtils {
         Cell prev = null;
         while (lineCounter < values.length) {
 
-            CellHolder cellHolder = constructLine(values[lineCounter]);
-            Cell next = cellHolder.getCell();
+            CellBuilder cellBuilder = constructLine(values[lineCounter]);
+            Cell next = cellBuilder.getCell();
 
             // rewind to the left most cell in line
             if (next != null) {

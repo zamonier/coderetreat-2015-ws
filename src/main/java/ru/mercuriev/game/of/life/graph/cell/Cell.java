@@ -1,4 +1,4 @@
-package ru.mercuriev.game.of.life.graph;
+package ru.mercuriev.game.of.life.graph.cell;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  *
  * @author paul
  */
-final class Cell {
+final public class Cell {
 
     static final int DEAD = 0;
     static final int ALIVE = 1;
@@ -34,31 +34,31 @@ final class Cell {
      * @return Cell representation of Stream<Stream<Integer>>
      */
     // TODO check stream is ordered
-    static Cell valueOf(Stream<IntStream> input) {
+    public static Cell valueOf(Stream<IntStream> input) {
         Objects.nonNull(input);
-        return getCellHolder(getStreamOfLines(input)).toCell();
+        return getCellHolder(getStreamOfLines(input)).buildCell();
     }
 
     /**
-     * building CellHolder for Cell representation of single IntStream - one line fo cells
-     * @return Stream of CellHolder. Each CellHolder in stream represents a line of cells.
+     * building CellBuilder for Cell representation of single IntStream - one line fo cells
+     * @return Stream of CellBuilder. Each CellBuilder in stream represents a line of cells.
      */
     // TODO rename
-    static Stream<CellHolder> getStreamOfLines(Stream<IntStream> input) {
-        return input.map(stream -> stream.collect(CellHolder::new,
-                                                  CellHolder::append,
-                                                  CellHolder::mergeHorizontal));
+    static Stream<CellBuilder> getStreamOfLines(Stream<IntStream> input) {
+        return input.map(stream -> stream.collect(CellBuilder::new,
+                                                  CellBuilder::append,
+                                                  CellBuilder::mergeHorizontal));
     }
 
     /**
-     * building CellHolder holding Cell representation of Stream<CellHolder> in a single CellHolder
-     * @return CellHolder representing all lines of cell merged
+     * building CellBuilder holding Cell representation of Stream<CellBuilder> in a single CellBuilder
+     * @return CellBuilder representing all lines of cell merged
      */
     // TODO rename
-    static CellHolder getCellHolder(Stream<CellHolder> lines) {
-        return lines.collect(CellHolder::new,
-                             CellHolder::mergeVertical,
-                             CellHolder::mergeVertical);
+    static CellBuilder getCellHolder(Stream<CellBuilder> lines) {
+        return lines.collect(CellBuilder::new,
+                             CellBuilder::mergeVertical,
+                             CellBuilder::mergeVertical);
     }
 
     /**
