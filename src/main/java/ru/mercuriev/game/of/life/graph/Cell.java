@@ -2,6 +2,7 @@ package ru.mercuriev.game.of.life.graph;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -118,6 +119,7 @@ final class Cell {
     /**
      * @return  Stream<IntStream> of the results of function.apply(cell) applied to each cell
      */
+    // TODO make non static
     static Stream<IntStream> cellToStream(Cell cell, Function<Cell,Integer> function) {
 
         Cell current = cell;
@@ -186,6 +188,24 @@ final class Cell {
         }
 
         return count;
+
+    }
+
+    @Override
+    public String toString() {
+
+        Cell current = this;
+
+        while (current.left != null)
+            current = current.left;
+        while (current.top != null)
+            current = current.top;
+
+        Stream<IntStream> stream = Cell.cellToStream(current, cell -> cell.state);
+
+        return stream.map(intStream -> intStream.mapToObj(value -> "" + value)
+                                                .collect(Collectors.joining(" ", "[", "]")))
+                     .collect(Collectors.joining("-", "<", ">"));
 
     }
 

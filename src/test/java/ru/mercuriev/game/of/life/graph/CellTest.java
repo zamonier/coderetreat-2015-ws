@@ -288,21 +288,30 @@ public class CellTest {
 
         CellHolder cellHolder = Cell.getCellHolder(streamOfLines);
 
-        // TODO cell toString()
+        String actualValue = cellHolder.cell.toString();
 
-        Cell current = cellHolder.cell;
-        while (current.left != null)
-            current = current.left;
-        while (current.top != null)
-            current = current.top;
+        assertEquals(actualValue,expectedValue);
 
-        Stream<IntStream> stream = Cell.cellToStream(current, cell -> cell.state);
+    }
 
-        String actualValue =
-                stream.map(intStream -> intStream.mapToObj(value -> "" + value)
-                        .collect(Collectors.joining(" ", "[", "]")))
-                        .collect(Collectors.joining("-", "<", ">"));
+    @DataProvider
+    public Object[][] getTestValueOfData() {
+        return new Object[][] {
+                {new int[][] {{0,1,0,1,1},{1,1,1,0,0},{0,0,1,0,0},{0,0,0,0,0},{1,1,1,1,1}},
+                        "<[0 1 0 1 1]-[1 1 1 0 0]-[0 0 1 0 0]-[0 0 0 0 0]-[1 1 1 1 1]>"},
+                {new int[][] {{0,1,0},{1,1,1},{0,0,1}},
+                        "<[0 1 0]-[1 1 1]-[0 0 1]>"},
+                {new int[][] {{},{1,1,1},{0}},
+                        "<[1 1 1]-[0]>"},
+        };
+    }
 
+    @Test(dataProvider = "getTestValueOfData")
+    public void testValueOf(int[][] array, String expectedValue) {
+
+        Stream<IntStream> inputStream = Arrays.stream(array).map(Arrays::stream);
+        Cell cell = Cell.valueOf(inputStream);
+        String actualValue = cell.toString();
         assertEquals(actualValue,expectedValue);
 
     }
