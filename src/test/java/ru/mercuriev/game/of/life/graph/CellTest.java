@@ -230,9 +230,12 @@ public class CellTest {
     @DataProvider
     public Object[][] getTestGetStreamOfLinesData() {
         return new Object[][] {
-                {new int[][] {{0,1,0,1,1},{1,1,1,0,0},{0,0,1,0,0},{0,0,0,0,0},{1,1,1,1,1}},"<01011-11100-00100-00000-11111>"},
-                {new int[][] {{0,1,0},{1,1,1},{0,0,1}},"<010-111-001>"},
-                {new int[][] {{},{1,1,1},{0}},"<[empty]-111-0>"},
+                {new int[][] {{0,1,0,1,1}, {1,1,1,0,0}, {0,0,1,0,0}, {0,0,0,0,0}, {1,1,1,1,1}},
+                            "<[0 1 0 1 1]><[1 1 1 0 0]><[0 0 1 0 0]><[0 0 0 0 0]><[1 1 1 1 1]>"},
+                {new int[][] {{0,1,0}, {1,1,1}, {0,0,1}},
+                            "<[0 1 0]><[1 1 1]><[0 0 1]>"},
+                {new int[][] {{},{1,1,1}, {0}},
+                      "<[empty]><[1 1 1]><[0]>"},
         };
     }
 
@@ -243,7 +246,7 @@ public class CellTest {
 
         Stream<CellHolder> streamOfLines = Cell.getStreamOfLines(inputStream);
 
-        String actualValue = streamOfLines.map(CellHolder::toString).collect(Collectors.joining("-", "<", ">"));
+        String actualValue = streamOfLines.map(CellHolder::toString).collect(Collectors.joining(""));
 
         assertEquals(actualValue,expectedValue);
 

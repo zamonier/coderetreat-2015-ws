@@ -18,7 +18,7 @@ import java.util.Objects;
 // TODO Make cell private. write set & get // get will return lat cell in line. always
 // TODO getFirst should return the first cell in line. append method shuold store ir in separate feiled
 // TODO only another Cellholder should have
-class CellHolder {
+final class CellHolder {
 
     Cell cell = null;
     // TODO getter should throw Assertion error if cell is not initialized
@@ -164,28 +164,9 @@ class CellHolder {
 
         Cell current = cell;
         if (current != null) {
-
-            while (current.left != null)
-                current = current.left;
-
-//            while (current.top != null)
-//                current = current.top;
-
-            StringBuilder builder = new StringBuilder();
-            builder.append(current.state);
-            while (current.right != null) {
-                current = current.right;
-                builder.append(current.state);
-            }
-            return builder.toString();
-
-//            return current.toStream()
-//                          .map(ints -> ints.mapToObj(value -> "" + value)
-//                                           .collect(Collectors.joining(",", "[", "]"))
-//                              )
-//                          .collect(Collectors.joining("\n", "<", ">"));
+           return cell.toString();
         } else {
-            return "[empty]";
+            return "<[empty]>";
         }
 
     }

@@ -18,9 +18,9 @@ public class CellHolderTest {
     @DataProvider
     public Object[][] getTestAppendData() {
         return new Object[][] {
-                {new int[] {0,1,0,0},0,0,false,"01000"},
-                {new int[] {0},1,1,false,"01"},
-                {new int[] {},1,1,true,"1"},
+                {new int[] {0,1,0,0},0,0,false,"<[0 1 0 0 0]>"},
+                {new int[] {0},1,1,false,"<[0 1]>"},
+                {new int[] {},1,1,true,"<[1]>"},
         };
     }
 
@@ -45,10 +45,10 @@ public class CellHolderTest {
     @DataProvider
     public Object[][] getTestMergeHorizontalData() {
         return new Object[][] {
-                {new int[] {0,1,0,0}, new int[] {1,0},"010010"},
-                {new int[] {0,1,0,0}, new int[] {},"0100"},
-                {new int[] {}, new int[] {0,1,0,0},"0100"},
-                {new int[] {}, new int[] {},"[empty]"},
+                {new int[] {0,1,0,0}, new int[] {1,0},"<[0 1 0 0 1 0]>"},
+                {new int[] {0,1,0,0}, new int[] {},"<[0 1 0 0]>"},
+                {new int[] {}, new int[] {0,1,0,0},"<[0 1 0 0]>"},
+                {new int[] {}, new int[] {},"<[empty]>"},
         };
     }
 

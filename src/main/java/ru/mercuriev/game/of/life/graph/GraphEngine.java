@@ -5,16 +5,15 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * interface Engine implementation and proxy to the Cells (convert int[][] to Cell)
+ * Engine interface implementation
+ * Uses Cell uder the hood to calculate next generation
  *
  * @author paul
  */
+// TODO implement Engine interface
 public class GraphEngine {
 
-    /**
-     * interface method implementation
-     */
-    // TODO move method to the interface
+    // TODO @Override
     public int[][] next(int[][] currentGeneration) {
 
         // int[][] -> Stream<IntStream>
