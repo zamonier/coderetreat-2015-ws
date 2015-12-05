@@ -34,18 +34,30 @@ final class Cell {
      */
     // TODO check stream is ordered
     static Cell valueOf(Stream<IntStream> input) {
-
         Objects.nonNull(input);
+        return getCellHolder(getStreamOfLines(input)).toCell();
+    }
 
-        return input.map(stream -> stream.collect( // building CellHolder holding Cell representation of single IntStream
-                                          CellHolder::new,
-                                          CellHolder::append,
-                                          CellHolder::mergeHorizontal))
-                    .collect(CellHolder::new, // building CellHolder holding Cell representation of Stream<Stream<Integer>>
+    /**
+     * building CellHolder for Cell representation of single IntStream - one line fo cells
+     * @return Stream of CellHolder. Each CellHolder in stream represents a line of cells.
+     */
+    // TODO rename
+    static Stream<CellHolder> getStreamOfLines(Stream<IntStream> input) {
+        return input.map(stream -> stream.collect(CellHolder::new,
+                                                  CellHolder::append,
+                                                  CellHolder::mergeHorizontal));
+    }
+
+    /**
+     * building CellHolder holding Cell representation of Stream<CellHolder> in a single CellHolder
+     * @return CellHolder representing all lines of cell merged
+     */
+    // TODO rename
+    static CellHolder getCellHolder(Stream<CellHolder> lines) {
+        return lines.collect(CellHolder::new,
                              CellHolder::mergeVertical,
-                             CellHolder::mergeVertical)
-                    .toCell(); // getting Cell from CellHolder
-
+                             CellHolder::mergeVertical);
     }
 
     /**

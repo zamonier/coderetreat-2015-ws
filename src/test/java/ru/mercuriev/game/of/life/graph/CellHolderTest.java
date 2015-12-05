@@ -185,6 +185,7 @@ public class CellHolderTest {
 
         Stream<IntStream> stream = Cell.cellToStream(current, cell -> cell.state);
 
+        // TODO toString
         String actualAsString =
                 stream.map(intStream -> intStream.mapToObj(value -> "" + value)
                         .collect(Collectors.joining(" ", "[", "]")))

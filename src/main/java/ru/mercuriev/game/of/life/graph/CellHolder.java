@@ -111,6 +111,10 @@ class CellHolder {
         // this condition is true out of the box  - for the bucket of single line it is always true,
         // and for bucket of multiple lines mergeVertical returns CellHolder
         // with cell pointed to the last cell of the bottom bucket
+        // TODO WTF?! it is not true? WHY?
+        // TODO need to do this for proper working
+        while (topCurrent.bottom != null)
+            topCurrent = topCurrent.bottom;
 
         // 2. cell of the bottom CellHolder should point to the left & top most cell in line.
         // this condition is false - rewind top should be done

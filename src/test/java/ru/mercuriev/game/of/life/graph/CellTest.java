@@ -246,4 +246,65 @@ public class CellTest {
 
     }
 
+    @DataProvider
+    public Object[][] getTestGetStreamOfLinesData() {
+        return new Object[][] {
+                {new int[][] {{0,1,0,1,1},{1,1,1,0,0},{0,0,1,0,0},{0,0,0,0,0},{1,1,1,1,1}},"<01011-11100-00100-00000-11111>"},
+                {new int[][] {{0,1,0},{1,1,1},{0,0,1}},"<010-111-001>"},
+                {new int[][] {{},{1,1,1},{0}},"<[empty]-111-0>"},
+        };
+    }
+
+    @Test(dataProvider = "getTestGetStreamOfLinesData")
+    public void testGetStreamOfLines(int[][] array, String expectedValue) {
+
+        Stream<IntStream> inputStream = Arrays.stream(array).map(Arrays::stream);
+
+        Stream<CellHolder> streamOfLines = Cell.getStreamOfLines(inputStream);
+
+        String actualValue = streamOfLines.map(CellHolder::toString).collect(Collectors.joining("-", "<", ">"));
+
+        assertEquals(actualValue,expectedValue);
+
+    }
+
+    @DataProvider
+    public Object[][] getTestGetCellHolderData() {
+        return new Object[][] {
+                {new int[][] {{0,1,0,1,1},{1,1,1,0,0},{0,0,1,0,0},{0,0,0,0,0},{1,1,1,1,1}},
+                            "<[0 1 0 1 1]-[1 1 1 0 0]-[0 0 1 0 0]-[0 0 0 0 0]-[1 1 1 1 1]>"},
+                {new int[][] {{0,1,0},{1,1,1},{0,0,1}},
+                            "<[0 1 0]-[1 1 1]-[0 0 1]>"},
+                {new int[][] {{},{1,1,1},{0}},
+                               "<[1 1 1]-[0]>"},
+        };
+    }
+
+    @Test(dataProvider = "getTestGetCellHolderData")
+    public void testGetCellHolder(int[][] array, String expectedValue) {
+
+        Stream<IntStream> inputStream = Arrays.stream(array).map(Arrays::stream);
+        Stream<CellHolder> streamOfLines = Cell.getStreamOfLines(inputStream);
+
+        CellHolder cellHolder = Cell.getCellHolder(streamOfLines);
+
+        // TODO cell toString()
+
+        Cell current = cellHolder.cell;
+        while (current.left != null)
+            current = current.left;
+        while (current.top != null)
+            current = current.top;
+
+        Stream<IntStream> stream = Cell.cellToStream(current, cell -> cell.state);
+
+        String actualValue =
+                stream.map(intStream -> intStream.mapToObj(value -> "" + value)
+                        .collect(Collectors.joining(" ", "[", "]")))
+                        .collect(Collectors.joining("-", "<", ">"));
+
+        assertEquals(actualValue,expectedValue);
+
+    }
+
 }
