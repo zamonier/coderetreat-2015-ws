@@ -1,7 +1,6 @@
 package ru.mercuriev.game.of.life.graph.cell;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -29,34 +28,27 @@ final public class Cell {
     }
 
     /**
-     * @return Cell representation of Stream<Stream<Integer>>
+     * @return Graph representation of Stream<Stream<Integer>>
      */
-    // TODO check stream is ordered
     public static Cell valueOf(Stream<IntStream> input) {
         Objects.nonNull(input);
-        return getCellHolder(getStreamOfLines(input)).build()
-                .orElseGet(() -> {
-            throw new IllegalArgumentException("Stream is empty");
-        });
+        return buildGraph(buildLines(input)).build()
+                                            .orElseGet(() -> {throw new IllegalArgumentException("Stream is empty");});
     }
 
     /**
-     * building CellBuilder for Cell representation of single IntStream - one line fo cells
-     * @return Stream of CellBuilder. Each CellBuilder in stream represents a line of cells.
+     * @return Stream of CellBuilder. Each CellBuilder in stream represents a line graph of cells.
      */
-    // TODO rename
-    static Stream<CellBuilder> getStreamOfLines(Stream<IntStream> input) {
+    static Stream<CellBuilder> buildLines(Stream<IntStream> input) {
         return input.map(stream -> stream.collect(CellBuilder::new,
                                                   CellBuilder::append,
                                                   CellBuilder::mergeHorizontal)); // see IntPipeLine.collect
     }
 
     /**
-     * building CellBuilder holding Cell representation of Stream<CellBuilder> in a single CellBuilder
-     * @return CellBuilder representing all lines of cell merged
+     * @return CellBuilder representing full graph of cells
      */
-    // TODO rename
-    static CellBuilder getCellHolder(Stream<CellBuilder> lines) {
+    static CellBuilder buildGraph(Stream<CellBuilder> lines) {
         return lines.collect(CellBuilder::new,
                              CellBuilder::mergeVertical,
                              CellBuilder::mergeVertical);
