@@ -46,7 +46,7 @@ public class CellTest {
     public void testCalculateNextState(int currentState, int countOfLiveNeighbours, int expectedNextState) {
 
         Cell current = new Cell(currentState);
-        int actualNextState = Cell.calculateNextState(current, countOfLiveNeighbours);
+        int actualNextState = current.calculateNextState(countOfLiveNeighbours);
         assertEquals(actualNextState, expectedNextState);
 
     }
@@ -133,7 +133,6 @@ public class CellTest {
                 {new int[][] {{0,1,0},{0,0,0},{1,1,1}},"<[0 1 0]-[0 0 0]-[1 1 1]>"},
                 {new int[][] {{0,0},{1,1}},"<[0 0]-[1 1]>"},
                 {new int[][] {{0}}, "<[0]>"},
-                {new int[][] {{}}, "<>"},
         };
     }
 
@@ -142,7 +141,7 @@ public class CellTest {
 
         Cell current = constructMultiline(values);
 
-        Stream<IntStream> stream = Cell.cellToStream(current,cell -> cell.state);
+        Stream<IntStream> stream = current.cellToStream(cell -> cell.state);
 
         String actualValue =
                 stream.map(intStream -> intStream.mapToObj(value -> "" + value)
@@ -215,7 +214,7 @@ public class CellTest {
             central.right = new Cell(rightValue);
         }
 
-        int actualCount = Cell.getCountOfNeighboursAlive(central);
+        int actualCount = central.getCountOfNeighboursAlive();
         assertEquals(actualCount, expectedCount);
 
     }
@@ -232,7 +231,7 @@ public class CellTest {
         };
     }
 
-    //@Test(dataProvider = "getTestBuildLinesData")
+    @Test(dataProvider = "getTestBuildLinesData")
     public void testBuildLines(int[][] array, String expectedValue) {
 
         Stream<IntStream> inputStream = Arrays.stream(array).map(Arrays::stream);
@@ -257,7 +256,7 @@ public class CellTest {
         };
     }
 
-    //@Test(dataProvider = "getTestBuildGraphData")
+    @Test(dataProvider = "getTestBuildGraphData")
     public void testBuildGraph(int[][] array, String expectedValue) {
 
         Stream<IntStream> inputStream = Arrays.stream(array).map(Arrays::stream);

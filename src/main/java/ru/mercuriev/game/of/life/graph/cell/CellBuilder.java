@@ -38,11 +38,13 @@ final class CellBuilder {
     /**
      * merge this CellBuilder with another horizontally
      * as a result - the most right cell of this builder is merged with the most left of the right builder
+     * @return this
+     * @throws NullPointerException if rightBuilder == null
      */
     public CellBuilder mergeHorizontal(CellBuilder rightBuilder) {
 
         CellBuilder leftBuilder = this;
-        Objects.nonNull(rightBuilder);
+        Objects.requireNonNull(rightBuilder);
 
         if (rightBuilder.cell == null) {
             return this; // no merge is needed
@@ -73,11 +75,12 @@ final class CellBuilder {
      * merge this CellBuilder with another vertically
      * as a result - the bottom line of graph in this builder is merged with the top line in bottomBuilder
      * @return this
+     * @throws NullPointerException if bottomBuilder == null
      */
     @SuppressWarnings("SuspiciousNameCombination")
     public CellBuilder mergeVertical(CellBuilder bottomBuilder) {
 
-        Objects.nonNull(bottomBuilder);
+        Objects.requireNonNull(bottomBuilder);
         CellBuilder topBuilder = this;
 
         if (topBuilder.cell == null && bottomBuilder.cell == null) {
@@ -112,7 +115,7 @@ final class CellBuilder {
 
         // making 1. true
         while (topBuilderCurrent.bottom != null)
-            topBuilderCurrent = topBuilderCurrent.bottom;
+            topBuilderCurrent = topBuilderCurrent.bottom; // TODo check
 
         // making 2. true
         while (bottomBuilderCurrent.top != null)
@@ -157,6 +160,10 @@ final class CellBuilder {
 
     }
 
+    /**
+     * @return cell.toString() if cell is not null, or <[empty]>
+     * @see Cell#toString()
+     */
     @Override
     public String toString() {
 

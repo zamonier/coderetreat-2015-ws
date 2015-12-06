@@ -154,25 +154,7 @@ public class CellBuilderTest {
         third.mergeVertical(fifth);
         CellTestUtils.checkLinesAreMerged(thirdCell,fourthCell);
 
-        // TODO use toString
-        // ---------------------------------------------------
-        Cell current = fourthCell;
-        if (current != null) {
-            while (current.left != null)
-                current = current.left;
-            while (current.top != null)
-                current = current.top;
-        }
-
-        Stream<IntStream> stream = current.toStream();
-
-        // TODO toString
-        String actualAsString =
-                stream.map(intStream -> intStream.mapToObj(value -> "" + value)
-                        .collect(Collectors.joining(" ", "[", "]")))
-                        .collect(Collectors.joining("-", "<", ">"));
-
-        // ---------------------------------------------------
+        String actualAsString = fourthCell.toString();
         assertEquals(actualAsString,"<[0 1 0 1 1]-[0 0 0 0 0]-[1 1 1 1 1]-[0 0 0 1 1]-[1 1 0 0 0]>");
 
 

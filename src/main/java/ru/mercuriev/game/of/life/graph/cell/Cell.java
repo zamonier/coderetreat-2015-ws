@@ -7,8 +7,9 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * works only with cells,
- * do not know anything about arrays
+ * This class represents both Graph and its element - Cell
+ * Single Cell contains links to left, top, right and bottom neighbours
+ * Cell is immutable after constructed (Cell.valueOf call)
  *
  * @author paul
  */
@@ -29,9 +30,10 @@ final public class Cell {
 
     /**
      * @return Graph representation of Stream<Stream<Integer>>
+     * @throws IllegalArgumentException if input stream, is empty; NullPointerException if input == null
      */
     public static Cell valueOf(Stream<IntStream> input) {
-        Objects.nonNull(input);
+        Objects.requireNonNull(input);
         return buildGraph(buildLines(input)).build()
                                             .orElseGet(() -> {throw new IllegalArgumentException("Stream is empty");});
     }
@@ -55,18 +57,10 @@ final public class Cell {
     }
 
     /**
-     * @return Stream representation of the Cell
-     * TODO remove?
-     */
-    public Stream<IntStream> toStream() {
-        return cellToStream(this,cell -> cell.state);
-    }
-
-    /**
      * @return Stream representing next generation
      */
     public Stream<IntStream> getNextGeneration() {
-        return cellToStream(this,cell -> calculateNextState(cell, getCountOfNeighboursAlive(cell)));
+        return cellToStream(cell -> cell.calculateNextState(cell.getCountOfNeighboursAlive()));
     }
 
     /**
@@ -113,13 +107,9 @@ final public class Cell {
     /**
      * @return  Stream<IntStream> of the results of function.apply(cell) applied to each cell
      */
-    // TODO make non static
-    static Stream<IntStream> cellToStream(Cell cell, Function<Cell,Integer> function) {
+    Stream<IntStream> cellToStream(Function<Cell,Integer> function) {
 
-        Cell current = cell;
-        if (current == null) {
-            return Stream.empty();
-        }
+        Cell current = this;
 
         Stream.Builder<IntStream> columnBuilder = Stream.builder();
         do {
@@ -136,13 +126,12 @@ final public class Cell {
     /**
      * @return state of the cell in the next generation
      */
-    static int calculateNextState(Cell current, int countOfLiveNeighbours) {
+    int calculateNextState(int countOfLiveNeighbours) {
 
-        Objects.nonNull(current);
-        if (current.state == DEAD && countOfLiveNeighbours == 3) {
+        if (this.state == DEAD && countOfLiveNeighbours == 3) {
             return ALIVE;
         }
-        if (current.state == ALIVE && (countOfLiveNeighbours == 2 || countOfLiveNeighbours == 3)) {
+        if (this.state == ALIVE && (countOfLiveNeighbours == 2 || countOfLiveNeighbours == 3)) {
             return ALIVE;
         }
         return DEAD;
@@ -152,39 +141,44 @@ final public class Cell {
     /**
      * @return count of alive Neighbours of the cell
      */
-    static int getCountOfNeighboursAlive(Cell current) {
+    int getCountOfNeighboursAlive() {
 
-        Objects.nonNull(current);
         int count = 0;
 
-        if (current.top != null) {
-            count += current.top.state;
-            if (current.top.left != null)
-                count += current.top.left.state;
-            if (current.top.right != null)
-                count += current.top.right.state;
+        if (top != null) {
+            count += top.state;
+            if (top.left != null)
+                count += top.left.state;
+            if (top.right != null)
+                count += top.right.state;
         }
 
-        if (current.bottom != null) {
-            count += current.bottom.state;
-            if (current.bottom.left != null)
-                count += current.bottom.left.state;
-            if (current.bottom.right != null)
-                count += current.bottom.right.state;
+        if (bottom != null) {
+            count += bottom.state;
+            if (bottom.left != null)
+                count += bottom.left.state;
+            if (bottom.right != null)
+                count += bottom.right.state;
         }
 
-        if (current.left != null) {
-            count += current.left.state;
+        if (left != null) {
+            count += left.state;
         }
 
-        if (current.right != null) {
-            count += current.right.state;
+        if (right != null) {
+            count += right.state;
         }
 
         return count;
 
     }
 
+    /**
+     * states of the one line rae separated with spaces (' ') and are surrounded with '[' and ']'
+     * lines are separated with '-' and are surrounded with '<' and '>'
+     * example: <[0 1 0]-[0 0 0]-[1 1 1]>
+     * @return string representation of the Graph
+     */
     @Override
     public String toString() {
 
@@ -195,7 +189,7 @@ final public class Cell {
         while (current.top != null)
             current = current.top;
 
-        Stream<IntStream> stream = Cell.cellToStream(current, cell -> cell.state);
+        Stream<IntStream> stream = current.cellToStream(cell -> cell.state);
 
         return stream.map(intStream -> intStream.mapToObj(value -> "" + value)
                                                 .collect(Collectors.joining(" ", "[", "]")))
