@@ -28,7 +28,7 @@ public class CellBuilderTest {
     public void testAppend(int[] states, int newState, int expectedState, boolean leftCellIsNull, String expectedResult) {
 
         CellBuilder cellBuilder = constructLine(states);
-        CellBuilder.append(cellBuilder,newState);
+        cellBuilder.append(newState);
 
         Cell current = cellBuilder.build();
         while (current.right != null)
@@ -60,7 +60,7 @@ public class CellBuilderTest {
         CellBuilder left = constructLine(statesLeft);
         CellBuilder right = constructLine(statesRight);
 
-        CellBuilder.mergeHorizontal(left,right);
+        left.mergeHorizontal(right);
 
         assertEquals(left.toString(),expectedAsString);
         assertEquals(right.toString(),expectedAsString);

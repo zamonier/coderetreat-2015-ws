@@ -32,16 +32,10 @@ public class CellTestUtils {
     };
     static Stream<IntStream> NEXT_GENERATION_STREAM = Arrays.stream(NEXT_GENERATION).map(Arrays::stream);
 
-    // TODO Change signature to CellBuilder constructLine(int value, int... values) - there can not be CellBuilder with no Cell
-    // TODO replace for CellBuilder.append()
-    /**
-     * @deprecated use CellBuilder.append()
-     */
-    @Deprecated
     static CellBuilder constructLine(int... values) {
         CellBuilder cellBuilder = new CellBuilder();
         for (int value : values) {
-            CellBuilder.append(cellBuilder, value);
+            cellBuilder.append(value);
         }
         return cellBuilder;
     }

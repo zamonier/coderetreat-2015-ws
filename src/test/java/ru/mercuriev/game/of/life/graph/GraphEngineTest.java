@@ -1,7 +1,6 @@
 package ru.mercuriev.game.of.life.graph;
 
 import org.testng.annotations.Test;
-import ru.mercuriev.game.of.life.graph.cell.CellTestUtils;
 
 import static org.testng.Assert.assertEquals;
 
