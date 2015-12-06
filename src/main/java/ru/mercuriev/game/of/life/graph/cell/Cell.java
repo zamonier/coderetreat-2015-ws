@@ -44,7 +44,7 @@ final public class Cell {
     static Stream<CellBuilder> getStreamOfLines(Stream<IntStream> input) {
         return input.map(stream -> stream.collect(CellBuilder::new,
                                                   CellBuilder::append,
-                                                  CellBuilder::mergeHorizontal));
+                                                  CellBuilder::mergeHorizontal)); // see IntPipeLine.collect
     }
 
     /**

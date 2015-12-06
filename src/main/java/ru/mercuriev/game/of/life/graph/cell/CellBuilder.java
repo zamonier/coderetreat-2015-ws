@@ -13,8 +13,6 @@ import java.util.Objects;
  *
  * @author paul
  */
-// todo move all comments to javadoc
-    // TODO make all methods return this
 final class CellBuilder {
 
     /**
@@ -22,7 +20,7 @@ final class CellBuilder {
      */
     private Cell cell = null;
 
-    public void append(int value) {
+    public CellBuilder append(int value) {
 
         if (cell == null) {
             cell = new Cell(value);
@@ -32,6 +30,7 @@ final class CellBuilder {
             next.left = cell;
             cell = cell.right;
         }
+        return this;
 
     }
 
@@ -39,24 +38,19 @@ final class CellBuilder {
      * merge this CellBuilder with another horizontally
      * as a result - the most right cell of this builder is merged with the most left of the right builder
      */
-    public void mergeHorizontal(CellBuilder rightBuilder) {
+    public CellBuilder mergeHorizontal(CellBuilder rightBuilder) {
 
         CellBuilder leftBuilder = this;
         Objects.nonNull(rightBuilder);
 
-        if (leftBuilder.cell == null && rightBuilder.cell == null) {
-            return; // no merge is needed
-        }
-
         if (rightBuilder.cell == null) {
-            rightBuilder.cell = null;
-            return; // no merge is needed - only copy right to left
+            return this; // no merge is needed
         }
 
         if (leftBuilder.cell == null) {
             leftBuilder.cell = rightBuilder.cell;
             rightBuilder.cell = null;
-            return; // no merge is needed - only copy left to right
+            return this; // no merge is needed - only copy left to right
         }
 
         // go to the most left cell in right
@@ -68,10 +62,10 @@ final class CellBuilder {
         leftBuilder.cell.right = current;
         current.left = leftBuilder.cell;
 
-        // make left builder's current cell point ot the most right cell in line
-        // because cell lines in both builders are now the same
-        leftBuilder.cell = rightBuilder.cell; // see IntPipeLine.collect
+        leftBuilder.cell = rightBuilder.cell;
         rightBuilder.cell = null;
+        return this;
+
     }
 
     /**
