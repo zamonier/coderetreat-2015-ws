@@ -25,15 +25,16 @@ public class CellBuilderTest {
     }
 
     @Test(dataProvider = "getTestAppendData")
-    public void testAppend(int[] states,int value, int expectedState,boolean leftCellIsNull, String expectedStringRepresentation) {
+    public void testAppend(int[] states, int newState, int expectedState, boolean leftCellIsNull, String expectedResult) {
 
         CellBuilder cellBuilder = constructLine(states);
+        CellBuilder.append(cellBuilder,newState);
 
-        CellBuilder.append(cellBuilder,value);
+        Cell current = cellBuilder.build();
+        while (current.right != null)
+            current = current.right;
 
-        Cell current = cellBuilder.getCell();
-
-        assertEquals(cellBuilder.toString(),expectedStringRepresentation);
+        assertEquals(cellBuilder.build().toString(),expectedResult);
         assertEquals(current.state,expectedState);
         assertEquals(current.left == null,leftCellIsNull);
         assertNull(current.right);
@@ -76,9 +77,6 @@ public class CellBuilderTest {
         };
     }
 
-    // TODO separate method for merging multiline
-    // TODO separate method with null
-
     // TODo SHOULD! be rewritten
 
     @SuppressWarnings("SuspiciousNameCombination")
@@ -88,21 +86,23 @@ public class CellBuilderTest {
         CellBuilder top = constructLine(statesTop);
         CellBuilder bottom = constructLine(statesBottom);
 
-        // TODO remove - there can not be CellBuilder without any cell
         boolean allIsNull = false;
-        if (top.getCell() == null && bottom.getCell() == null) {
+        if (top.build() == null && bottom.build() == null) {
             allIsNull = true;
         }
 
         boolean topIsNull = false;
-        if (top.getCell() == null) {
+        if (top.build() == null) {
             topIsNull = true;
         }
 
         boolean bottomIsNull = false;
-        if (bottom.getCell() == null) {
+        if (bottom.build() == null) {
             bottomIsNull = true;
         }
+
+        Cell topLine = top.build();
+        Cell botoomLine = bottom.build();
 
         CellBuilder result = CellBuilder.mergeVertical(top, bottom);
 
@@ -117,49 +117,30 @@ public class CellBuilderTest {
 
         if (!topIsNull && !bottomIsNull) {
             // check merging
-            checkLinesAreMerged(top.getCell(), bottom.getCell());
+            checkLinesAreMerged(topLine, botoomLine);
         }
 
-
-        // checking whole result
-        // TODO use toString
-        // ---------------------------------------------------
-        Cell current = result.getCell();
-        if (current != null) {
-            while (current.left != null)
-                current = current.left;
-            while (current.top != null)
-                current = current.top;
-        }
-
-        Stream<IntStream> stream = current.toStream();
-
-        String actualAsString =
-                stream.map(intStream -> intStream.mapToObj(value -> "" + value)
-                        .collect(Collectors.joining(" ", "[", "]")))
-                        .collect(Collectors.joining("-", "<", ">"));
-
-        // ---------------------------------------------------
+        String actualAsString = result.build().toString();
         assertEquals(actualAsString,expectedAsString);
 
     }
 
     @Test
-    public void testMergeVerticalCpmplex() {
+    public void testMergeVerticalComplex() {
 
         CellBuilder first = constructLine(0,1,0,1,1);
-        Cell firstCell = first.getCell();
+        Cell firstCell = first.build();
         CellBuilder second = constructLine(0,0,0,0,0);
-        Cell secondCell = second.getCell();
+        Cell secondCell = second.build();
 
         CellBuilder third = constructLine(1,1,1,1,1);
-        Cell thirdCell = third.getCell();
+        Cell thirdCell = third.build();
 
         CellBuilder fourth = constructLine(0,0,0,1,1);
-        Cell fourthCell = fourth.getCell();
+        Cell fourthCell = fourth.build();
 
         CellBuilder fifth = constructLine(1,1,0,0,0);
-        Cell fifthCell = fifth.getCell();
+        Cell fifthCell = fifth.build();
 
         CellBuilder.mergeVertical(first,second);
         CellTestUtils.checkLinesAreMerged(firstCell,secondCell);

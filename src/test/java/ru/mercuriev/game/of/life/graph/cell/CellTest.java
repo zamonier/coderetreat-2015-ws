@@ -45,8 +45,7 @@ public class CellTest {
     @Test(dataProvider = "getCalculateNextStateData")
     public void testCalculateNextState(int currentState, int countOfLiveNeighbours, int expectedNextState) {
 
-        Cell current = new Cell();
-        current.state = currentState;
+        Cell current = new Cell(currentState);
         int actualNextState = Cell.calculateNextState(current, countOfLiveNeighbours);
         assertEquals(actualNextState, expectedNextState);
 
@@ -65,12 +64,7 @@ public class CellTest {
     public void testLineToStream(int[] array, String expectedAsString) {
 
         CellBuilder cellBuilder = constructLine(array);
-        Cell current = cellBuilder.getCell();
-
-        if (current != null) {
-            while (current.left != null)
-                current = current.left;
-        }
+        Cell current = cellBuilder.build();
 
         String actualValue = Cell.lineToStream(current, cell -> cell.state)
                                  .mapToObj(value -> "" + value)
@@ -92,7 +86,7 @@ public class CellTest {
     public void testGetNextLineCellSingleLine(int[] array) {
 
         CellBuilder cellBuilder = constructLine(array);
-        Cell current = cellBuilder.getCell();
+        Cell current = cellBuilder.build();
 
         Cell actualNextLineCell = Cell.getNextLineCell(current);
         assertEquals(actualNextLineCell, null);
@@ -113,11 +107,11 @@ public class CellTest {
     public void testGetNextLineCellMultiLine(int[] array) {
 
         CellBuilder cellBuilder = constructLine(array);
-        Cell current = cellBuilder.getCell();
+        Cell expectedLeft = cellBuilder.build();
 
-        Cell expectedLeft = cellBuilder.getCell();
-        while (expectedLeft.left != null)
-            expectedLeft = expectedLeft.left;
+        Cell current = expectedLeft;
+        while (current.right != null)
+            current = current.right;
 
         // set additional bottom cell for the left most
         Cell expectedBottom = new Cell(1);
@@ -271,7 +265,7 @@ public class CellTest {
 
         CellBuilder cellBuilder = Cell.getCellHolder(streamOfLines);
 
-        String actualValue = cellBuilder.getCell().toString();
+        String actualValue = cellBuilder.build().toString();
         assertEquals(actualValue,expectedValue);
 
     }

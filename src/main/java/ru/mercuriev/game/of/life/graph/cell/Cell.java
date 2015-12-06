@@ -23,9 +23,6 @@ final public class Cell {
     Cell right = null;
     Cell bottom = null;
 
-    Cell() {
-    }
-
     Cell(int state) {
         this.state = state;
     }
@@ -36,7 +33,7 @@ final public class Cell {
     // TODO check stream is ordered
     public static Cell valueOf(Stream<IntStream> input) {
         Objects.nonNull(input);
-        return getCellHolder(getStreamOfLines(input)).buildCell();
+        return getCellHolder(getStreamOfLines(input)).build();
     }
 
     /**
@@ -77,7 +74,7 @@ final public class Cell {
     }
 
     /**
-     * @return Cell bottom of most left cell in line. null if bottom of the  most left is null
+     * @return bottom of most left cell in line. null if bottom of the  most left is null
      */
     static Cell getNextLineCell(Cell cell) {
 
