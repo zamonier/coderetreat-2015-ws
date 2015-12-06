@@ -1,6 +1,7 @@
 package ru.mercuriev.game.of.life.graph.cell;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,7 +34,10 @@ final public class Cell {
     // TODO check stream is ordered
     public static Cell valueOf(Stream<IntStream> input) {
         Objects.nonNull(input);
-        return getCellHolder(getStreamOfLines(input)).build();
+        return getCellHolder(getStreamOfLines(input)).build()
+                .orElseGet(() -> {
+            throw new IllegalArgumentException("Stream is empty");
+        });
     }
 
     /**

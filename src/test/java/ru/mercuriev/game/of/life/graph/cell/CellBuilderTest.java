@@ -30,11 +30,11 @@ public class CellBuilderTest {
         CellBuilder cellBuilder = constructLine(states);
         cellBuilder.append(newState);
 
-        Cell current = cellBuilder.build();
+        Cell current = cellBuilder.build().orElseGet(() -> {throw new AssertionError("Builder is empty");});
         while (current.right != null)
             current = current.right;
 
-        assertEquals(cellBuilder.build().toString(),expectedResult);
+        assertEquals(cellBuilder.build().get().toString(),expectedResult);
         assertEquals(current.state,expectedState);
         assertEquals(current.left == null,leftCellIsNull);
         assertNull(current.right);
@@ -63,7 +63,7 @@ public class CellBuilderTest {
         left.mergeHorizontal(right);
 
         assertEquals(left.toString(),expectedAsString);
-        assertNull(right.build());
+        assertNull(right.build().orElse(null));
 
     }
 
@@ -87,22 +87,22 @@ public class CellBuilderTest {
         CellBuilder bottom = constructLine(statesBottom);
 
         boolean allIsNull = false;
-        if (top.build() == null && bottom.build() == null) {
+        if (!top.build().isPresent() && !bottom.build().isPresent()) {
             allIsNull = true;
         }
 
         boolean topIsNull = false;
-        if (top.build() == null) {
+        if (!top.build().isPresent()) {
             topIsNull = true;
         }
 
         boolean bottomIsNull = false;
-        if (bottom.build() == null) {
+        if (!bottom.build().isPresent()) {
             bottomIsNull = true;
         }
 
-        Cell topLine = top.build();
-        Cell bottomLine = bottom.build();
+        Cell topLine = top.build().orElse(null);
+        Cell bottomLine = bottom.build().orElse(null);
 
         CellBuilder result = top.mergeVertical(bottom);
 
@@ -120,7 +120,7 @@ public class CellBuilderTest {
             checkLinesAreMerged(topLine, bottomLine);
         }
 
-        String actualAsString = result.build().toString();
+        String actualAsString = result.build().get().toString();
         assertEquals(actualAsString,expectedAsString);
 
     }
@@ -129,18 +129,18 @@ public class CellBuilderTest {
     public void testMergeVerticalComplex() {
 
         CellBuilder first = constructLine(0,1,0,1,1);
-        Cell firstCell = first.build();
+        Cell firstCell = first.build().orElseGet(() -> {throw new AssertionError("Builder is empty");});
         CellBuilder second = constructLine(0,0,0,0,0);
-        Cell secondCell = second.build();
+        Cell secondCell = second.build().orElseGet(() -> {throw new AssertionError("Builder is empty");});
 
         CellBuilder third = constructLine(1,1,1,1,1);
-        Cell thirdCell = third.build();
+        Cell thirdCell = third.build().orElseGet(() -> {throw new AssertionError("Builder is empty");});
 
         CellBuilder fourth = constructLine(0,0,0,1,1);
-        Cell fourthCell = fourth.build();
+        Cell fourthCell = fourth.build().orElseGet(() -> {throw new AssertionError("Builder is empty");});
 
         CellBuilder fifth = constructLine(1,1,0,0,0);
-        Cell fifthCell = fifth.build();
+        Cell fifthCell = fifth.build().orElseGet(() -> {throw new AssertionError("Builder is empty");});
 
         first.mergeVertical(second);
         CellTestUtils.checkLinesAreMerged(firstCell,secondCell);

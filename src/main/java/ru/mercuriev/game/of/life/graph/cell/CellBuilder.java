@@ -1,6 +1,7 @@
 package ru.mercuriev.game.of.life.graph.cell;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * This object
@@ -139,13 +140,12 @@ final class CellBuilder {
     }
 
     /**
-     * @return the left and top most cell in the graph
+     * @return Optional of the left and top most cell in the graph
      */
-    // TODO return optional
-    public Cell build() {
+    public Optional<Cell> build() {
 
         if (cell == null) {
-            return null;
+            return Optional.empty();
         }
 
         Cell current = cell;
@@ -153,15 +153,11 @@ final class CellBuilder {
             current = current.left;
         while (current.top != null)
             current = current.top;
-        return current;
+        return Optional.of(current);
 
     }
 
-    /**
-     * @deprecated use cell.toString()
-     */
     @Override
-    @Deprecated
     public String toString() {
 
         Cell current = cell;

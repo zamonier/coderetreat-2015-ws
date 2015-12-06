@@ -48,7 +48,7 @@ public class CellTestUtils {
         while (lineCounter < values.length) {
 
             CellBuilder cellBuilder = constructLine(values[lineCounter]);
-            Cell next = cellBuilder.build();
+            Cell next = cellBuilder.build().orElse(null);
 
             // merging only first cells in lines - result is not the canonical cell, but it is ok for test
             if (prev != null && next != null) {

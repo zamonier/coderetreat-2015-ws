@@ -64,7 +64,7 @@ public class CellTest {
     public void testLineToStream(int[] array, String expectedAsString) {
 
         CellBuilder cellBuilder = constructLine(array);
-        Cell current = cellBuilder.build();
+        Cell current = cellBuilder.build().orElse(null);
 
         String actualValue = Cell.lineToStream(current, cell -> cell.state)
                                  .mapToObj(value -> "" + value)
@@ -86,7 +86,7 @@ public class CellTest {
     public void testGetNextLineCellSingleLine(int[] array) {
 
         CellBuilder cellBuilder = constructLine(array);
-        Cell current = cellBuilder.build();
+        Cell current = cellBuilder.build().orElse(null);
 
         Cell actualNextLineCell = Cell.getNextLineCell(current);
         assertEquals(actualNextLineCell, null);
@@ -107,7 +107,7 @@ public class CellTest {
     public void testGetNextLineCellMultiLine(int[] array) {
 
         CellBuilder cellBuilder = constructLine(array);
-        Cell expectedLeft = cellBuilder.build();
+        Cell expectedLeft = cellBuilder.build().orElseGet(() -> {throw new AssertionError("Builder is empty");});
 
         Cell current = expectedLeft;
         while (current.right != null)
@@ -265,7 +265,10 @@ public class CellTest {
 
         CellBuilder cellBuilder = Cell.getCellHolder(streamOfLines);
 
-        String actualValue = cellBuilder.build().toString();
+        String actualValue = cellBuilder.build()
+                                        .orElseGet(() -> {throw new AssertionError("Builder is empty");})
+                                        .toString();
+
         assertEquals(actualValue,expectedValue);
 
     }
