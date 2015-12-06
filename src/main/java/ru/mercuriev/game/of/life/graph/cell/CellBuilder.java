@@ -14,6 +14,7 @@ import java.util.Objects;
  * @author paul
  */
 // todo move all comments to javadoc
+    // TODO make all methods return this
 final class CellBuilder {
 
     /**
@@ -36,112 +37,109 @@ final class CellBuilder {
 
     /**
      * merge this CellBuilder with another horizontally
-     * as a result - the most right cell of this CellBuilder is merged with the most left of the right CellBuilder
+     * as a result - the most right cell of this builder is merged with the most left of the right builder
      */
-    public void mergeHorizontal(CellBuilder right) {
+    public void mergeHorizontal(CellBuilder rightBuilder) {
 
-        CellBuilder left = this;
-        Objects.nonNull(right);
+        CellBuilder leftBuilder = this;
+        Objects.nonNull(rightBuilder);
 
-        if (left.cell == null && right.cell == null) {
+        if (leftBuilder.cell == null && rightBuilder.cell == null) {
             return; // no merge is needed
         }
 
-        if (right.cell == null) {
-            right.cell = left.cell; // TODO remove
+        if (rightBuilder.cell == null) {
+            rightBuilder.cell = null;
             return; // no merge is needed - only copy right to left
         }
 
-        if (left.cell == null) {
-            left.cell = right.cell;
+        if (leftBuilder.cell == null) {
+            leftBuilder.cell = rightBuilder.cell;
+            rightBuilder.cell = null;
             return; // no merge is needed - only copy left to right
         }
 
         // go to the most left cell in right
-        Cell current = right.cell;
+        Cell current = rightBuilder.cell;
         while (current.left != null)
             current = current.left;
 
         // merge the end of the left and the beginning of the right
-        left.cell.right = current;
-        current.left = left.cell;
+        leftBuilder.cell.right = current;
+        current.left = leftBuilder.cell;
 
         // make left builder's current cell point ot the most right cell in line
         // because cell lines in both builders are now the same
-        left.cell = right.cell; // see IntPipeLine.collect
+        leftBuilder.cell = rightBuilder.cell; // see IntPipeLine.collect
+        rightBuilder.cell = null;
     }
 
-    //  TODO public CellBuilder mergeHorizontal(CellBuilder bottom);
-
+    /**
+     * merge this CellBuilder with another vertically
+     * as a result - the top line of graph in this builder is merged with the bottom line in top builder
+     * @return this bottom
+     */
     @SuppressWarnings("SuspiciousNameCombination")
-    public static CellBuilder mergeVertical(CellBuilder top, CellBuilder bottom) {
+    public CellBuilder mergeVertical(CellBuilder topBuilder) {
 
-        Objects.nonNull(top);
-        Objects.nonNull(bottom);
+        Objects.nonNull(topBuilder);
+        CellBuilder bottomBuilder = this;
 
-        if (top.cell == null && bottom.cell == null) {
-            return bottom; // no merge is needed
+        if (topBuilder.cell == null && bottomBuilder.cell == null) {
+            return bottomBuilder; // no merge is needed
         }
 
-        if (top.cell == null) {
-            top.cell = bottom.cell;
-            return bottom; // no merge is needed - only copy bottom to top
+        if (topBuilder.cell == null) {
+            topBuilder.cell = bottomBuilder.cell;
+            return bottomBuilder; // no merge is needed - only copy bottom to top
         }
 
-        if (bottom.cell == null) {
-            bottom.cell = top.cell;
-            return bottom; // no merge is needed - only copy top to bottom
+        if (bottomBuilder.cell == null) {
+            bottomBuilder.cell = topBuilder.cell;
+            return bottomBuilder; // no merge is needed - only copy top to bottom
         }
 
         // now current cells of both line buckets are at the right most position
 
-        Cell topCurrent = top.cell;
-        Cell bottomCurrent = bottom.cell;
+        Cell topBuilderCurrent = topBuilder.cell;
+        Cell bottomBuilderCurrent = bottomBuilder.cell;
 
         // rewind both lines to the left most cell
-        while (topCurrent.left != null)
-            topCurrent = topCurrent.left;
-        while (bottomCurrent.left != null)
-            bottomCurrent = bottomCurrent.left;
+        while (topBuilderCurrent.left != null)
+            topBuilderCurrent = topBuilderCurrent.left;
+        while (bottomBuilderCurrent.left != null)
+            bottomBuilderCurrent = bottomBuilderCurrent.left;
 
-        // in order to merge top line bucket and bottom line bucket
-        // 1. bottom line of the top line bucket
+        // in order to merge topBuilder and bottomBuilder
+        // 1. bottom line of the topBuilder
         // should be merged with
-        // 2. top line of the bottom line bucket
+        // 2. top line of the bottomBuilder
 
-        // for merging from left to right current
-        //
-        // 1. cell of the top CellBuilder should point to the left & bottom most cell in line.
-        // this condition is true out of the box  - for the bucket of single line it is always true,
-        // and for bucket of multiple lines mergeVertical returns CellBuilder
-        // with cell pointed to the last cell of the bottom bucket
-        // TODO WTF?! it is not true? WHY?
-        // TODO need to do this for proper working
-        while (topCurrent.bottom != null)
-            topCurrent = topCurrent.bottom;
+        // making 1. true
+        while (topBuilderCurrent.bottom != null)
+            topBuilderCurrent = topBuilderCurrent.bottom;
 
-        // 2. cell of the bottom CellBuilder should point to the left & top most cell in line.
-        // this condition is false - rewind top should be done
-        while (bottomCurrent.top != null)
-            bottomCurrent = bottomCurrent.top;
+        // making 2. true
+        while (bottomBuilderCurrent.top != null)
+            bottomBuilderCurrent = bottomBuilderCurrent.top;
 
         // it is ok to start merging
 
         // glue the top and bottom cell in one column
-        topCurrent.bottom = bottomCurrent;
-        bottomCurrent.top = topCurrent;
-        while (topCurrent.right != null && bottomCurrent.right != null) {
+        topBuilderCurrent.bottom = bottomBuilderCurrent;
+        bottomBuilderCurrent.top = topBuilderCurrent;
+        while (topBuilderCurrent.right != null && bottomBuilderCurrent.right != null) {
 
             // move to the next cell in line
-            topCurrent = topCurrent.right;
-            bottomCurrent = bottomCurrent.right;
+            topBuilderCurrent = topBuilderCurrent.right;
+            bottomBuilderCurrent = bottomBuilderCurrent.right;
 
             // glue the top and bottom cell in one column
-            topCurrent.bottom = bottomCurrent;
-            bottomCurrent.top = topCurrent;
+            topBuilderCurrent.bottom = bottomBuilderCurrent;
+            bottomBuilderCurrent.top = topBuilderCurrent;
         }
 
-        return bottom;
+        return bottomBuilder;
     }
 
     /**

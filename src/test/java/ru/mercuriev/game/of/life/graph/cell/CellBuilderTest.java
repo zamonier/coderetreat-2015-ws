@@ -63,7 +63,7 @@ public class CellBuilderTest {
         left.mergeHorizontal(right);
 
         assertEquals(left.toString(),expectedAsString);
-        assertEquals(right.toString(),expectedAsString);
+        assertNull(right.build());
 
     }
 
@@ -104,7 +104,7 @@ public class CellBuilderTest {
         Cell topLine = top.build();
         Cell botoomLine = bottom.build();
 
-        CellBuilder result = CellBuilder.mergeVertical(top, bottom);
+        CellBuilder result = bottom.mergeVertical(top);
 
         if (allIsNull) {
             assertTrue(bottom == result);
@@ -142,16 +142,16 @@ public class CellBuilderTest {
         CellBuilder fifth = constructLine(1,1,0,0,0);
         Cell fifthCell = fifth.build();
 
-        CellBuilder.mergeVertical(first,second);
+        second.mergeVertical(first);
         CellTestUtils.checkLinesAreMerged(firstCell,secondCell);
 
-        CellBuilder.mergeVertical(second,third);
+        third.mergeVertical(second);
         CellTestUtils.checkLinesAreMerged(secondCell,thirdCell);
 
-        CellBuilder.mergeVertical(fourth,fifth);
+        fifth.mergeVertical(fourth);
         CellTestUtils.checkLinesAreMerged(fourthCell,fifthCell);
 
-        CellBuilder.mergeVertical(third,fifth);
+        fifth.mergeVertical(third);
         CellTestUtils.checkLinesAreMerged(thirdCell,fourthCell);
 
         // TODO use toString

@@ -54,8 +54,8 @@ final public class Cell {
     // TODO rename
     static CellBuilder getCellHolder(Stream<CellBuilder> lines) {
         return lines.collect(CellBuilder::new,
-                             CellBuilder::mergeVertical,
-                             CellBuilder::mergeVertical);
+                             (top, bottom) -> bottom.mergeVertical(top),
+                             (top, bottom) -> bottom.mergeVertical(top));
     }
 
     /**
