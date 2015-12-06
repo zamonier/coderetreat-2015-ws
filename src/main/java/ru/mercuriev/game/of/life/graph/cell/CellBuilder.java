@@ -76,8 +76,8 @@ final class CellBuilder {
 
     /**
      * merge this CellBuilder with another vertically
-     * as a result - the top line of graph in this builder is merged with the bottom line in top builder
-     * @return this bottom
+     * as a result - the bottom line of graph in this builder is merged with the top line in bottomBuilder
+     * @return this
      */
     @SuppressWarnings("SuspiciousNameCombination")
     public CellBuilder mergeVertical(CellBuilder bottomBuilder) {
