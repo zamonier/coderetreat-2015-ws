@@ -54,13 +54,13 @@ final public class Cell {
     // TODO rename
     static CellBuilder getCellHolder(Stream<CellBuilder> lines) {
         return lines.collect(CellBuilder::new,
-                             (top, bottom) -> bottom.mergeVertical(top),
-                             (top, bottom) -> bottom.mergeVertical(top));
+                             CellBuilder::mergeVertical,
+                             CellBuilder::mergeVertical);
     }
 
     /**
      * @return Stream representation of the Cell
-     * remove?
+     * TODO remove?
      */
     public Stream<IntStream> toStream() {
         return cellToStream(this,cell -> cell.state);

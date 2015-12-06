@@ -80,10 +80,10 @@ final class CellBuilder {
      * @return this bottom
      */
     @SuppressWarnings("SuspiciousNameCombination")
-    public CellBuilder mergeVertical(CellBuilder topBuilder) {
+    public CellBuilder mergeVertical(CellBuilder bottomBuilder) {
 
-        Objects.nonNull(topBuilder);
-        CellBuilder bottomBuilder = this;
+        Objects.nonNull(bottomBuilder);
+        CellBuilder topBuilder = this;
 
         if (topBuilder.cell == null && bottomBuilder.cell == null) {
             return bottomBuilder; // no merge is needed
@@ -99,7 +99,7 @@ final class CellBuilder {
             return bottomBuilder; // no merge is needed - only copy top to bottom
         }
 
-        // now current cells of both line buckets are at the right most position
+        // now current cells of both builders are at the right most position
 
         Cell topBuilderCurrent = topBuilder.cell;
         Cell bottomBuilderCurrent = bottomBuilder.cell;
@@ -139,7 +139,9 @@ final class CellBuilder {
             bottomBuilderCurrent.top = topBuilderCurrent;
         }
 
-        return bottomBuilder;
+        this.cell = bottomBuilder.cell;
+
+        return this;
     }
 
     /**
