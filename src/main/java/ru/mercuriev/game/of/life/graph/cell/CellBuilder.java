@@ -8,7 +8,7 @@ import java.util.Optional;
  * 1. holds the pointer to the current cell while constructing new graph
  * 2. appends new cells to the graph
  * 3. merging together current and specified CellBuilder
- * Each time any method of the object is called current cell - right and bottom most cell in graph
+ * Each time any method of the object is called current cell - right and bottom most cell in graph (*1*)
  * <p>
  * Class is not thread safe - do not use it without proper synchronization (e.g. in parallel stream )
  *
@@ -113,9 +113,7 @@ final class CellBuilder {
         // should be merged with
         // 2. top line of the bottomBuilder
 
-        // making 1. true
-        while (topBuilderCurrent.bottom != null)
-            topBuilderCurrent = topBuilderCurrent.bottom; // TODo check
+        // 1. is always true - see (*1*)
 
         // making 2. true
         while (bottomBuilderCurrent.top != null)
