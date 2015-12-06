@@ -71,14 +71,6 @@ public class CellTestUtils {
 
     }
 
-    /**
-     * method execution will fall with error if
-     * - top or bottom is null
-     * - top or bottom lines have different "length"
-     * - one of the bottom link cell in top cell line is not equals to the corresponding bottom cell
-     * - one of the top link cell in bottom cell line is not equals to the corresponding top cell
-     *
-     */
     @SuppressWarnings("SuspiciousNameCombination")
     static void checkLinesAreMerged(Cell top, Cell bottom) {
 

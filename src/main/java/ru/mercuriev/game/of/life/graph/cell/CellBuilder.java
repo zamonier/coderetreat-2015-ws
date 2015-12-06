@@ -84,17 +84,18 @@ final class CellBuilder {
         CellBuilder topBuilder = this;
 
         if (topBuilder.cell == null && bottomBuilder.cell == null) {
-            return bottomBuilder; // no merge is needed
+            return topBuilder; // no merge is needed
         }
 
         if (topBuilder.cell == null) {
             topBuilder.cell = bottomBuilder.cell;
-            return bottomBuilder; // no merge is needed - only copy bottom to top
+            bottomBuilder.cell = null;
+            return topBuilder; // no merge is needed
         }
 
         if (bottomBuilder.cell == null) {
-            bottomBuilder.cell = topBuilder.cell;
-            return bottomBuilder; // no merge is needed - only copy top to bottom
+            bottomBuilder.cell = null;
+            return topBuilder; // no merge is needed
         }
 
         // now current cells of both builders are at the right most position
@@ -136,8 +137,9 @@ final class CellBuilder {
         }
 
         this.cell = bottomBuilder.cell;
+        bottomBuilder.cell = null;
 
-        return this;
+        return topBuilder;
     }
 
     /**

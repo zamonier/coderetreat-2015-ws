@@ -3,10 +3,6 @@ package ru.mercuriev.game.of.life.graph.cell;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 import static org.testng.Assert.*;
 import static ru.mercuriev.game.of.life.graph.cell.CellTestUtils.*;
 
@@ -77,8 +73,6 @@ public class CellBuilderTest {
         };
     }
 
-    // TODo SHOULD! be rewritten
-
     @SuppressWarnings("SuspiciousNameCombination")
     @Test(dataProvider = "getTestMergeVerticalData")
     public void testMergeVertical(int[] statesTop, int[] statesBottom, String expectedAsString) {
@@ -106,13 +100,13 @@ public class CellBuilderTest {
 
         CellBuilder result = top.mergeVertical(bottom);
 
-        if (allIsNull) {
-            assertTrue(bottom == result);
-            return;
+        if (topIsNull || bottomIsNull) {
+            assertTrue(top == result);
+            assertNull(bottom.build().orElse(null));
         }
 
-        if (topIsNull || bottomIsNull) {
-            assertTrue(bottom == result);
+        if (allIsNull) {
+            return;
         }
 
         if (!topIsNull && !bottomIsNull) {
@@ -122,6 +116,7 @@ public class CellBuilderTest {
 
         String actualAsString = result.build().get().toString();
         assertEquals(actualAsString,expectedAsString);
+
 
     }
 
@@ -145,13 +140,13 @@ public class CellBuilderTest {
         first.mergeVertical(second);
         CellTestUtils.checkLinesAreMerged(firstCell,secondCell);
 
-        second.mergeVertical(third);
+        first.mergeVertical(third);
         CellTestUtils.checkLinesAreMerged(secondCell,thirdCell);
 
         fourth.mergeVertical(fifth);
         CellTestUtils.checkLinesAreMerged(fourthCell,fifthCell);
 
-        third.mergeVertical(fifth);
+        first.mergeVertical(fourth);
         CellTestUtils.checkLinesAreMerged(thirdCell,fourthCell);
 
         String actualAsString = fourthCell.toString();

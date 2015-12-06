@@ -101,7 +101,6 @@ public class CellTest {
         };
     }
 
-    // TODO rename remove warning
     @SuppressWarnings("SuspiciousNameCombination")
     @Test(dataProvider = "getTestGetNextLineCellMultiLineData")
     public void testGetNextLineCellMultiLine(int[] array) {
