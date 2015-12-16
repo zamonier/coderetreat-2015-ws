@@ -13,7 +13,7 @@ class GNeighboursCounter {
         return new GNeighboursCounter(world);
     }
 
-    private NeighboursCounter(int[][] world) {
+    private GNeighboursCounter(int[][] world) {
         this.world = world;
     }
 
@@ -22,8 +22,8 @@ class GNeighboursCounter {
         int size = world.length;
         int[][] result = new int[size][size];
 
-        IntStream.range(0, size).eachWithIndex { i ->
-            IntStream.range(0, size).eachWithIndex { j ->
+        IntStream.range(0, size).each { i ->
+            IntStream.range(0, size).each { j ->
                 result[i][j] = this.cellNeighborsAmount(i, j)
             }
         };

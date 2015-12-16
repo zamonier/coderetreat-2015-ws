@@ -20,8 +20,8 @@ class GEngine {
 
         int[][] cellNeighborsAmount = NeighboursCounter.newInstance(world).countNeighbours();
 
-        IntStream.range(0, size).eachWithIndex { i ->
-            IntStream.range(0, size).eachWithIndex { j ->
+        IntStream.range(0, size).each { i ->
+            IntStream.range(0, size).each { j ->
                 result[i][j] = nextState(world[i][j], cellNeighborsAmount[i][j])
             }
         }
