@@ -7,49 +7,44 @@ import java.util.stream.IntStream
  */
 class GNeighboursCounter {
 
-    private int[][] world;
+    int[][] world
 
     public static GNeighboursCounter newInstance(int[][] world) {
-        return new GNeighboursCounter(world);
+        return new GNeighboursCounter(world)
     }
 
     private GNeighboursCounter(int[][] world) {
-        this.world = world;
+        this.world = world
     }
 
     public int[][] countNeighbours() {
 
-        int size = world.length;
-        int[][] result = new int[size][size];
+        int size = world.length
+        int[][] result = new int[size][size]
 
         IntStream.range(0, size).each { i ->
             IntStream.range(0, size).each { j ->
                 result[i][j] = this.cellNeighborsAmount(i, j)
             }
-        };
-        return result;
+        }
+        return result
     }
 
     private int cellNeighborsAmount(int i, int j) {
-        int neighboursCount = 0;
-        for (int x = i - 1; x <= i + 1; x++) {
-            for (int y = j - 1; y <= j + 1; y++) {
-                if (isOutOfBorder(x, y)) {
-                    continue;
+        int neighboursCount = 0
+        //println screen*.getAt( 2 )
+        (Math.max(0, i - 1)..i + 1).each { x ->
+            (j - 1..j + 1).each { y ->
+                if (!isOutOfBorder(x, y) && (x != i || y != j)) {
+                    neighboursCount += world[x][y]
                 }
-                // with no impact of the cell itself
-                if (x == i && y == j) {
-                    continue;
-                }
-                neighboursCount += world[x][y];
             }
         }
-        return neighboursCount;
+        return neighboursCount
     }
-
     // checking borders to avoid out of range exception
     private boolean isOutOfBorder(int x, int y) {
-        return x < 0 || x >= world.length || y < 0 || y >= world.length;
+        return x < 0 || x >= world.length || y < 0 || y >= world.length
     }
 
 }

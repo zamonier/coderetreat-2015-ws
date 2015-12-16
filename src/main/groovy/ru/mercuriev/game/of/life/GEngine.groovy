@@ -1,41 +1,35 @@
 package ru.mercuriev.game.of.life
 
 import org.springframework.stereotype.Service
-import ru.mercuriev.game.of.life.NeighboursCounter
 
-import java.util.stream.IntStream
-
-/**
- * Created by Eugene on 17.12.15.
- */
 @Service
 class GEngine {
-    public static final int ALIVE = 1;
-    public static final int DEAD = 0;
+    public static final int ALIVE = 1
+    public static final int DEAD = 0
 
     public int[][] next(int[][] world) {
 
-        int size = world.length;
-        int[][] result = new int[size][size];
+        int size = world.length
+        def result = new int[size][size]
 
-        int[][] cellNeighborsAmount = NeighboursCounter.newInstance(world).countNeighbours();
+        def cellNeighborsAmount = NeighboursCounter.newInstance(world).countNeighbours()
 
-        IntStream.range(0, size).each { i ->
-            IntStream.range(0, size).each { j ->
-                result[i][j] = nextState(world[i][j], cellNeighborsAmount[i][j])
+        world.eachWithIndex { int[] line, int i ->
+            line.eachWithIndex { int cell, int j ->
+                result[i][j] = nextState(cell, cellNeighborsAmount[i][j])
             }
         }
-        return result;
+        result
     }
 
     protected int nextState(int currentState, int neighboursCount) {
-        if (currentState == ALIVE) {
-            return (neighboursCount < 2 || neighboursCount > 3) ? DEAD : ALIVE;
+        if (currentState) {
+            return neighboursCount == 2 || neighboursCount == 3 ? ALIVE : DEAD
         }
-        if (currentState == DEAD && neighboursCount == 3) {
-            return ALIVE;
+        if (!currentState && neighboursCount == 3) {
+            return ALIVE
         }
-        return currentState;
+        currentState
     }
 
 }

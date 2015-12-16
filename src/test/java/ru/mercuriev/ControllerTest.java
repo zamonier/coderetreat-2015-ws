@@ -39,7 +39,6 @@ public class ControllerTest implements Fixture {
 
         assertEquals("application/json;charset=UTF-8", response.getContentType());
         assertEquals(NEXT_GENERATION_AS_JSON, response.getContentAsString());
-        assertEquals("*", response.getHeader("Access-Control-Allow-Origin"));
     }
 
 }
