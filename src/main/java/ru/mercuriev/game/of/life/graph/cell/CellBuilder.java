@@ -4,12 +4,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * This object
- * 1. holds the pointer to the current cell while constructing new graph
+ * This stands for object which:
+ * 1. holds the pointer to the current cell ({@link Cell}) while constructing new Graph
  * 2. appends new cells to the graph
  * 3. merging together current and specified CellBuilder
- * Each time any method of the object is called current cell - right and bottom most cell in graph (*1*)
- * <p>
+ * Each time any method of the object is called current cell is the right and bottom most cell in graph (*1*)
+ *
  * Class is not thread safe - do not use it without proper synchronization (e.g. in parallel stream )
  *
  * @author paul

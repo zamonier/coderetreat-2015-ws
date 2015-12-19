@@ -8,7 +8,13 @@ import java.util.stream.Stream;
 
 /**
  * Engine interface implementation
- * Uses Cell uder the hood to calculate next generation
+ *
+ * int arrays are used only to pass the current generation in {@link GraphEngine#next(int[][])} and return the next
+ * generation data from it.
+ * Calculation of the next generation is based on using {@link Cell} objects and {@link Stream} objects to pass
+ * the data in and return the data out.
+ *
+ * So this is no-arrays-using implementation of the Game of Life
  *
  * @author paul
  */

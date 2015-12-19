@@ -7,8 +7,13 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * This class represents both Graph and its element - Cell
+ * This class represents Cell. Cell is recursive data structure
  * Single Cell contains links to left, top, right and bottom neighbours
+ * Set of linked Cell represents Graph
+ *
+ * All public methods of Cell should be called on Cell instance representing left and top most cell in the Graph
+ * {@link CellBuilder#build()} result represent such Cell
+ *
  * Cell is immutable after constructed (Cell.valueOf call)
  *
  * @author paul
@@ -18,7 +23,7 @@ final public class Cell {
     static final int DEAD = 0;
     static final int ALIVE = 1;
 
-    int state = 0;
+    int state = DEAD;
     Cell left = null;
     Cell top = null;
     Cell right = null;
@@ -174,7 +179,7 @@ final public class Cell {
     }
 
     /**
-     * states of the one line rae separated with spaces (' ') and are surrounded with '[' and ']'
+     * states of the one line are separated with spaces (' ') and are surrounded with '[' and ']'
      * lines are separated with '-' and are surrounded with '<' and '>'
      * example: <[0 1 0]-[0 0 0]-[1 1 1]>
      * @return string representation of the Graph
