@@ -1,6 +1,8 @@
 # coderetreat-2015-ws
 REST service for game of life
 
+[![Build Status](https://travis-ci.org/zamonier/coderetreat-2015-ws.svg?branch=master)](https://travis-ci.org/zamonier/coderetreat-2015-ws)
+
 ## Hi there!
 
 This is man page about Game of Live web service
