@@ -26,9 +26,9 @@ final class CellBuilder {
         if (cell == null) {
             cell = new Cell(value);
         } else {
-            Cell next = new Cell(value);
-            cell.right = next;
-            next.left = cell;
+            Cell nextCell = new Cell(value);
+            cell.right = nextCell;
+            nextCell.left = cell;
             cell = cell.right;
         }
         return this;
@@ -43,8 +43,8 @@ final class CellBuilder {
      */
     public CellBuilder mergeHorizontal(CellBuilder rightBuilder) {
 
-        CellBuilder leftBuilder = this;
         Objects.requireNonNull(rightBuilder);
+        CellBuilder leftBuilder = this;
 
         if (rightBuilder.cell == null) {
             return this; // no merge is needed
