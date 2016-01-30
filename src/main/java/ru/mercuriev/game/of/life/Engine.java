@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.stream.IntStream;
 
+// TODO Should be renamed to ArrayEngine and moved to specific package
+// TODO extract interface
 @Service
 public class Engine {
 
