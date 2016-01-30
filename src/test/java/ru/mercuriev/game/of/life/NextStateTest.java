@@ -10,8 +10,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
-import static ru.mercuriev.game.of.life.Engine.ALIVE;
-import static ru.mercuriev.game.of.life.Engine.DEAD;
 
 @RunWith(Parameterized.class)
 public class NextStateTest implements Fixture {
@@ -40,20 +38,7 @@ public class NextStateTest implements Fixture {
 
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][]{
-                {ALIVE, 0, DEAD},
-                {ALIVE, 1, DEAD},
-                {ALIVE, 2, ALIVE},
-                {ALIVE, 3, ALIVE},
-                {ALIVE, 4, DEAD},
-                {ALIVE, 5, DEAD},
-                {DEAD, 0, DEAD},
-                {DEAD, 1, DEAD},
-                {DEAD, 2, DEAD},
-                {DEAD, 3, ALIVE},
-                {DEAD, 4, DEAD},
-                {DEAD, 5, DEAD},
-        });
+        return Arrays.asList(NEXT_STATES);
     }
 
 }
