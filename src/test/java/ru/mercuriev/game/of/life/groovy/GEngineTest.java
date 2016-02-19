@@ -1,8 +1,9 @@
-package ru.mercuriev.game.of.life;
+package ru.mercuriev.game.of.life.groovy;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.mercuriev.Fixture;
+import ru.mercuriev.game.of.life.groovy.GEngine;
 
 public class GEngineTest implements Fixture {
 
