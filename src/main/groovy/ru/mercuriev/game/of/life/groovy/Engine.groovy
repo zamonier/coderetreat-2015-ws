@@ -3,7 +3,8 @@ package ru.mercuriev.game.of.life.groovy
 import org.springframework.stereotype.Service
 
 @Service
-public class GEngine {
+public class Engine {
+
     public static final int ALIVE = 1
     public static final int DEAD = 0
 
@@ -11,7 +12,7 @@ public class GEngine {
 
         int size = world.length
         def result = new int[size][size]
-        def counter = new GNeighboursCounter(world)
+        def counter = new NeighboursCounter(world)
 
         world.eachWithIndex { int[] line, int i ->
             line.eachWithIndex { int cell, int j ->
@@ -19,6 +20,7 @@ public class GEngine {
                 result[i][j] = nextState(cell, neighborsAmount)
             }
         }
+
         result
     }
 
