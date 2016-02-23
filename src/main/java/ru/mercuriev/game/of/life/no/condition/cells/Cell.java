@@ -2,9 +2,6 @@ package ru.mercuriev.game.of.life.no.condition.cells;
 
 public abstract class Cell {
 
-    protected static final int ALIVE = 1;
-    protected static final int DEAD = 0;
-
     private int x;
     private int y;
 

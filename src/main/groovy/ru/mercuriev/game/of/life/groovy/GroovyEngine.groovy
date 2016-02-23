@@ -1,12 +1,10 @@
 package ru.mercuriev.game.of.life.groovy
 
 import org.springframework.stereotype.Service
+import ru.mercuriev.game.of.life.Engine
 
 @Service
-public class GroovyEngine {
-
-    public static final int ALIVE = 1
-    public static final int DEAD = 0
+public class GroovyEngine implements Engine {
 
     public int[][] next(int[][] world) {
 
@@ -24,7 +22,7 @@ public class GroovyEngine {
         result
     }
 
-    protected int nextState(int currentState, int neighboursCount) {
+    protected static int nextState(int currentState, int neighboursCount) {
         if (currentState == ALIVE) {
             return neighboursCount == 2 || neighboursCount == 3 ? ALIVE : DEAD
         } else {

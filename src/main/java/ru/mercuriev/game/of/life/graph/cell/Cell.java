@@ -1,5 +1,7 @@
 package ru.mercuriev.game.of.life.graph.cell;
 
+import ru.mercuriev.game.of.life.Engine;
+
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -20,8 +22,8 @@ import java.util.stream.Stream;
  */
 final public class Cell {
 
-    static final int DEAD = 0;
-    static final int ALIVE = 1;
+    static final int DEAD = Engine.DEAD;
+    static final int ALIVE = Engine.ALIVE;
 
     int state = DEAD;
     Cell left = null;
