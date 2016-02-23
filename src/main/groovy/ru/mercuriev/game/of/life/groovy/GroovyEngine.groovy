@@ -3,7 +3,7 @@ package ru.mercuriev.game.of.life.groovy
 import org.springframework.stereotype.Service
 
 @Service
-public class Engine {
+public class GroovyEngine {
 
     public static final int ALIVE = 1
     public static final int DEAD = 0

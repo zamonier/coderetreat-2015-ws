@@ -1,14 +1,16 @@
 package ru.mercuriev.game.of.life.no.condition;
 
 import org.springframework.stereotype.Service;
+import ru.mercuriev.game.of.life.Engine;
 import ru.mercuriev.game.of.life.no.condition.cells.Cell;
 import ru.mercuriev.game.of.life.no.condition.worlds.World;
 
 import static ru.mercuriev.game.of.life.no.condition.DecisionMaker.nextGenerationCell;
 
 @Service
-public class NoConditionEngine {
+public class NoConditionEngine implements Engine {
 
+    @Override
     public int[][] next(int[][] cells) {
 
         World world = World.fromArray(cells);

@@ -1,17 +1,14 @@
 package ru.mercuriev.game.of.life.array;
 
 import org.springframework.stereotype.Service;
+import ru.mercuriev.game.of.life.Engine;
 
 import java.util.stream.IntStream;
 
-// TODO Should be renamed to ArrayEngine and moved to specific package
-// TODO extract interface
 @Service
-public class ArrayEngine {
+public class ArrayEngine implements Engine {
 
-    public static final int ALIVE = 1;
-    public static final int DEAD = 0;
-
+    @Override
     public int[][] next(int[][] world) {
 
         int size = world.length;

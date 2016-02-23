@@ -3,9 +3,6 @@ package ru.mercuriev.game.of.life.groovy
 import static java.lang.Math.max
 import static java.lang.Math.min
 
-/**
- * Created by Eugene on 17.12.15.
- */
 class NeighboursCounter {
 
     int[][] world

@@ -4,12 +4,12 @@ import ru.mercuriev.Fixture
 import spock.lang.Specification
 
 
-class EngineSpec extends Specification implements Fixture {
+class GroovyEngineSpec extends Specification implements Fixture {
 
     def "engine test"() {
 
         given:
-        def engine = new Engine();
+        def engine = new GroovyEngine();
         def size = GENERATION.length
 
         when:

@@ -1,5 +1,6 @@
 package ru.mercuriev.game.of.life.graph;
 
+import ru.mercuriev.game.of.life.Engine;
 import ru.mercuriev.game.of.life.graph.cell.Cell;
 
 import java.util.Arrays;
@@ -18,10 +19,9 @@ import java.util.stream.Stream;
  *
  * @author paul
  */
-// TODO implement Engine interface
-public class GraphEngine {
+public class GraphEngine implements Engine {
 
-    // TODO @Override
+    @Override
     public int[][] next(int[][] currentGeneration) {
 
         // int[][] -> Stream<IntStream>
