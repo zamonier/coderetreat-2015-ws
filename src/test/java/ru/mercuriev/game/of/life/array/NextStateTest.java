@@ -1,10 +1,11 @@
-package ru.mercuriev.game.of.life;
+package ru.mercuriev.game.of.life.array;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import ru.mercuriev.Fixture;
+import ru.mercuriev.game.of.life.array.Engine;
 
 import java.util.Arrays;
 import java.util.Collection;

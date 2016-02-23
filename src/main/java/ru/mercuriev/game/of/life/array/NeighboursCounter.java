@@ -1,4 +1,4 @@
-package ru.mercuriev.game.of.life;
+package ru.mercuriev.game.of.life.array;
 
 import java.util.stream.IntStream;
 

@@ -1,4 +1,4 @@
-package ru.mercuriev.game.of.life;
+package ru.mercuriev.game.of.life.array;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +10,7 @@ import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 
 import ru.mercuriev.Fixture;
+import ru.mercuriev.game.of.life.array.NeighboursCounter;
 
 @RunWith(Parameterized.class)
 public class NeighboursCounterTest implements Fixture {

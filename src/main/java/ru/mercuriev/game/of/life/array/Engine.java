@@ -1,4 +1,4 @@
-package ru.mercuriev.game.of.life;
+package ru.mercuriev.game.of.life.array;
 
 import org.springframework.stereotype.Service;
 

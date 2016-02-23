@@ -2,7 +2,7 @@ package ru.mercuriev;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.mercuriev.game.of.life.Engine;
+import ru.mercuriev.game.of.life.array.Engine;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

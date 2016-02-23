@@ -1,9 +1,9 @@
-package ru.mercuriev.game.of.life;
+package ru.mercuriev.game.of.life.array;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.mercuriev.Fixture;
-import ru.mercuriev.game.of.life.Engine;
+import ru.mercuriev.game.of.life.array.Engine;
 
 public class EngineTest implements Fixture {
 
