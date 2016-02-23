@@ -2,7 +2,7 @@ package ru.mercuriev;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.mercuriev.game.of.life.array.Engine;
+import ru.mercuriev.game.of.life.array.ArrayEngine;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Controller {
 
     @Autowired
-    private Engine engine;
+    private ArrayEngine engine;
 
     @CrossOrigin
     @RequestMapping(value = "/next", method = RequestMethod.POST)

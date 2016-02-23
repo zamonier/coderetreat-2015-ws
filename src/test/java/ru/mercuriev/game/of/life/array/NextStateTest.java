@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import ru.mercuriev.Fixture;
-import ru.mercuriev.game.of.life.array.Engine;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,11 +18,11 @@ public class NextStateTest implements Fixture {
     private int neighbours;
     private int nextState;
 
-    private static Engine engine;
+    private static ArrayEngine arrayEngine;
 
     @BeforeClass
     public static void init() {
-        engine = new Engine();
+        arrayEngine = new ArrayEngine();
     }
 
     public NextStateTest(int currentState, int neighbours, int nextState) {
@@ -34,7 +33,7 @@ public class NextStateTest implements Fixture {
 
     @Test
     public void testNextState() throws Exception {
-        assertEquals(nextState, engine.nextState(currentState, neighbours));
+        assertEquals(nextState, arrayEngine.nextState(currentState, neighbours));
     }
 
     @Parameterized.Parameters

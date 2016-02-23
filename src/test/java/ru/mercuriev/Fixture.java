@@ -1,8 +1,8 @@
 package ru.mercuriev;
 
 import static org.junit.Assert.assertArrayEquals;
-import static ru.mercuriev.game.of.life.array.Engine.ALIVE;
-import static ru.mercuriev.game.of.life.array.Engine.DEAD;
+import static ru.mercuriev.game.of.life.array.ArrayEngine.ALIVE;
+import static ru.mercuriev.game.of.life.array.ArrayEngine.DEAD;
 
 public interface Fixture {
 

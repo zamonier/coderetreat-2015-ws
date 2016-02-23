@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 // TODO Should be renamed to ArrayEngine and moved to specific package
 // TODO extract interface
 @Service
-public class Engine {
+public class ArrayEngine {
 
     public static final int ALIVE = 1;
     public static final int DEAD = 0;
