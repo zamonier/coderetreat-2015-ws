@@ -18,7 +18,7 @@ public class Controller {
 
     @CrossOrigin
     @RequestMapping(value = "/next", method = RequestMethod.POST)
-    public int[][] next(@RequestBody int[][] generation, HttpServletResponse response) throws IOException {
+    public int[][] next(@RequestBody int[][] generation) throws IOException {
         return engine.next(generation);
     }
 }
