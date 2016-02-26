@@ -1,32 +1,32 @@
 package ru.mercuriev.game.of.life.array;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import ru.mercuriev.Fixture;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.junit.Assert.assertEquals;
-
-import ru.mercuriev.Fixture;
-import ru.mercuriev.game.of.life.array.NeighboursCounter;
-
 @RunWith(Parameterized.class)
 public class NeighboursCounterTest implements Fixture {
 
-    private NeighboursCounter counter;
-    private int[][] neighbours;
-    private int[][] generation;
+    @Parameterized.Parameter
+    public int[][] generation;
 
-    public NeighboursCounterTest(int[][] generation, int[][] neighbours) {
-        this.neighbours = neighbours;
-        this.generation = generation;
-        this.counter = NeighboursCounter.newInstance(generation);
+    @Parameterized.Parameter(value = 1)
+    public int[][] neighbours;
+
+    private NeighboursCounter counter;
+
+    @Before
+    public void init() {
+        counter = NeighboursCounter.newInstance(generation);
     }
 
     @Test
-    public void testCountNeighbours2(){
+    public void testCountNeighbours() {
         assertArrays2DEquals(neighbours, counter.countNeighbours());
     }
 

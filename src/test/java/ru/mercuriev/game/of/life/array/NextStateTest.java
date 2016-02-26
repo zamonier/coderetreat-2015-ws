@@ -1,6 +1,5 @@
 package ru.mercuriev.game.of.life.array;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -14,25 +13,19 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class NextStateTest implements Fixture {
 
-    private int currentState;
-    private int neighbours;
-    private int nextState;
+    @Parameterized.Parameter
+    public int currentState;
 
-    private static ArrayEngine arrayEngine;
+    @Parameterized.Parameter(value = 1)
+    public int neighbours;
 
-    @BeforeClass
-    public static void init() {
-        arrayEngine = new ArrayEngine();
-    }
+    @Parameterized.Parameter(value = 2)
+    public int nextState;
 
-    public NextStateTest(int currentState, int neighbours, int nextState) {
-        this.currentState = currentState;
-        this.neighbours = neighbours;
-        this.nextState = nextState;
-    }
+    private ArrayEngine arrayEngine = new ArrayEngine();
 
     @Test
-    public void testNextState() throws Exception {
+    public void testNextState() {
         assertEquals(nextState, arrayEngine.nextState(currentState, neighbours));
     }
 
